@@ -44,8 +44,7 @@ Tarball sha256sum:
 -------------------------------------------------------------------------------
 URL for a repo that contains the exact code which was built to get this binary:
 -------------------------------------------------------------------------------
-shim-15-1.el7.src.rpm inside 
-http://zenon.suse.de/RH_review/full-iso-7.6/20181120/review/build-shim.tar
+shim-15-1.el7.src.rpm included in the docker image
 
 -------------------------------------------------------------------------------
 What patches are being applied and why:
@@ -56,7 +55,6 @@ What patches are being applied and why:
 
   https://git.centos.org/summary/?r=rpms/grub2.git
   and grub2-2.02-0.76.el7.src.rpm inside extra-srpms.tar
-  http://zenon.suse.de/RH_review/full-iso-7.6/20181120/review/extra-srpms.tar
 
   0093-Don-t-allow-insmod-when-secure-boot-is-enabled.patch
   0220-Add-secureboot-support-on-efi-chainloader.patch
@@ -69,39 +67,25 @@ What patches are being applied and why:
 
   https://git.centos.org/summary/?r=rpms/kernel.git
   and kernel-3.10.0-957.el7.src.rpm inside extra-srpms.tar
-  http://zenon.suse.de/RH_review/full-iso-7.6/20181120/review/extra-srpms.tar
 
 -------------------------------------------------------------------------------
 What OS and toolchain must we use to reproduce this build?  Include where to find it, etc.  We're going to try to reproduce your build as close as possible to verify that it's really a build of the source tree you tell us it is, so these need to be fairly thorough. At the very least include the specific versions of gcc, binutils, and gnu-efi which were used, and where to find those binaries.
 -------------------------------------------------------------------------------
 
-- SLES Expanded Support platform 7.6 preview media is included:
+Download: ftp://support-ftp.suse.com/out/shim/shim_review.tar
+and extract it.
 
-http://zenon.suse.de/RH_review/full-iso-7.6/20181120/media/SLES%20ES%20platform-DVD-x86_64-7.6.iso
+- An OS image for Docker with required dependencies, built from SLES Expanded Support platform 7.6 is included:
 
-- Additional dependencies, reference shim rpms, and a shim source rpm are included inside build-shim.tar archive.
-  http://zenon.suse.de/RH_review/full-iso-7.6/20181120/review/build-shim.tar
+"sles_esp-shim-15-evaluation.tar.gz"
 
 Build instructions:
 
-- Install a minimal system (or any other to your taste) from image.
-
-- Copy a tarball (build-shim.tar) containing additional files and packages into the installed system.
-
-- Extract files from a tarball to a dir of your choice:
-
-tar xvf build-shim.tar
-
-- Mount SLES ES platform installable image/DVD under /mnt.
-
-- In a directory with extracted files run as root:
-
-# cd ./build-shim
-# bash -e prep.sh
-
-This will prepare a build environment (set up yum repo and install additional dependencies).
-
-- Build shim as regular user:
+- Import 
+  docker load -i sles_esp-shim-15-evaluation.tar.gz
+  and run provided OS image using Docker
+- shim-15-1.el7.1.src.rpm is already included inside image's root directory for convenience
+- Rebuild included SRPM as follows:
 
 $ rpmbuild --rebuild shim-15-1.el7.1.src.rpm 2>&1 | tee build1.log
 
@@ -126,8 +110,7 @@ Add any additional information you think we may need to validate this shim
 Shim binaries to sign are included:
 shimx64.efi for x64 systems, and shimia32.efi for systems with IA-32 UEFI BIOS
 
-Public portion of a certificate: 
-http://zenon.suse.de/RH_review/full-iso-7.6/20181120/review/slesecurebootca.cer
+Public portion of a certificate: slesecurebootca.cer
 
-Source RPMs of glibc, grub2, gnu-efi, kernel, pesign: 
-http://zenon.suse.de/RH_review/full-iso-7.6/20181120/review/extra-srpms.tar
+Source RPM of shim: shim-15-1.el7.1.src.rpm
+Source RPMs of glibc, grub2, gnu-efi, kernel, pesign: extra-srpms.tar

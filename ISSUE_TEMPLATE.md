@@ -22,7 +22,7 @@ The origin is shim-15-1.el7 available through https://git.centos.org/summary/?r=
 which tarball in turn completely matches shim 15 at https://github.com/rhboot/shim/releases/tag/15
 
 Full version number of our shim: shim 15
-Source RPM version: shim-15-1.el7.1 (included inside build-shim.tar)
+Source RPM version: shim-15-1.el7.1 (included in the docker image)
 Tarball sha256sum:
 473720200e6dae7cfd3ce7fb27c66367a8d6b08233fe63f01aa1d6b3888deeb6  shim-15.tar.bz2
 
