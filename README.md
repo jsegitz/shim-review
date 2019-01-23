@@ -6,9 +6,7 @@ SUSE, https://www.suse.com/
 -------------------------------------------------------------------------------
 What product or service is this for:
 -------------------------------------------------------------------------------
-SLES Expanded Support platform 7, provided within the 
-"SUSE Linux Enterprise Server with Expanded Support" program,
-https://www.suse.com/products/expandedsupport/
+SUSE Linux Enterprice Server 15 SP1
 
 -------------------------------------------------------------------------------
 What's the justification that this really does need to be signed for the whole world to be able to boot it:
@@ -36,81 +34,64 @@ Who is the secondary contact for security updates, etc.
 -------------------------------------------------------------------------------
 What upstream shim tag is this starting from:
 -------------------------------------------------------------------------------
-https://github.com/rhboot/shim/releases/tag/15
-
-Tarball sha256sum:
-473720200e6dae7cfd3ce7fb27c66367a8d6b08233fe63f01aa1d6b3888deeb6  shim-15.tar.bz2
+It is shim-15, up to https://github.com/rhboot/shim/commit/b3e4d1f7555aabbf5d54de5ea7cd7e839e7bd83d
 
 -------------------------------------------------------------------------------
 URL for a repo that contains the exact code which was built to get this binary:
 -------------------------------------------------------------------------------
-shim-15-1.el7.src.rpm included in the docker image
+http://users.suse.com/~jsegitz/2019.01_sles_15_1_shim_files/shim-15+git47-0.src.rpm
 
 -------------------------------------------------------------------------------
 What patches are being applied and why:
 -------------------------------------------------------------------------------
-- No patches are being applied on top of original upstream shim code.
-- Patches to enforce Secure Boot in grub are identical to Red Hat Enterprise Linux 7
-  and CentOS 7, for example:
 
-  https://git.centos.org/summary/?r=rpms/grub2.git
-  and grub2-2.02-0.76.el7.src.rpm inside extra-srpms.tar
-
-  0093-Don-t-allow-insmod-when-secure-boot-is-enabled.patch
-  0220-Add-secureboot-support-on-efi-chainloader.patch
-  0221-Make-any-of-the-loaders-that-link-in-efi-mode-honor-.patch
-  0225-Rework-even-more-of-efi-chainload-so-non-sb-cases-wo.patch
-
-- Kernel has EFI_SECURE_BOOT_SECURELEVEL kernel config option set _disabling_
-  loading of untrusted code into kernel mode+patches
-  identical to Red Hat Enterprise Linux 7 and CentOS 7: 
-
-  https://git.centos.org/summary/?r=rpms/kernel.git
-  and kernel-3.10.0-957.el7.src.rpm inside extra-srpms.tar
+- shim-arch-independent-names.patch: Make the names of EFI binaries arch-independent
+- shim-change-debug-file-path.patch: SUSE specific debug path
+- shim-always-mirror-mok-variables.patch: Mirror MOK variables correctly
+- shim-correct-license-in-headers.patch: Just license adjustments
+- shim-opensuse-cert-prompt.patch: not applied in SLES shim
+- shim-bsc1092000-fallback-menu.patch: Make countdown function public
 
 -------------------------------------------------------------------------------
 What OS and toolchain must we use to reproduce this build?  Include where to find it, etc.  We're going to try to reproduce your build as close as possible to verify that it's really a build of the source tree you tell us it is, so these need to be fairly thorough. At the very least include the specific versions of gcc, binutils, and gnu-efi which were used, and where to find those binaries.
 -------------------------------------------------------------------------------
 
-Download: ftp://support-ftp.suse.com/out/shim/shim_review.tar
-and extract it.
-
-- An OS image for Docker with required dependencies, built from SLES Expanded Support platform 7.6 is included:
-
-"sles_esp-shim-15-evaluation.tar.gz"
-
-Build instructions:
-
-- Import 
-  docker load -i sles_esp-shim-15-evaluation.tar.gz
-  and run provided OS image using Docker
-- shim-15-1.el7.1.src.rpm is already included inside image's root directory for convenience
-- Rebuild included SRPM as follows:
-
-$ rpmbuild --rebuild shim-15-1.el7.1.src.rpm 2>&1 | tee build1.log
-
-- Resulting RPMs may be found under ~/rpmbuild/RPMS/x86_64/
+- Download the SLE-15 SP1 Beta 2 images from https://www.suse.com/betaprogram/sle-beta/
+  SLE-15-SP1-Installer-DVD-x86_64-Beta2-DVD1.iso
+  SLE-15-SP1-Packages-x86_64-Beta2-DVD1.iso
+- Boot the system with SLE-15-SP1-Installer-DVD-x86_64-Beta2-DVD1.iso chose "Installation"
+- Select "SUSE Linux Enterprise Server 15 SP1 Beta2" to install
+- Skip registration
+- When reaching the "Add-On Product" page, toggle “I would like to install an additional Add On Product”,
+  select "DVD", and insert the Packages DVD. Then choose the following repositories: “Desktop-Applications”,
+  “Basesystem” and “Development-Tools”.
+- Carry on and install the "minimal" system 
+- Mount the iso as needed once you're asked 
+- After installation, login the system. Insert packages iso (if it's not still mounted) and type the following command to setup the build environment:
+  $ zypper in rpmbuild pesign-obs-integration 
+- Download 
+  * http://users.suse.com/~jsegitz/2019.01_sles_15_1_shim_files/update-bootloader-rpm-macros-0-1.23.noarch.rpm
+  * http://users.suse.com/~jsegitz/2019.01_sles_15_1_shim_files/gnu-efi-3.0.8-5.2.x86_64.rpm
+  and install it :
+  $ zypper in update-bootloader-rpm-macros-0-1.23.noarch.rpm gnu-efi-3.0.8-5.2.x86_64.rpm
+- Build shim from source rpm
+  http://users.suse.com/~jsegitz/2019.01_sles_15_1_shim_files/shim-15+git47-0.src.rpm
+  rpmbuild --rebuild shim-*.src.rpm
+- The resulting rpm is in /usr/src/packages/RPMS/x86_64/shim-15+git47-0.x86_64.rpm
 
 Versions of build tools:
 
-- gcc-4.8.5-36.el7
-- binutils-2.27-34.base.el7
-- make-3.82-23.el7
-- gnu-efi-3.0.8-2.el7
+- gcc-7-1.563
+- binutils-2.31-6.3.1
+- make-4.2.1-7.3.2
+- gnu-efi-3.0.8-5.3
 
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
 -------------------------------------------------------------------------------
-build_shim_unsigned.log contains shim build log.
+
+build.log contains shim build log.
 
 -------------------------------------------------------------------------------
 Add any additional information you think we may need to validate this shim
 -------------------------------------------------------------------------------
-
-Shim binaries to sign are included:
-shimx64.efi for x64 systems, and shimia32.efi for systems with IA-32 UEFI BIOS
-
-Public portion of a certificate: slesecurebootca.cer
-
-Source RPM of shim: shim-15-1.el7.1.src.rpm
-Source RPMs of glibc, grub2, gnu-efi, kernel, pesign: extra-srpms.tar
