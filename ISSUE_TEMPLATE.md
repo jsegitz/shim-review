@@ -1,6 +1,7 @@
 Make sure you have provided the following information:
 
  - [x] link to your code branch cloned from rhboot/shim-review in the form user/repo@tag
+   jsegitz/shim-review/tree/SUSE-SLES15-SP1-x64-20190123
  - [x] completed README.md file with the necessary information
  - [x] shim.efi to be signed
  - [x] public portion of your certificate embedded in shim (the file passed to VENDOR_CERT_FILE)
