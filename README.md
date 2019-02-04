@@ -72,7 +72,8 @@ What patches are being applied and why:
 What OS and toolchain must we use to reproduce this build?  Include where to find it, etc.  We're going to try to reproduce your build as close as possible to verify that it's really a build of the source tree you tell us it is, so these need to be fairly thorough. At the very least include the specific versions of gcc, binutils, and gnu-efi which were used, and where to find those binaries.
 -------------------------------------------------------------------------------
 
-Download: ftp://support-ftp.suse.com/out/shim/shim_review.tar
+Download: 
+http://users.suse.com/~jsegitz/shim_review.tar
 and extract it.
 
 - An OS image for Docker with required dependencies, built from SLES Expanded Support platform 7.6 is included:
