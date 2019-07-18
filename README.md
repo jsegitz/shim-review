@@ -44,13 +44,12 @@ Tarball sha256sum:
 -------------------------------------------------------------------------------
 URL for a repo that contains the exact code which was built to get this binary:
 -------------------------------------------------------------------------------
-shim-unsigned-x64-15-2.el8.src.rpm included with the submission
+https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/shim-unsigned-x64-15-2.el8.src.rpm
 
 -------------------------------------------------------------------------------
 What patches are being applied and why:
 -------------------------------------------------------------------------------
-- Bugfix patches to upstream shim 15 have been applied previously by Red Hat
-  and CentOS:
+- Bugfix patches to upstream shim 15 have been applied:
 
   Added 0005-MokListRT-Fatal.patch to avoid crashing legacy uefi/non SB machines (from CentOS, 1 patch)
   Fix MoK mirroring issue which breaks kdump without intervention (from shim-16, 4 patches)
@@ -75,10 +74,8 @@ What OS and toolchain must we use to reproduce this build?  Include where to fin
 
 - A chroot tarball with required dependencies, built from SLES Expanded Support platform 8.0 is included:
 
-  "sles_esp-0604-8.0v5.tar.gz"
+  https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/sles_esp-0604-8.0v5.tar.gz
   sha256sum: 5067e29ef506d1680aa9ba55bcb44a2218ed3b4eb179a54cd94db8ceb2a8561f
-
-  The chroot is built from RHEL 8 sources available through https://git.centos.org/
 
 Build instructions:
 
@@ -100,7 +97,8 @@ Versions of build tools:
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
 -------------------------------------------------------------------------------
-shim-unsigned.build.log contains shim build log.
+https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/shim-unsigned.build.log
+contains shim build log.
 
 -------------------------------------------------------------------------------
 Add any additional information you think we may need to validate this shim
@@ -109,7 +107,10 @@ Add any additional information you think we may need to validate this shim
 Shim binaries to sign are included:
 shimx64.efi for x64 systems, and shimia32.efi for systems with IA-32 UEFI BIOS
 
-Public portion of a certificate: slesecurebootca.cer
+Public portion of a certificate: 
+https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/slesecurebootca.cer
 
-Source RPM of shim: shim-unsigned-x64-15-2.el8.src.rpm
-Source RPMs of glibc, grub2, gnu-efi, kernel, pesign: extra-srpms.tar
+Source RPM of shim: 
+https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/shim-unsigned-x64-15-2.el8.src.rpm
+Source RPMs of glibc, grub2, gnu-efi, kernel, pesign: 
+https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/extra-srpms.tar

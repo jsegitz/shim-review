@@ -54,6 +54,7 @@ GRUB and kernel are patched to enforce Secure Boot.
   0005-Make-any-of-the-loaders-that-link-in-efi-mode-honor-.patch
 
   Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-66.el8.src.rpm
+  https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/extra-srpms.tar
 
 ###### Does your SHIM load any loaders that support loading unsigned kernels (e.g. GRUB)?
 
@@ -61,10 +62,11 @@ No
 
 ###### What kernel are you using? Which patches does it include to enforce Secure Boot?
 
-kernel-4.18.0-80.el8 with lockdown patches is identical to the one of Red Hat Enterprise
+kernel-4.18.0-80.el8 with lockdown patches identical to the one of Red Hat Enterprise
 Linux 8 and (upcoming) CentOS 8, available through CentOS git: https://git.centos.org/rpms/kernel/tree/c8
 
 Source RPM is included for reference inside extra-srpms.tar: kernel-4.18.0-80.el8.src.rpm.
+https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/extra-srpms.tar
 
 ###### What changes were made since your SHIM was last signed?
 
