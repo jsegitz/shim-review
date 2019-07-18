@@ -13,16 +13,15 @@ Make sure you have provided the following information:
 SUSE, https://suse.com/
 
 ###### What product or service is this for:
-SLES Expanded Support platform 7, provided within the 
+SLES Expanded Support platform 8, provided within the 
 "SUSE Linux Enterprise Server with Expanded Support" program,
 https://www.suse.com/products/expandedsupport/
 
 ###### What is the origin and full version number of your shim?
-The origin is shim-15-1.el7 available through https://git.centos.org/summary/?r=rpms/shim.git
-which tarball in turn completely matches shim 15 at https://github.com/rhboot/shim/releases/tag/15
+The origin is shim-unsigned-x64-15-2.el8 available through https://git.centos.org/rpms/shim-unsigned-x64/tree/c8
 
-Full version number of our shim: shim 15
-Source RPM version: shim-15-1.el7.1 (included in the docker image)
+Full version number of our shim: 15-2.el8
+Source RPM version: shim-unsigned-x64-15-2.el8 (included with the submission)
 Tarball sha256sum:
 473720200e6dae7cfd3ce7fb27c66367a8d6b08233fe63f01aa1d6b3888deeb6  shim-15.tar.bz2
 
@@ -37,9 +36,9 @@ Shim binaries do not include private portions of the key.
 Yes
 
 ###### What is the origin and full version number of your bootloader (GRUB or other)?
-The origin of GRUB is CentOS 7 git https://git.centos.org/summary/?r=rpms/grub2.git
-Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-0.76.el7.src.rpm
-Full version: grub2-2.02-0.76.el7
+The origin of GRUB is CentOS git: https://git.centos.org/rpms/grub2/tree/c8
+Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-66.el8.src.rpm
+Full version: grub2-2.02-66.el8
 
 ###### If your SHIM launches any other components, please provide further details on what is launched
 N/A
@@ -48,40 +47,39 @@ N/A
 GRUB and kernel are patched to enforce Secure Boot.
 
   Secure Boot enforcing is identical to available with grub2 within 
-  Red Hat Enterprise Linux 7 and CentOS 7, for example:
+  Red Hat Enterprise Linux 8 and (upcoming) CentOS 8, for example:
 
-  https://git.centos.org/summary/?r=rpms/grub2.git
-  0093-Don-t-allow-insmod-when-secure-boot-is-enabled.patch
-  0220-Add-secureboot-support-on-efi-chainloader.patch
-  0221-Make-any-of-the-loaders-that-link-in-efi-mode-honor-.patch
-  0225-Rework-even-more-of-efi-chainload-so-non-sb-cases-wo.patch
+  https://git.centos.org/rpms/grub2/tree/c8
+  0004-Add-secureboot-support-on-efi-chainloader.patch
+  0005-Make-any-of-the-loaders-that-link-in-efi-mode-honor-.patch
 
-  Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-0.76.el7.src.rpm
+  Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-66.el8.src.rpm
 
 ###### Does your SHIM load any loaders that support loading unsigned kernels (e.g. GRUB)?
 
 No
 
-###### What kernel are you using? Which patches does it includes to enforce Secure Boot?
+###### What kernel are you using? Which patches does it include to enforce Secure Boot?
 
-kernel-3.10.0-957.el7 is used. This kernel is identical to the one of Red Hat Enterprise
-Linux 7 and CentOS 7, available through CentOS git: https://git.centos.org/summary/?r=rpms/kernel.git
+kernel-4.18.0-80.el8 with lockdown patches is identical to the one of Red Hat Enterprise
+Linux 8 and (upcoming) CentOS 8, available through CentOS git: https://git.centos.org/rpms/kernel/tree/c8
 
-Source RPM is included for reference inside extra-srpms.tar: kernel-3.10.0-957.el7.src.rpm
-
-Kernel has EFI_SECURE_BOOT_SECURELEVEL kernel config option set disabling loading of untrusted code into kernel mode
-and functionality around this option.
+Source RPM is included for reference inside extra-srpms.tar: kernel-4.18.0-80.el8.src.rpm.
 
 ###### What changes were made since your SHIM was last signed?
 
-Update to upstream version 15.
+Bug fixes have been applied by Red Hat and CentOS:
+
+- Added 0005-MokListRT-Fatal.patch to avoid crashing legacy uefi/non SB machines (from CentOS, 1 patch)
+- Fix MoK mirroring issue which breaks kdump without intervention (from shim-16, 4 patches)
 
 ###### What is the hash of your final SHIM binary?
 
 shimia32.efi
-sha256sum: 881c3d8981ccbe0d1efe3efcd78f842dacd7519923ee60619f20464be4b739f8
-hash: c127f0eefc2e451989d88e4d1da8a3b08ca9d5884987a6157e04e9a71c01adfc
+sha256sum: ed85836835ba3ae06147ef6eb12fa575d45bd0a681be8607ef15fceb744f7edf
+hash: 3ad55a88e2a6f564e4bdf281b0089eed83ecc03767448aed577788f3aea0057e
 
 shimx64.efi
-sha256sum: c167818fd5c06d75766da2a86bf0e5c000c495b981a3a2aaaea375ce56969258
-hash: 7f49ccb309323b1c7ab11c93c955b8c744f0a2b75c311f495e18906070500027
+sha256sum: d12af14cec64b2373247e1c7b7fd9afd9ef0427c4989bbc9e962e271bbfe5398
+hash: 8e5b63b89bfe84a922f655e4f835cb4a7baa4a46c2d8546ece0ed5a3efc33e0c
+
