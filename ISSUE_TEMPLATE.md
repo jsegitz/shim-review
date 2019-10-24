@@ -18,11 +18,18 @@ SLES Expanded Support platform 7, provided within the
 https://www.suse.com/products/expandedsupport/
 
 ###### What is the origin and full version number of your shim?
-The origin is shim-15-1.el7 available through https://git.centos.org/summary/?r=rpms/shim.git
+The origin is shim-15-5.el7 available through https://git.centos.org/summary/?r=rpms/shim.git
 which tarball in turn completely matches shim 15 at https://github.com/rhboot/shim/releases/tag/15
+with additional patches applied on top:
+
+0001-Make-sure-that-MOK-variables-always-get-mirrored.patch
+0002-mok-fix-the-mirroring-of-RT-variables.patch
+0003-mok-consolidate-mirroring-code-in-a-helper-instead-o.patch
+0004-Make-VLogError-behave-as-expected.patch
+0005-Once-again-try-even-harder-to-get-binaries-without-t.patch
 
 Full version number of our shim: shim 15
-Source RPM version: shim-15-1.el7.1 (included in the docker image)
+Source RPM version: shim-15-5.el7 (included with the submission)
 Tarball sha256sum:
 473720200e6dae7cfd3ce7fb27c66367a8d6b08233fe63f01aa1d6b3888deeb6  shim-15.tar.bz2
 
@@ -37,9 +44,9 @@ Shim binaries do not include private portions of the key.
 Yes
 
 ###### What is the origin and full version number of your bootloader (GRUB or other)?
-The origin of GRUB is CentOS 7 git https://git.centos.org/summary/?r=rpms/grub2.git
-Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-0.76.el7.src.rpm
-Full version: grub2-2.02-0.76.el7
+GRUB is an equivalent of the one from CentOS 7 git https://git.centos.org/summary/?r=rpms/grub2.git
+Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-0.80.el7.src.rpm
+Full version: grub2-2.02-0.80.el7
 
 ###### If your SHIM launches any other components, please provide further details on what is launched
 N/A
@@ -56,7 +63,7 @@ GRUB and kernel are patched to enforce Secure Boot.
   0221-Make-any-of-the-loaders-that-link-in-efi-mode-honor-.patch
   0225-Rework-even-more-of-efi-chainload-so-non-sb-cases-wo.patch
 
-  Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-0.76.el7.src.rpm
+  Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-0.80.el7.src.rpm
 
 ###### Does your SHIM load any loaders that support loading unsigned kernels (e.g. GRUB)?
 
@@ -64,24 +71,27 @@ No
 
 ###### What kernel are you using? Which patches does it includes to enforce Secure Boot?
 
-kernel-3.10.0-957.el7 is used. This kernel is identical to the one of Red Hat Enterprise
+kernel-3.10.0-1062.1.2.el7 is used. This kernel is an equivalent to the one of Red Hat Enterprise
 Linux 7 and CentOS 7, available through CentOS git: https://git.centos.org/summary/?r=rpms/kernel.git
 
-Source RPM is included for reference inside extra-srpms.tar: kernel-3.10.0-957.el7.src.rpm
+Source RPM is included for reference inside extra-srpms.tar: kernel-3.10.0-1062.1.2.el7.src.rpm
 
 Kernel has EFI_SECURE_BOOT_SECURELEVEL kernel config option set disabling loading of untrusted code into kernel mode
 and functionality around this option.
 
 ###### What changes were made since your SHIM was last signed?
 
-Update to upstream version 15.
+- Fixes to MoK mirroring 
+- Get binaries without timestamps in them
+- Improve build reproduceability
+- Be in line with recent changes in CentOS 7 and RHEL 7
 
 ###### What is the hash of your final SHIM binary?
 
 shimia32.efi
-sha256sum: 881c3d8981ccbe0d1efe3efcd78f842dacd7519923ee60619f20464be4b739f8
-hash: c127f0eefc2e451989d88e4d1da8a3b08ca9d5884987a6157e04e9a71c01adfc
+sha256sum: e90c36fc0f1f404078c46e057271201aa49f65772bf3ef2a5cde153950aa410e
+hash: ccd3706bd3172ab537566f41da9e001c4ca58d29fe014d830f8cf6f1ccbcb31b
 
 shimx64.efi
-sha256sum: c167818fd5c06d75766da2a86bf0e5c000c495b981a3a2aaaea375ce56969258
-hash: 7f49ccb309323b1c7ab11c93c955b8c744f0a2b75c311f495e18906070500027
+sha256sum: fb7b3d88e50ab260405b908142d559f7262c8d04883ab758076445a44c9369e0
+hash: 5f073ffa199be83529e5edc214f9d5bb4e95525c331daec6892a25bd02ab33cb
