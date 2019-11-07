@@ -44,7 +44,8 @@ Tarball sha256sum:
 -------------------------------------------------------------------------------
 URL for a repo that contains the exact code which was built to get this binary:
 -------------------------------------------------------------------------------
-https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/shim-unsigned-x64-15-2.el8.src.rpm
+shim-unsigned-x64-15-2.el8.src.rpm included with the submission
+https://users.suse.com/~jsegitz/2019.11_sles_es_8_shim_files/shim-unsigned-x64-15-2.el8.src.rpm
 
 -------------------------------------------------------------------------------
 What patches are being applied and why:
@@ -72,18 +73,29 @@ What patches are being applied and why:
 What OS and toolchain must we use to reproduce this build?  Include where to find it, etc.  We're going to try to reproduce your build as close as possible to verify that it's really a build of the source tree you tell us it is, so these need to be fairly thorough. At the very least include the specific versions of gcc, binutils, and gnu-efi which were used, and where to find those binaries.
 -------------------------------------------------------------------------------
 
-- A chroot tarball with required dependencies, built from SLES Expanded Support platform 8.0 is included:
+- An OS image for use with docker or podman, built from SLES Expanded Support platform 8.0 is included:
 
-  https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/sles_esp-0604-8.0v5.tar.gz
-  sha256sum: 5067e29ef506d1680aa9ba55bcb44a2218ed3b4eb179a54cd94db8ceb2a8561f
+  https://users.suse.com/~jsegitz/2019.11_sles_es_8_shim_files/sles_esp-0604-8.0v7.tar.gz
+  sha256sum: 4b1af108a25519f8ee1e9396621467603365b50bae650ce9408eb64762b6c9f9
 
 Build instructions:
 
-- Being logged in as root, or using sudo, unpack the tarball, then chroot to unpacked content
-- shim-unsigned-x64-15-2.el8.src.rpm is already included inside chroot's top level directory for convenience
-- Rebuild included SRPM inside chroot as follows:
+- Load OS image and check its ID, e.g.
+  podman load -i sles_esp-0604-8.0v7.tar.gz
+  podman images
 
-$ rpmbuild --rebuild shim-unsigned-x64-15-2.el8.src.rpm 2>&1 | tee build1.log
+- Start a container, e.g.:
+  podman run --security-opt=seccomp=unconfined -v /mnt:/mnt -it --name=shim8 <IMAGE ID> /bin/bash
+  Running with "unconfined" is important, otherwise, 32-bit shim will fail to build.
+
+- shim-unsigned-x64-15-2.el8.src.rpm is already included inside images's top level directory for convenience
+
+- Create user sandman and log into it:
+  adduser sandman; su - sandman
+
+- Rebuild included SRPM as follows:
+
+  rpmbuild --rebuild /shim-unsigned-x64-15-2.el8.src.rpm 2>&1 | tee build1.log
 
 - Resulting RPMs may be found under ~/rpmbuild/RPMS/x86_64/
 
@@ -97,7 +109,7 @@ Versions of build tools:
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
 -------------------------------------------------------------------------------
-https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/shim-unsigned.build.log
+https://users.suse.com/~jsegitz/2019.11_sles_es_8_shim_files/shim_unsigned_build.log
 contains shim build log.
 
 -------------------------------------------------------------------------------
@@ -108,9 +120,9 @@ Shim binaries to sign are included:
 shimx64.efi for x64 systems, and shimia32.efi for systems with IA-32 UEFI BIOS
 
 Public portion of a certificate: 
-https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/slesecurebootca.cer
+https://users.suse.com/~jsegitz/2019.11_sles_es_8_shim_files/slesecurebootca.cer
 
 Source RPM of shim: 
-https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/shim-unsigned-x64-15-2.el8.src.rpm
+https://users.suse.com/~jsegitz/2019.11_sles_es_8_shim_files/shim-unsigned-x64-15-2.el8.src.rpm
 Source RPMs of glibc, grub2, gnu-efi, kernel, pesign: 
-https://users.suse.com/~jsegitz/2019.07_sles_es_8_shim_files/extra-srpms.tar
+https://users.suse.com/~jsegitz/2019.11_sles_es_8_shim_files/extra-srpms.tar
