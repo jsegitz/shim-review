@@ -182,7 +182,7 @@ is included with this submission.
 
 Build instructions:
 
-  download https://users.suse.com/~jsegitz/
+  download https://users.suse.com/~jsegitz/2020.09_epam_shim/res8/sles_esp-shim-15-8.el8.tar.gz
   docker load -i sles_esp-shim-15-8.el8.tar.gz
   docker run --security-opt=seccomp=unconfined -it localhost/sles_esp:shim-15-8.el8 /bin/sh
   Running with "unconfined" is important, otherwise, 32-bit shim will fail to build.

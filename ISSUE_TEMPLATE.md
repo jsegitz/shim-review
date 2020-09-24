@@ -1,13 +1,14 @@
 Make sure you have provided the following information:
 
- - [ ] link to your code branch cloned from rhboot/shim-review in the form user/repo@tag
- - [ ] completed README.md file with the necessary information
- - [ ] shim.efi to be signed
- - [ ] public portion of your certificate(s) embedded in shim (the file passed to VENDOR_CERT_FILE)
- - [ ] binaries, for which hashes are added do vendor_db ( if you use vendor_db and have hashes whitelisted )
- - [ ] any extra patches to shim via your own git tree or as files
- - [ ] any extra patches to grub via your own git tree or as files
- - [ ] build logs
+ - [x] link to your code branch cloned from rhboot/shim-review in the form user/repo@tag
+   https://github.com/jsegitz/shim-review/tree/SUSE-res8-shim-20200924
+ - [x] completed README.md file with the necessary information
+ - [x] shim.efi to be signed
+ - [x] public portion of your certificate(s) embedded in shim (the file passed to VENDOR_CERT_FILE)
+ - [x] binaries, for which hashes are added do vendor_db ( if you use vendor_db and have hashes whitelisted )
+ - [x] any extra patches to shim via your own git tree or as files
+ - [x] any extra patches to grub via your own git tree or as files
+ - [x] build logs
 
 
 ###### What organization or people are asking to have this signed:
