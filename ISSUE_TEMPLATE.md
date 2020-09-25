@@ -59,7 +59,7 @@ Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-0.86.el7
 Full version: grub2-2.02-0.86.el7_8
 
 ###### If your SHIM launches any other components, please provide further details on what is launched
-N/A. Only grub2 is launched.
+grub2 and fwupdate can be launched
 
 ###### How do the launched components prevent execution of unauthenticated code?
 GRUB and kernel are patched to enforce Secure Boot. Older signature has been blacklisted.
