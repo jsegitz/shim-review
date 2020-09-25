@@ -36,6 +36,7 @@ It is a part of a commercial support offering advertised publicly
 
 ###### How do you manage and protect the keys used in your SHIM?
 The key is installed in a machine with restricted physical and system access.
+Builders can use it only via Open Build Service instance, which provides identification, authorization and checking if key usage is granted for key user/package/arch.
 Shim binaries do not include private portions of the key.
 
 ###### Do you use EV certificates as embedded certificates in the SHIM?
@@ -60,7 +61,7 @@ Source RPM is included for reference inside extra-srpms.tar: grub2-2.02-87.el8_2
 Full version: grub2-2.02-87.el8_2
 
 ###### If your SHIM launches any other components, please provide further details on what is launched
-N/A. Only grub2 is launched.
+It also launches fwupd-1.4.2-4.el8
 
 ###### How do the launched components prevent execution of unauthenticated code?
 GRUB and kernel are patched to enforce Secure Boot, identically to RHEL 8 and CentOS 8. Older signature has been blacklisted.
