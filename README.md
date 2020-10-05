@@ -64,7 +64,7 @@ Tarball sha256sum:
 -------------------------------------------------------------------------------
 URL for a repo that contains the exact code which was built to get this binary:
 -------------------------------------------------------------------------------
-shim-15-8.el7.src.rpm included with this submission
+shim-15-9.el7.src.rpm included with this submission
 
 -------------------------------------------------------------------------------
 What patches are being applied and why:
@@ -137,12 +137,14 @@ and/or references to upstream.
 0061-Also-use-a-config-table-to-mirror-mok-variables.patch
 0062-Implement-lennysz-s-suggestions-for-MokListRT.patch
 0063-hexdump.h-fix-arithmetic-error.patch
+0064-Fix-some-mokmanager-stuff.patch
+0065-Fix-buffer-overrun-due-DEFAULT_LOADER-length-miscalc.patch
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, grub2: is CVE-2020-10713 fixed ?
 -------------------------------------------------------------------------------
 Yes. Please see grub2-2.02-0.86.el7_8.src.rpm included in 
-https://users.suse.com/~jsegitz/2020.09_epam_shim/res7/extra-srpms.tar
+https://users.suse.com/~jsegitz/2020.09_epam_shim/res7.9/extra-srpms.tar
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, grub2, and previous shims were trusting affected
@@ -180,20 +182,20 @@ If possible, provide a Dockerfile that rebuilds the shim.
 -------------------------------------------------------------------------------
 
 Download 
-https://users.suse.com/~jsegitz/2020.09_epam_shim/res7/sles_esp-shim-15-8.el7.tar.gz 
+https://users.suse.com/~jsegitz/2020.09_epam_shim/res7.9/sles_esp-shim-15-9.el7.tar.gz
 and
-https://users.suse.com/~jsegitz/2020.09_epam_shim/res7/extra-srpms.tar
+https://users.suse.com/~jsegitz/2020.09_epam_shim/res7.9/extra-srpms.tar
 
 Build instructions:
 
 - Import and run provided OS image using Docker
-  docker load -i sles_esp-shim-15-8.el7.tar.gz 
-  docker run -it localhost/sles_esp:shim-15-8.el7 /bin/sh
+  docker load -i sles_esp-shim-15-9.el7.tar.gz
+  docker run -it localhost/sles_esp:shim-15-9.el7 /bin/sh
 
-- shim-15-8.el7.src.rpm is already included inside image's root directory for convenience
+- shim-15-9.el7.src.rpm is already included inside image's root directory for convenience
 
 - Rebuild included SRPM as follows:
-  $ rpmbuild --rebuild shim-15-8.el7.src.rpm 2>&1 | tee build1.log
+  $ rpmbuild --rebuild shim-15-9.el7.src.rpm 2>&1 | tee build1.log
 
 - Resulting RPMs may be found under ~/rpmbuild/RPMS/x86_64/
 
@@ -215,7 +217,7 @@ Add any additional information you think we may need to validate this shim
 Shim binaries to sign are included:
 shimx64.efi for x64 systems; shimia32.efi for systems with IA-32 UEFI BIOS
 
-Source RPM of shim: shim-15-8.el7.src.rpm
+Source RPM of shim: shim-15-9.el7.src.rpm
 Source RPMs of glibc, grub2, gnu-efi, kernel, pesign are included into extra-srpms.tar
 
 Public portion of a certificate: sle_secureboot1.x509
