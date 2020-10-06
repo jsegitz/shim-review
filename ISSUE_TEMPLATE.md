@@ -1,7 +1,7 @@
 Make sure you have provided the following information:
 
  - [x] link to your code branch cloned from rhboot/shim-review in the form user/repo@tag
-       https://github.com/jsegitz/shim-review/tree/SUSE-res7-shim-20200923
+       https://github.com/jsegitz/shim-review/tree/SUSE-res7-shim-20201006
  - [x] completed README.md file with the necessary information
  - [x] shim.efi to be signed
  - [x] public portion of your certificate(s) embedded in shim (the file passed to VENDOR_CERT_FILE)
@@ -81,5 +81,5 @@ Bug and security fixes, including the new signature to address CVE-2020-10713.
 Changelog is included within shim-15-9.el7.src.rpm (since version 15-1).
 
 ###### What is the hash of your final SHIM binary?
-shimia32.efi hash: 3a68b50ca3ee52e519cca9f4a74bcca490205661d0d1efc40c2de5979f27d62e
-shimx64.efi  hash: 8176cd3ede1b507197aecc24a53dcd31620132f6f09718cc7c6531abd642469e
+shimia32.efi 303cb38738ad4a3116cc314cb2cf82f125d6ad34f863962c555f635e60b96a7c  
+shimx64.efi  7cb6e51ea2dcd0a03e037a9034a4aa8a4fdb8dfacdb5f7a4ca3f2fcf322774fe  
