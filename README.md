@@ -20,33 +20,36 @@ Here's the template:
 -------------------------------------------------------------------------------
 What organization or people are asking to have this signed:
 -------------------------------------------------------------------------------
-[your text here]
+SUSE, https://www.suse.com/
 
 -------------------------------------------------------------------------------
 What product or service is this for:
 -------------------------------------------------------------------------------
-[your text here]
+SUSE Linux Enterprice Server 15 SP3
 
 -------------------------------------------------------------------------------
 What's the justification that this really does need to be signed for the whole world to be able to boot it:
 -------------------------------------------------------------------------------
-[your text here]
+SUSE is one of the major vendors in the Linux ecospace and this shim is a part
+of a commercial support offering advertised publicly
 
 -------------------------------------------------------------------------------
 Who is the primary contact for security updates, etc.
 -------------------------------------------------------------------------------
-- Name:
-- Position:
-- Email address:
-- PGP key, signed by the other security contacts, and preferably also with signatures that are reasonably well known in the Linux community:
+- Name: Johannes Segitz
+- Position: Security Engineer
+- Email address: jsegitz@suse.com
+- PGP key, signed by the other security contacts, and preferably also with signatures that are reasonably well known in the linux community:
+  EE16 6BCE AD56 E034 BFB3  3ADD 7BF7 29D5 E7C8 1FA0
 
 -------------------------------------------------------------------------------
 Who is the secondary contact for security updates, etc.
 -------------------------------------------------------------------------------
-- Name:
-- Position:
-- Email address:
-- PGP key, signed by the other security contacts, and preferably also with signatures that are reasonably well known in the Linux community:
+- Name: Marcus Meissner
+- Position: Project Manager Security
+- Email address: meissner@suse.de
+- PGP key, signed by the other security contacts, and preferably also with signatures that are reasonably well known in the linux community:
+  7C4A FD61 D8AA E757 0796  A517 2209 D690 2F96 9C95
 
 -------------------------------------------------------------------------------
 Please create your shim binaries starting with the 15.4 shim release tar file:
@@ -55,17 +58,23 @@ https://github.com/rhboot/shim/releases/download/15.4/shim-15.4.tar.bz2
 This matches https://github.com/rhboot/shim/releases/tag/15.4 and contains
 the appropriate gnu-efi source.
 -------------------------------------------------------------------------------
-[Please confirm]
+This is based on shim 15.3
 
 -------------------------------------------------------------------------------
 URL for a repo that contains the exact code which was built to get this binary:
 -------------------------------------------------------------------------------
-[your url here]
+Our build service isn't publicly available. The code is shim 15.4 + the patches
+described below and added here
 
 -------------------------------------------------------------------------------
 What patches are being applied and why:
 -------------------------------------------------------------------------------
-[your text here]
+We use 15.4 shim + 
+- shim-arch-independent-names.patch: use the Arch-independent names.
+- shim-bsc1177315-verify-eku-codesign.patch: Check CodeSign in the signer's EKU
+- shim-bsc1177789-fix-null-pointer-deref-AuthenticodeVerify.patch: fix NULL pointer dereference in AuthenticodeVerify
+- shim-change-debug-file-path.patch: change path of debug file
+(in shim_patches.tar)
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, GRUB2: is CVE-2020-14372, CVE-2020-25632,
@@ -73,14 +82,14 @@ If bootloader, shim loading is, GRUB2: is CVE-2020-14372, CVE-2020-25632,
  CVE-2020-10713, CVE-2020-14308, CVE-2020-14309, CVE-2020-14310, CVE-2020-14311,
  CVE-2020-15705, and if you are shipping the shim_lock module CVE-2021-3418
 -------------------------------------------------------------------------------
-[your text here]
+yes
 
 
 -------------------------------------------------------------------------------
 What exact implementation of Secureboot in GRUB2 ( if this is your bootloader ) you have ?
 * Upstream GRUB2 shim_lock verifier or * Downstream RHEL/Fedora/Debian/Canonical like implementation ?
 -------------------------------------------------------------------------------
-[your text here]
+* Downstream RHEL/Fedora/Debian/Canonical like implementation ?
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, GRUB2, and previous shims were trusting affected
@@ -100,7 +109,8 @@ by CVE-2020-14372, CVE-2020-25632, CVE-2020-25647, CVE-2020-27749,
   ( July 2020 grub2 CVE list + March 2021 grub2 CVE list )
   grub2 builds ?
 -------------------------------------------------------------------------------
-[your text here]
+- Yes
+- Yes, we've rotated our signkey, so no old components can be started with this shim
 
 -------------------------------------------------------------------------------
 If your boot chain of trust includes linux kernel, is
@@ -109,7 +119,7 @@ upstream commit 1957a85b0032a81e6482ca4aab883643b8dae06e applied ?
 Is "ACPI: configfs: Disallow loading ACPI tables when locked down"
 upstream commit 75b0cea7bf307f362057cc778efe89af4c615354 applied ?
 -------------------------------------------------------------------------------
-[your text here]
+Both are applied
 
 -------------------------------------------------------------------------------
 If you use vendor_db functionality of providing multiple certificates and/or
@@ -117,7 +127,7 @@ hashes please briefly describe your certificate setup. If there are allow-listed
 please provide exact binaries for which hashes are created via file sharing service,
 available in public with anonymous access for verification
 -------------------------------------------------------------------------------
-[your text here]
+We don't use this
 
 -------------------------------------------------------------------------------
 If you are re-using a previously used (CA) certificate, you will need
@@ -126,20 +136,36 @@ in order to prevent GRUB2 from being able to chainload those older GRUB2
 binaries. If you are changing to a new (CA) certificate, this does not
 apply. Please describe your strategy.
 -------------------------------------------------------------------------------
-[your text here]
+new CA certificate
 
 -------------------------------------------------------------------------------
 What OS and toolchain must we use to reproduce this build?  Include where to find it, etc.  We're going to try to reproduce your build as close as possible to verify that it's really a build of the source tree you tell us it is, so these need to be fairly thorough. At the very least include the specific versions of gcc, binutils, and gnu-efi which were used, and where to find those binaries.
 If possible, provide a Dockerfile that rebuilds the shim.
 -------------------------------------------------------------------------------
-[your text here]
+I included the Dockerfile but it will not work for you directly as this uses internal ressources. Please download the 
+resulting image from
+https://users.suse.com/~jsegitz/2021.03_shim/sles_shim:15.4.tar.gz
+and import it with
+docker image load -i sles_shim:15.4.tar.gz
+This image contains the shim sources in usr/src/packages/SOURCES/ 
+and the build environment. Running
+docker run --rm -it sles_shim:15.4 /bin/sh
+sh-4.4# SOURCE_DATE_EPOCH=1617192000 rpmbuild -ba /usr/src/packages/SOURCES/*spec
+gives you the build rpm which you can inspect with unrpm
+unrpm /usr/src/packages/RPMS/x86_64/shim-15.4-0.x86_64.rpm
+The prebuild rpm is already unpacked at /shim
+
+After unpacking you can get the hashes with
+sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-sles.efi
+hash: 17066c81bf4c73fb1c72bc582a7e3aad6ab5cdbca0a02684f2e4d575650d4322
+sh-4.4#  sha256sum usr/share/efi/x86_64/shim-sles.efi
+ef96e8c759f5ab0a23b842eafc21f46550f5bd04973f6d1154d7f7fbecf35c5a  usr/share/efi/x86_64/shim-sles.efi
 
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
 -------------------------------------------------------------------------------
-[your text here]
+build.log
 
 -------------------------------------------------------------------------------
 Add any additional information you think we may need to validate this shim
 -------------------------------------------------------------------------------
-[your text here]
