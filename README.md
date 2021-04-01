@@ -25,13 +25,13 @@ SUSE, https://www.suse.com/
 -------------------------------------------------------------------------------
 What product or service is this for:
 -------------------------------------------------------------------------------
-SUSE Linux Enterprice Server 15 SP3
+openSUSE 15.3
 
 -------------------------------------------------------------------------------
 What's the justification that this really does need to be signed for the whole world to be able to boot it:
 -------------------------------------------------------------------------------
 SUSE is one of the major vendors in the Linux ecospace and this shim is a part
-of a commercial support offering advertised publicly
+of openSUSE, the community distribution supported by SUSE
 
 -------------------------------------------------------------------------------
 Who is the primary contact for security updates, etc.
@@ -58,7 +58,7 @@ https://github.com/rhboot/shim/releases/download/15.4/shim-15.4.tar.bz2
 This matches https://github.com/rhboot/shim/releases/tag/15.4 and contains
 the appropriate gnu-efi source.
 -------------------------------------------------------------------------------
-This is based on shim 15.3
+This is based on shim 15.4
 
 -------------------------------------------------------------------------------
 URL for a repo that contains the exact code which was built to get this binary:
@@ -74,7 +74,6 @@ We use 15.4 shim +
 - shim-bsc1177315-verify-eku-codesign.patch: Check CodeSign in the signer's EKU
 - shim-bsc1177789-fix-null-pointer-deref-AuthenticodeVerify.patch: fix NULL pointer dereference in AuthenticodeVerify
 - shim-change-debug-file-path.patch: change path of debug file
-(in shim_patches.tar)
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, GRUB2: is CVE-2020-14372, CVE-2020-25632,
@@ -83,7 +82,6 @@ If bootloader, shim loading is, GRUB2: is CVE-2020-14372, CVE-2020-25632,
  CVE-2020-15705, and if you are shipping the shim_lock module CVE-2021-3418
 -------------------------------------------------------------------------------
 yes
-
 
 -------------------------------------------------------------------------------
 What exact implementation of Secureboot in GRUB2 ( if this is your bootloader ) you have ?
@@ -142,24 +140,23 @@ new CA certificate
 What OS and toolchain must we use to reproduce this build?  Include where to find it, etc.  We're going to try to reproduce your build as close as possible to verify that it's really a build of the source tree you tell us it is, so these need to be fairly thorough. At the very least include the specific versions of gcc, binutils, and gnu-efi which were used, and where to find those binaries.
 If possible, provide a Dockerfile that rebuilds the shim.
 -------------------------------------------------------------------------------
-I included the Dockerfile but it will not work for you directly as this uses internal ressources. Please download the 
-resulting image from
-https://users.suse.com/~jsegitz/2021.03_shim/sles_shim:15.4.tar.gz
+I included the Dockerfile. For the ready image please download
+https://users.suse.com/~jsegitz/2021.03_shim/opensuse_shim:15.4.tar.gz
 and import it with
-docker image load -i sles_shim:15.4.tar.gz
+docker image load -i opensuse_shim:15.4.tar.gz
 This image contains the shim sources in usr/src/packages/SOURCES/ 
 and the build environment. Running
-docker run --rm -it sles_shim:15.4 /bin/sh
+docker run --rm -it opensuse_shim:15.4 /bin/sh
 sh-4.4# SOURCE_DATE_EPOCH=1617192000 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 gives you the build rpm which you can inspect with unrpm
 unrpm /usr/src/packages/RPMS/x86_64/shim-15.4-0.x86_64.rpm
 The prebuild rpm is already unpacked at /shim
 
 After unpacking you can get the hashes with
-sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-sles.efi
-hash: 17066c81bf4c73fb1c72bc582a7e3aad6ab5cdbca0a02684f2e4d575650d4322
-sh-4.4#  sha256sum usr/share/efi/x86_64/shim-sles.efi
-ef96e8c759f5ab0a23b842eafc21f46550f5bd04973f6d1154d7f7fbecf35c5a  usr/share/efi/x86_64/shim-sles.efi
+sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-opensuse.efi
+hash: 4a3b0635cc690fb8d69fb5a8626e6a2e1c8aa8722e03edb29bfc40d00dfafd32
+sh-4.4# sha256sum usr/share/efi/x86_64/shim-opensuse.efi
+d29e8a8b1d10d904e61670988cb85da1c5bc383f874f5567f3b862f2d5308385  usr/share/efi/x86_64/shim-opensuse.efi
 
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.

@@ -14,7 +14,7 @@ Make sure you have provided the following information:
 SUSE, https://suse.com/
 
 ###### What product or service is this for:
-SUSE Linux Enterprice Server 15 SP3
+openSUSE 15.3
 
 ###### Please create your shim binaries starting with the 15.4 shim release tar file:
 ###### https://github.com/rhboot/shim/releases/download/15.4/shim-15.4.tar.bz2
@@ -60,7 +60,7 @@ We use this pattern:
 shim.${distro_id},${distro_sbat},${distro_name},%{name},%{version},mail:security-team@suse.de
 
 So for this shim:
-shim.sle,1,SUSE Linux Enterprise,shim,15.3,mail:security-team@suse.de
+shim.opensuse,1,The openSUSE project,shim,15.4,mail:security-team@suse.de
 
 ##### Were your old SHIM hashes provided to Microsoft ?
 yes
@@ -133,8 +133,8 @@ patches.suse/0011-PM-hibernate-require-hibernate-snapshot-image-to-be-.patch
 Signing key was changed to ensure no old grub/kernel can not be booted
 
 ###### What is the SHA256 hash of your final SHIM binary?
-pesign --hash --padding --in=usr/share/efi/x86_64/shim-sles.efi
-hash: 17066c81bf4c73fb1c72bc582a7e3aad6ab5cdbca0a02684f2e4d575650d4322
+pesign --hash --padding --in=usr/share/efi/x86_64/shim-opensuse.efi
+hash: 4a3b0635cc690fb8d69fb5a8626e6a2e1c8aa8722e03edb29bfc40d00dfafd32
 
-sha256sum usr/share/efi/x86_64/shim-sles.efi
-ef96e8c759f5ab0a23b842eafc21f46550f5bd04973f6d1154d7f7fbecf35c5a  usr/share/efi/x86_64/shim-sles.efi
+sha256sum usr/share/efi/x86_64/shim-opensuse.efi
+d29e8a8b1d10d904e61670988cb85da1c5bc383f874f5567f3b862f2d5308385  usr/share/efi/x86_64/shim-opensuse.efi
