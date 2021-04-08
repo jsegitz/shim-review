@@ -1,13 +1,13 @@
 Make sure you have provided the following information:
 
  - [ ] link to your code branch cloned from rhboot/shim-review in the form user/repo@tag
- - [ ] completed README.md file with the necessary information
- - [ ] shim.efi to be signed
- - [ ] public portion of your certificate(s) embedded in shim (the file passed to VENDOR_CERT_FILE)
- - [ ] binaries, for which hashes are added do vendor_db ( if you use vendor_db and have hashes allow-listed )
- - [ ] any extra patches to shim via your own git tree or as files
- - [ ] any extra patches to grub via your own git tree or as files
- - [ ] build logs
+ - [x] completed README.md file with the necessary information
+ - [x] shim.efi to be signed
+ - [x] public portion of your certificate(s) embedded in shim (the file passed to VENDOR_CERT_FILE)
+ - [x] binaries, for which hashes are added do vendor_db ( if you use vendor_db and have hashes allow-listed )
+ - [x] any extra patches to shim via your own git tree or as files
+ - [x] any extra patches to grub via your own git tree or as files
+ - [x] build logs
 
 
 ###### What organization or people are asking to have this signed:
@@ -26,7 +26,8 @@ We use 15.4 shim +
 - shim-bsc1177315-verify-eku-codesign.patch: Check CodeSign in the signer's EKU
 - shim-bsc1177789-fix-null-pointer-deref-AuthenticodeVerify.patch: fix NULL pointer dereference in AuthenticodeVerify
 - shim-change-debug-file-path.patch: change path of debug file
-(in shim_patches.tar)
+- remove_build_id.patch: don't add the build id from the resulting binaries
+- shim-bsc1184454-allocate-mok-config-table-BS.patch: Handle 'Failed to lookup EFI memory descriptor' errors
 
 ###### What's the justification that this really does need to be signed for the whole world to be able to boot it:
 Major linux distribution
@@ -60,7 +61,7 @@ We use this pattern:
 shim.${distro_id},${distro_sbat},${distro_name},%{name},%{version},mail:security-team@suse.de
 
 So for this shim:
-shim.sle,1,SUSE Linux Enterprise,shim,15.3,mail:security-team@suse.de
+shim.sle,1,SUSE Linux Enterprise,shim,15.4,mail:security-team@suse.de
 
 ##### Were your old SHIM hashes provided to Microsoft ?
 yes
@@ -133,8 +134,14 @@ patches.suse/0011-PM-hibernate-require-hibernate-snapshot-image-to-be-.patch
 Signing key was changed to ensure no old grub/kernel can not be booted
 
 ###### What is the SHA256 hash of your final SHIM binary?
-pesign --hash --padding --in=usr/share/efi/x86_64/shim-sles.efi
-hash: 17066c81bf4c73fb1c72bc582a7e3aad6ab5cdbca0a02684f2e4d575650d4322
+x86_64:
+sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-sles.efi
+hash: cf376dd1772694b2223fd56aa97c90ca34bbc1a68eafe34aaeb14b4b9e387320
+sh-4.4# sha256sum usr/share/efi/x86_64/shim-sles.efi
+fa63816b0e0cc6e2cdce94bd389a8b155000a93d0182d2f8874f3b0d7753bb7a  usr/share/efi/x86_64/shim-sles.efi
 
-sha256sum usr/share/efi/x86_64/shim-sles.efi
-ef96e8c759f5ab0a23b842eafc21f46550f5bd04973f6d1154d7f7fbecf35c5a  usr/share/efi/x86_64/shim-sles.efi
+aarch64:
+sh-4.4# pesign --hash --padding --in=usr/share/efi/aarch64/shim-sles.efi
+hash: c362c260109e9f35305dc332b5ef57295133362188558d49c653f372bda1cb6d
+sh-4.4# sha256sum usr/share/efi/aarch64/shim-sles.efi
+a995353bb2bb43d8ff62375789c71a66d5d2151be89c292dfc8414bef01424e2  usr/share/efi/aarch64/shim-sles.efi

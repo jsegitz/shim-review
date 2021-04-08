@@ -58,7 +58,7 @@ https://github.com/rhboot/shim/releases/download/15.4/shim-15.4.tar.bz2
 This matches https://github.com/rhboot/shim/releases/tag/15.4 and contains
 the appropriate gnu-efi source.
 -------------------------------------------------------------------------------
-This is based on shim 15.3
+This is based on shim 15.4
 
 -------------------------------------------------------------------------------
 URL for a repo that contains the exact code which was built to get this binary:
@@ -74,7 +74,8 @@ We use 15.4 shim +
 - shim-bsc1177315-verify-eku-codesign.patch: Check CodeSign in the signer's EKU
 - shim-bsc1177789-fix-null-pointer-deref-AuthenticodeVerify.patch: fix NULL pointer dereference in AuthenticodeVerify
 - shim-change-debug-file-path.patch: change path of debug file
-(in shim_patches.tar)
+- remove_build_id.patch: don't add the build id from the resulting binaries
+- shim-bsc1184454-allocate-mok-config-table-BS.patch: Handle 'Failed to lookup EFI memory descriptor' errors
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, GRUB2: is CVE-2020-14372, CVE-2020-25632,
@@ -84,12 +85,11 @@ If bootloader, shim loading is, GRUB2: is CVE-2020-14372, CVE-2020-25632,
 -------------------------------------------------------------------------------
 yes
 
-
 -------------------------------------------------------------------------------
 What exact implementation of Secureboot in GRUB2 ( if this is your bootloader ) you have ?
 * Upstream GRUB2 shim_lock verifier or * Downstream RHEL/Fedora/Debian/Canonical like implementation ?
 -------------------------------------------------------------------------------
-* Downstream RHEL/Fedora/Debian/Canonical like implementation ?
+Downstream RHEL/Fedora/Debian/Canonical like implementation
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, GRUB2, and previous shims were trusting affected
@@ -144,27 +144,40 @@ If possible, provide a Dockerfile that rebuilds the shim.
 -------------------------------------------------------------------------------
 I included the Dockerfile but it will not work for you directly as this uses internal ressources. Please download the 
 resulting image from
-https://users.suse.com/~jsegitz/2021.03_shim/sles_shim:15.4.tar.gz
+https://users.suse.com/~jsegitz/2021.03_shim/sles_shim:15.4_x86_64.tar.gz
+or 
+https://users.suse.com/~jsegitz/2021.03_shim/sles_shim:15.4_aarch64.tar.gz
 and import it with
-docker image load -i sles_shim:15.4.tar.gz
+docker image load -i $FILENAME
 This image contains the shim sources in usr/src/packages/SOURCES/ 
 and the build environment. Running
 docker run --rm -it sles_shim:15.4 /bin/sh
-sh-4.4# SOURCE_DATE_EPOCH=1617192000 rpmbuild -ba /usr/src/packages/SOURCES/*spec
+sh-4.4# SOURCE_DATE_EPOCH=1617883200 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 gives you the build rpm which you can inspect with unrpm
+x86_64:
 unrpm /usr/src/packages/RPMS/x86_64/shim-15.4-0.x86_64.rpm
-The prebuild rpm is already unpacked at /shim
+aarch64:
+unrpm /usr/src/packages/RPMS/aarch64/shim-15.4-0.aarch64.rpm
 
-After unpacking you can get the hashes with
+After unpacking you can get the hashes.
+
+x86_64:
 sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-sles.efi
-hash: 17066c81bf4c73fb1c72bc582a7e3aad6ab5cdbca0a02684f2e4d575650d4322
-sh-4.4#  sha256sum usr/share/efi/x86_64/shim-sles.efi
-ef96e8c759f5ab0a23b842eafc21f46550f5bd04973f6d1154d7f7fbecf35c5a  usr/share/efi/x86_64/shim-sles.efi
+hash: cf376dd1772694b2223fd56aa97c90ca34bbc1a68eafe34aaeb14b4b9e387320
+sh-4.4# sha256sum usr/share/efi/x86_64/shim-sles.efi
+fa63816b0e0cc6e2cdce94bd389a8b155000a93d0182d2f8874f3b0d7753bb7a  usr/share/efi/x86_64/shim-sles.efi
+
+aarch64:
+sh-4.4# pesign --hash --padding --in=usr/share/efi/aarch64/shim-sles.efi
+hash: c362c260109e9f35305dc332b5ef57295133362188558d49c653f372bda1cb6d
+sh-4.4# sha256sum usr/share/efi/aarch64/shim-sles.efi
+a995353bb2bb43d8ff62375789c71a66d5d2151be89c292dfc8414bef01424e2  usr/share/efi/aarch64/shim-sles.efi
 
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
 -------------------------------------------------------------------------------
-build.log
+build_x86_64.log
+build_aarch64.log
 
 -------------------------------------------------------------------------------
 Add any additional information you think we may need to validate this shim
