@@ -1,13 +1,13 @@
 Make sure you have provided the following information:
 
- - [ ] link to your code branch cloned from rhboot/shim-review in the form user/repo@tag
- - [ ] completed README.md file with the necessary information
- - [ ] shim.efi to be signed
- - [ ] public portion of your certificate(s) embedded in shim (the file passed to VENDOR_CERT_FILE)
- - [ ] binaries, for which hashes are added do vendor_db ( if you use vendor_db and have hashes allow-listed )
- - [ ] any extra patches to shim via your own git tree or as files
- - [ ] any extra patches to grub via your own git tree or as files
- - [ ] build logs
+ - [x] link to your code branch cloned from rhboot/shim-review in the form user/repo@tag
+ - [x] completed README.md file with the necessary information
+ - [x] shim.efi to be signed
+ - [x] public portion of your certificate(s) embedded in shim (the file passed to VENDOR_CERT_FILE)
+ - [x] binaries, for which hashes are added do vendor_db ( if you use vendor_db and have hashes allow-listed )
+ - [x] any extra patches to shim via your own git tree or as files
+ - [x] any extra patches to grub via your own git tree or as files
+ - [x] build logs
 
 
 ###### What organization or people are asking to have this signed:
@@ -26,7 +26,8 @@ We use 15.4 shim +
 - shim-bsc1177315-verify-eku-codesign.patch: Check CodeSign in the signer's EKU
 - shim-bsc1177789-fix-null-pointer-deref-AuthenticodeVerify.patch: fix NULL pointer dereference in AuthenticodeVerify
 - shim-change-debug-file-path.patch: change path of debug file
-(in shim_patches.tar)
+- remove_build_id.patch: don't add the build id from the resulting binaries
+- shim-bsc1184454-allocate-mok-config-table-BS.patch: Handle 'Failed to lookup EFI memory descriptor' errors
 
 ###### What's the justification that this really does need to be signed for the whole world to be able to boot it:
 Major linux distribution
@@ -134,7 +135,6 @@ Signing key was changed to ensure no old grub/kernel can not be booted
 
 ###### What is the SHA256 hash of your final SHIM binary?
 pesign --hash --padding --in=usr/share/efi/x86_64/shim-opensuse.efi
-hash: 4a3b0635cc690fb8d69fb5a8626e6a2e1c8aa8722e03edb29bfc40d00dfafd32
-
-sha256sum usr/share/efi/x86_64/shim-opensuse.efi
-d29e8a8b1d10d904e61670988cb85da1c5bc383f874f5567f3b862f2d5308385  usr/share/efi/x86_64/shim-opensuse.efi
+hash: dbb4eba9d114c4db02e9f8da1d98179f842ef324052439e197b130dc3e7b1cd5
+usr/share/efi/x86_64/shim-opensuse.efi
+a1514bf4b73a8be4d4f0cb4c6954e495f6c831951acfe38133e8316ec43eeda1  usr/share/efi/x86_64/shim-opensuse.efi

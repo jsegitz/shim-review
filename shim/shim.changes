@@ -1,4 +1,16 @@
 -------------------------------------------------------------------
+Thu Apr  8 08:44:27 UTC 2021 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Add shim-bsc1184454-allocate-mok-config-table-BS.patch to avoid
+  the error message during linux system boot (bsc#1184454)
+
+-------------------------------------------------------------------
+Wed Apr  7 12:25:02 UTC 2021 - Johannes Segitz <jsegitz@suse.com>
+
+- Add remove_build_id.patch to prevent the build id being added to 
+  the binary. That can cause issues with the signature
+
+-------------------------------------------------------------------
 Wed Mar 31 08:45:52 UTC 2021 - Gary Ching-Pang Lin <glin@suse.com>
 
 - Update to 15.4 (bsc#1182057)

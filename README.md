@@ -74,6 +74,8 @@ We use 15.4 shim +
 - shim-bsc1177315-verify-eku-codesign.patch: Check CodeSign in the signer's EKU
 - shim-bsc1177789-fix-null-pointer-deref-AuthenticodeVerify.patch: fix NULL pointer dereference in AuthenticodeVerify
 - shim-change-debug-file-path.patch: change path of debug file
+- remove_build_id.patch: don't add the build id from the resulting binaries
+- shim-bsc1184454-allocate-mok-config-table-BS.patch: Handle 'Failed to lookup EFI memory descriptor' errors
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, GRUB2: is CVE-2020-14372, CVE-2020-25632,
@@ -87,7 +89,7 @@ yes
 What exact implementation of Secureboot in GRUB2 ( if this is your bootloader ) you have ?
 * Upstream GRUB2 shim_lock verifier or * Downstream RHEL/Fedora/Debian/Canonical like implementation ?
 -------------------------------------------------------------------------------
-* Downstream RHEL/Fedora/Debian/Canonical like implementation ?
+Downstream RHEL/Fedora/Debian/Canonical like implementation
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, GRUB2, and previous shims were trusting affected
@@ -147,21 +149,21 @@ docker image load -i opensuse_shim:15.4.tar.gz
 This image contains the shim sources in usr/src/packages/SOURCES/ 
 and the build environment. Running
 docker run --rm -it opensuse_shim:15.4 /bin/sh
-sh-4.4# SOURCE_DATE_EPOCH=1617192000 rpmbuild -ba /usr/src/packages/SOURCES/*spec
+sh-4.4# SOURCE_DATE_EPOCH=1617883200 rpmbuild -ba /usr/src/packages/SOURCES/*spec
+
 gives you the build rpm which you can inspect with unrpm
 unrpm /usr/src/packages/RPMS/x86_64/shim-15.4-0.x86_64.rpm
-The prebuild rpm is already unpacked at /shim
 
 After unpacking you can get the hashes with
 sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-opensuse.efi
-hash: 4a3b0635cc690fb8d69fb5a8626e6a2e1c8aa8722e03edb29bfc40d00dfafd32
+hash: dbb4eba9d114c4db02e9f8da1d98179f842ef324052439e197b130dc3e7b1cd5
 sh-4.4# sha256sum usr/share/efi/x86_64/shim-opensuse.efi
-d29e8a8b1d10d904e61670988cb85da1c5bc383f874f5567f3b862f2d5308385  usr/share/efi/x86_64/shim-opensuse.efi
+a1514bf4b73a8be4d4f0cb4c6954e495f6c831951acfe38133e8316ec43eeda1  usr/share/efi/x86_64/shim-opensuse.efi
 
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
 -------------------------------------------------------------------------------
-build.log
+build_x86_64.log
 
 -------------------------------------------------------------------------------
 Add any additional information you think we may need to validate this shim

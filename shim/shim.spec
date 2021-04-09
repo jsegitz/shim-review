@@ -71,6 +71,10 @@ Patch2:         shim-change-debug-file-path.patch
 Patch3:         shim-bsc1177315-verify-eku-codesign.patch
 # PATCH-FIX-UPSTREAM shim-bsc1177789-fix-null-pointer-deref-AuthenticodeVerify.patch bsc#1177789 glin@suse.com -- Fix the NULL pointer dereference in AuthenticodeVerify()
 Patch4:         shim-bsc1177789-fix-null-pointer-deref-AuthenticodeVerify.patch
+# PATCH-FIX-SUSE remove_build_id.patch -- Remove the build ID to make the binary reproducible when building with AArch64 container
+Patch5:         remove_build_id.patch
+# PATCH-FIX-UPSTREAM shim-bsc1184454-allocate-mok-config-table-BS.patch bsc#1184454 glin@suse.com -- Allocate MOK config table as BootServicesData to avoid the error message from linux kernel
+Patch6:         shim-bsc1184454-allocate-mok-config-table-BS.patch
 BuildRequires:  dos2unix
 BuildRequires:  mozilla-nss-tools
 BuildRequires:  openssl >= 0.9.8
@@ -114,6 +118,8 @@ The source code of UEFI shim loader
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 # generate the vendor SBAT metadata
