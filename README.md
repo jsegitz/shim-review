@@ -142,11 +142,16 @@ new CA certificate
 What OS and toolchain must we use to reproduce this build?  Include where to find it, etc.  We're going to try to reproduce your build as close as possible to verify that it's really a build of the source tree you tell us it is, so these need to be fairly thorough. At the very least include the specific versions of gcc, binutils, and gnu-efi which were used, and where to find those binaries.
 If possible, provide a Dockerfile that rebuilds the shim.
 -------------------------------------------------------------------------------
-I included the Dockerfile but it will not work for you directly as this uses internal ressources. Please download the 
-resulting image from
-https://users.suse.com/~jsegitz/2021.03_shim/sles_shim:15.4_x86_64.tar.gz
+The included Dockerfile will build the image for you. 
+x86_64:
+DOCKER_BUILDKIT=1 docker build --build-arg ARCHITECTURE=x86_64 --progress=plain . -t sles_shim:15.4
+aarch64:
+DOCKER_BUILDKIT=1 docker build --build-arg ARCHITECTURE=aarch64 --progress=plain . -t sles_shim:15.4
+
+Alternatively you can download the images at
+https://users.suse.com/~jsegitz/2021.03_shim/2/sles_shim:15.4_x86_64.tar.gz
 or 
-https://users.suse.com/~jsegitz/2021.03_shim/sles_shim:15.4_aarch64.tar.gz
+https://users.suse.com/~jsegitz/2021.03_shim/2/sles_shim:15.4_aarch64.tar.gz
 and import it with
 docker image load -i $FILENAME
 This image contains the shim sources in usr/src/packages/SOURCES/ 
