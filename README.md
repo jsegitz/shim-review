@@ -146,6 +146,9 @@ use with podman is available due to the size at
 https://users.suse.com/~jsegitz/2021.05_es_shim/sles_esp-shim-15.4-4.el8.1.tar.gz
 The dockerfile included directly into this submission
 
+Alternatively, a "Dockerfile.with-centos8" may be used to reproduce the build on CentOS 8.
+In this case, a CentOS 8 image will be imported from a public registry.
+
 Build instructions (for use with sudo or root user and default podman setup):
 
 - Load OS image, e.g.
@@ -160,6 +163,16 @@ Build instructions (for use with sudo or root user and default podman setup):
   Note that Podman will attempt copying prebuilt shims for comparison from a current directory on the host:
   
   podman build -f Dockerfile
+
+- Observe output and results.
+
+Build instructions for a CentOS 8 image (for use with sudo or root user and default podman setup):
+
+- Have shim*.efi files and shim-unsigned-x64-15.4-4.el8.1.src.rpm from this submission in the current directory.
+
+- Run the build. Note that Podman will attempt copying a SRPM and prebuilt shims for comparison from a current directory on the host:
+
+  podman build -f Dockerfile.with-centos8
 
 - Observe output and results.
 
