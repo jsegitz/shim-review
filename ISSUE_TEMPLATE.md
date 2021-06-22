@@ -50,7 +50,7 @@ Yes
 N/A
 
 ###### Is kernel upstream commit 75b0cea7bf307f362057cc778efe89af4c615354 present in your kernel, if you boot chain includes a Linux kernel ?
-Yes
+No, kernel-3.10 does not have this bug
 
 ###### if SHIM is loading GRUB2 bootloader, are CVEs CVE-2020-14372,
 ###### CVE-2020-25632, CVE-2020-25647, CVE-2020-27749, CVE-2020-27779,
