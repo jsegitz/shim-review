@@ -76,6 +76,14 @@ We use 15.4 shim +
 - shim-change-debug-file-path.patch: change path of debug file
 - remove_build_id.patch: don't add the build id from the resulting binaries
 - shim-bsc1184454-allocate-mok-config-table-BS.patch: Handle 'Failed to lookup EFI memory descriptor' errors
+- shim-bsc1185232-fix-config-table-copying.patch: Avoid buffer overflow when copying data to the MOK config table
+- shim-bsc1185232-relax-loadoptions-length-check.patch: Ignore the odd LoadOptions length
+- shim-bsc1185261-relax-import_mok_state-check.patch: Relax the check for import_mok_state() when Secure Boot is off.
+- shim-bsc1185441-fix-handling-of-ignore_db-and-user_insecure_mode.patch: To handle ignore_db and user_insecure_mode correctly
+- shim-bsc1185621-relax-max-var-sz-check.patch: Relax the maximum variable size check for u-boot
+- shim-bsc1187260-fix-efi-1.10-machines.patch: Avoid the potential crash when calling QueryVariableInfo in EFI 1.10 machines
+- shim-disable-export-vendor-dbx.patch: Disable exporting vendor-dbx to MokListXRT since writing a large RT variable could crash some machines
+- shim-fix-aa64-relsz.patch: Fix the size of rela sections for AArch64
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, GRUB2: is CVE-2020-14372, CVE-2020-25632,
@@ -136,7 +144,7 @@ in order to prevent GRUB2 from being able to chainload those older GRUB2
 binaries. If you are changing to a new (CA) certificate, this does not
 apply. Please describe your strategy.
 -------------------------------------------------------------------------------
-new CA certificate
+new CA certificate after boothole
 
 -------------------------------------------------------------------------------
 What OS and toolchain must we use to reproduce this build?  Include where to find it, etc.  We're going to try to reproduce your build as close as possible to verify that it's really a build of the source tree you tell us it is, so these need to be fairly thorough. At the very least include the specific versions of gcc, binutils, and gnu-efi which were used, and where to find those binaries.
@@ -144,20 +152,14 @@ If possible, provide a Dockerfile that rebuilds the shim.
 -------------------------------------------------------------------------------
 The included Dockerfile will build the image for you. 
 x86_64:
-DOCKER_BUILDKIT=1 docker build --build-arg ARCHITECTURE=x86_64 --progress=plain . -t sles_shim:15.4
+DOCKER_BUILDKIT=1 podman build --build-arg ARCHITECTURE=x86_64 -t sles_shim:15.4 .
 aarch64:
-DOCKER_BUILDKIT=1 docker build --build-arg ARCHITECTURE=aarch64 --progress=plain . -t sles_shim:15.4
+DOCKER_BUILDKIT=1 podman build --build-arg ARCHITECTURE=aarch64 -t sles_shim:15.4 .
 
-Alternatively you can download the images at
-https://users.suse.com/~jsegitz/2021.03_shim/2/sles_shim:15.4_x86_64.tar.gz
-or 
-https://users.suse.com/~jsegitz/2021.03_shim/2/sles_shim:15.4_aarch64.tar.gz
-and import it with
-docker image load -i $FILENAME
-This image contains the shim sources in usr/src/packages/SOURCES/ 
+This image contains the shim sources in /usr/src/packages/SOURCES/ 
 and the build environment. Running
-docker run --rm -it sles_shim:15.4 /bin/sh
-sh-4.4# SOURCE_DATE_EPOCH=1617883200 rpmbuild -ba /usr/src/packages/SOURCES/*spec
+podman run --rm -it sles_shim:15.4 /bin/sh
+sh-4.4# SOURCE_DATE_EPOCH=1624276800 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 gives you the build rpm which you can inspect with unrpm
 x86_64:
 unrpm /usr/src/packages/RPMS/x86_64/shim-15.4-0.x86_64.rpm
@@ -168,15 +170,15 @@ After unpacking you can get the hashes.
 
 x86_64:
 sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-sles.efi
-hash: cf376dd1772694b2223fd56aa97c90ca34bbc1a68eafe34aaeb14b4b9e387320
+hash: 882daecb459babe621fb02dddab825898318fdfbf604c6c94f624757b0d566f0
 sh-4.4# sha256sum usr/share/efi/x86_64/shim-sles.efi
-fa63816b0e0cc6e2cdce94bd389a8b155000a93d0182d2f8874f3b0d7753bb7a  usr/share/efi/x86_64/shim-sles.efi
+a8a8b73bce03ba763d87079156cee64aa7ca4b7a48b60c70f70b6012a2305f4e  /shim/usr/share/efi/x86_64/shim-sles.efi
 
 aarch64:
 sh-4.4# pesign --hash --padding --in=usr/share/efi/aarch64/shim-sles.efi
-hash: c362c260109e9f35305dc332b5ef57295133362188558d49c653f372bda1cb6d
+hash: f60eff8a397d59b529ca8afa2d661c0e9edd7c624a460854f406082e87d6bd40
 sh-4.4# sha256sum usr/share/efi/aarch64/shim-sles.efi
-a995353bb2bb43d8ff62375789c71a66d5d2151be89c292dfc8414bef01424e2  usr/share/efi/aarch64/shim-sles.efi
+ed6289b3ba1944a4dcaaedc55bcbc7c0e6afc520f2a989f9053ed39d52dcfbe0  usr/share/efi/aarch64/shim-sles.efi
 
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
