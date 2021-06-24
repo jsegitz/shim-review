@@ -28,7 +28,7 @@ def_boot_efi=
 [ ! -r /usr/etc/default/shim ] || . /usr/etc/default/shim
 [ ! -r /etc/default/shim ] || . /etc/default/shim
 
-if [ -z "$def_shim_efi" ] ; then
+if [ -z "$def_shim_efi" -o ! -e ${source_dir}/${def_shim_efi} ] ; then
 	def_shim_efi="shim.efi"
 fi
 
@@ -76,6 +76,42 @@ case "$bootloader_id" in
         ca_string='openSUSE Secure Boot CA1';;
     *) ca_string="";;
 esac
+
+is_azure () {
+    local bios_vendor;
+    local product_name;
+    local sys_vendor;
+
+    local sysfs_dmi_id="/sys/class/dmi/id"
+
+    if test -e "${sysfs_dmi_id}/bios_vendor"; then
+        bios_vendor=$(cat "${sysfs_dmi_id}/bios_vendor")
+    fi
+    if test -e "${sysfs_dmi_id}/product_name"; then
+        product_name=$(cat "${sysfs_dmi_id}/product_name")
+    fi
+    if test -e "${sysfs_dmi_id}/sys_vendor"; then
+        sys_vendor=$(cat "${sysfs_dmi_id}/sys_vendor")
+    fi
+
+    if test "x${bios_vendor}" != "xMicrosoft Corporation"; then
+	# return false
+        return 1
+    fi
+
+    if test "x${product_name}" != "xVirtual Machine"; then
+	# return false
+        return 1
+    fi
+
+    if test "x${sys_vendor}" != "xMicrosoft Corporation"; then
+	# return false
+        return 1
+    fi
+
+    # return true
+    return 0
+}
 
 usage () {
     echo "Usage: $self [OPTION] [INSTALL_DEVICE]"
@@ -396,3 +432,22 @@ if test "$no_nvram" = no && test -n "$bootloader_id"; then
     fi
 fi
 
+# bsc#1185464 bsc#1185961
+# The Azure firmware sometimes doesn't respect the boot option created by
+# either efibootmgr or fallback.efi so we have to remove fallback.efi to
+# avoid the endless reset loop.
+if is_azure; then
+    # Skip the workaround if we don't own \EFI\Boot or the removable
+    # option is used
+    if test "$update_boot" = "yes" && test "$removable" = "no"; then
+        # Remove fallback.efi which could cause the reset loop in Azure
+        rm -f "${efibootdir}/fallback.efi"
+        # Remove the older grub binary and config
+        rm -f "${efibootdir}/grub.efi"
+        rm -f "${efibootdir}/grub.cfg"
+        # Install new grub binary and config file to \EFI\Boot as
+        # the "removable" option
+        cp "${efidir}/grub.cfg" "${efibootdir}/grub.cfg"
+        cp "${efidir}/grub.efi" "${efibootdir}/grub.efi"
+    fi
+fi
