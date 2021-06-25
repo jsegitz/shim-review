@@ -28,6 +28,14 @@ We use 15.4 shim +
 - shim-change-debug-file-path.patch: change path of debug file
 - remove_build_id.patch: don't add the build id from the resulting binaries
 - shim-bsc1184454-allocate-mok-config-table-BS.patch: Handle 'Failed to lookup EFI memory descriptor' errors
+- shim-bsc1185232-fix-config-table-copying.patch: Avoid buffer overflow when copying data to the MOK config table
+- shim-bsc1185232-relax-loadoptions-length-check.patch: Ignore the odd LoadOptions length
+- shim-bsc1185261-relax-import_mok_state-check.patch: Relax the check for import_mok_state() when Secure Boot is off.
+- shim-bsc1185441-fix-handling-of-ignore_db-and-user_insecure_mode.patch: To handle ignore_db and user_insecure_mode correctly
+- shim-bsc1185621-relax-max-var-sz-check.patch: Relax the maximum variable size check for u-boot
+- shim-bsc1187260-fix-efi-1.10-machines.patch: Avoid the potential crash when calling QueryVariableInfo in EFI 1.10 machines
+- shim-disable-export-vendor-dbx.patch: Disable exporting vendor-dbx to MokListXRT since writing a large RT variable could crash some machines
+- shim-fix-aa64-relsz.patch: Fix the size of rela sections for AArch64
 
 ###### What's the justification that this really does need to be signed for the whole world to be able to boot it:
 Major linux distribution
@@ -92,7 +100,7 @@ n/a
 ###### GRUB2 from being able to chainload those older GRUB2 binaries. If
 ###### you are changing to a new (CA) certificate, this does not
 ###### apply. Please describe your strategy.
-We switched to a new certificate
+We switched to a new certificate after boothole2
 
 ###### How do the launched components prevent execution of unauthenticated code?
 GRUB and kernel are patched to enforce Secure Boot.
@@ -131,10 +139,11 @@ patches.suse/0010-PM-hibernate-a-option-to-request-that-snapshot-image.patch
 patches.suse/0011-PM-hibernate-require-hibernate-snapshot-image-to-be-.patch
 
 ###### What changes were made since your SHIM was last signed?
-Signing key was changed to ensure no old grub/kernel can not be booted
+Mainly fixes for shim that causes issues with some firmwares. It's a maintenance
+release, not a security update
 
 ###### What is the SHA256 hash of your final SHIM binary?
 pesign --hash --padding --in=usr/share/efi/x86_64/shim-opensuse.efi
-hash: dbb4eba9d114c4db02e9f8da1d98179f842ef324052439e197b130dc3e7b1cd5
-usr/share/efi/x86_64/shim-opensuse.efi
-a1514bf4b73a8be4d4f0cb4c6954e495f6c831951acfe38133e8316ec43eeda1  usr/share/efi/x86_64/shim-opensuse.efi
+hash: 09953fd0439a08244844c9210de513f1d5aafc44ef30103055bd46db31035a6d
+sha256sum usr/share/efi/x86_64/shim-opensuse.efi
+84fc9fb6bb2b30eaa21ed4cb8e2987e6e32f5199fe68ad846813ef74e1a7034f  /shim/usr/share/efi/x86_64/shim-opensuse.efi

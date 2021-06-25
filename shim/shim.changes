@@ -1,4 +1,56 @@
 -------------------------------------------------------------------
+Mon Jun 21 08:51:37 UTC 2021 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Split the keys in vendor-dbx.bin to vendor-dbx-sles and
+  vendor-dbx-opensuse for shim-sles and shim-opensuse to reduce
+  the size of MokListXRT (bsc#1185261)
+  + Also update generate-vendor-dbx.sh in dbx-cert.tar.xz
+- Add shim-bsc1185441-fix-handling-of-ignore_db-and-user_insecure_mode.patch
+  to handle ignore_db and user_insecure_mode correctly
+  (bsc#1185441, bsc#1187071)
+- Add shim-bsc1185621-relax-max-var-sz-check.patch to relax the
+  maximum variable size check for u-boot (bsc#1185621)
+  + Also drop AArch64 suse-signed shim since we merged this patch
+- Add shim-bsc1185261-relax-import_mok_state-check.patch to relax
+  the check for import_mok_state() when Secure Boot is off.
+  (bsc#1185261)
+- Add shim-bsc1185232-relax-loadoptions-length-check.patch to
+  ignore the odd LoadOptions length (bsc#1185232)
+- shim-install: reset def_shim_efi to "shim.efi" if the given
+  file doesn't exist
+- Add shim-fix-aa64-relsz.patch to fix the size of rela sections
+  for AArch64
+  Fix: https://github.com/rhboot/shim/issues/371
+- Add shim-disable-export-vendor-dbx.patch to disable exporting
+  vendor-dbx to MokListXRT since writing a large RT variable
+  could crash some machines (bsc#1185261)
+- Add shim-bsc1187260-fix-efi-1.10-machines.patch to avoid the
+  potential crash when calling QueryVariableInfo in EFI 1.10
+  machines (bsc#1187260)
+- Add shim-bsc1185232-fix-config-table-copying.patch to avoid
+  buffer overflow when copying data to the MOK config table
+  (bsc#1185232)
+
+-------------------------------------------------------------------
+Thu May 20 01:50:32 UTC 2021 - Gary Ching-Pang Lin <glin@suse.com>
+
+- shim-install: instead of assuming "removable" for Azure, remove
+  fallback.efi from \EFI\Boot and copy grub.efi/cfg to \EFI\Boot
+  to make \EFI\Boot bootable and keep the boot option created by
+  efibootmgr (bsc#1185464, bsc#1185961)
+
+-------------------------------------------------------------------
+Fri May  7 08:49:44 UTC 2021 - Gary Ching-Pang Lin <glin@suse.com>
+
+- shim-install: always assume "removable" for Azure to avoid the
+  endless reset loop (bsc#1185464)
+
+-------------------------------------------------------------------
+Wed Apr 21 05:46:19 UTC 2021 - Johannes Segitz <jsegitz@suse.com>
+
+- Updated openSUSE x86 signature
+
+-------------------------------------------------------------------
 Thu Apr  8 08:44:27 UTC 2021 - Gary Ching-Pang Lin <glin@suse.com>
 
 - Add shim-bsc1184454-allocate-mok-config-table-BS.patch to avoid
@@ -55,6 +107,8 @@ Wed Mar 24 01:29:17 UTC 2021 - Gary Ching-Pang Lin <glin@suse.com>
   + gcc9-fix-warnings.patch
   + shim-fix-gnu-efi-3.0.11.patch
   + shim-bsc1092000-fallback-menu.patch
+  + shim-bsc1173411-only-check-efi-var-on-sb.patch
+  + shim-correct-license-in-headers.patch
 - Drop shim-opensuse-cert-prompt.patch
   + All newly released openSUSE kernels enable kernel lockdown
     and signature verification, so there is no need to add the

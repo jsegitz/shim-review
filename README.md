@@ -76,6 +76,14 @@ We use 15.4 shim +
 - shim-change-debug-file-path.patch: change path of debug file
 - remove_build_id.patch: don't add the build id from the resulting binaries
 - shim-bsc1184454-allocate-mok-config-table-BS.patch: Handle 'Failed to lookup EFI memory descriptor' errors
+- shim-bsc1185232-fix-config-table-copying.patch: Avoid buffer overflow when copying data to the MOK config table
+- shim-bsc1185232-relax-loadoptions-length-check.patch: Ignore the odd LoadOptions length
+- shim-bsc1185261-relax-import_mok_state-check.patch: Relax the check for import_mok_state() when Secure Boot is off.
+- shim-bsc1185441-fix-handling-of-ignore_db-and-user_insecure_mode.patch: To handle ignore_db and user_insecure_mode correctly
+- shim-bsc1185621-relax-max-var-sz-check.patch: Relax the maximum variable size check for u-boot
+- shim-bsc1187260-fix-efi-1.10-machines.patch: Avoid the potential crash when calling QueryVariableInfo in EFI 1.10 machines
+- shim-disable-export-vendor-dbx.patch: Disable exporting vendor-dbx to MokListXRT since writing a large RT variable could crash some machines
+- shim-fix-aa64-relsz.patch: Fix the size of rela sections for AArch64
 
 -------------------------------------------------------------------------------
 If bootloader, shim loading is, GRUB2: is CVE-2020-14372, CVE-2020-25632,
@@ -136,29 +144,27 @@ in order to prevent GRUB2 from being able to chainload those older GRUB2
 binaries. If you are changing to a new (CA) certificate, this does not
 apply. Please describe your strategy.
 -------------------------------------------------------------------------------
-new CA certificate
+new CA certificate after boothole2
 
 -------------------------------------------------------------------------------
 What OS and toolchain must we use to reproduce this build?  Include where to find it, etc.  We're going to try to reproduce your build as close as possible to verify that it's really a build of the source tree you tell us it is, so these need to be fairly thorough. At the very least include the specific versions of gcc, binutils, and gnu-efi which were used, and where to find those binaries.
 If possible, provide a Dockerfile that rebuilds the shim.
 -------------------------------------------------------------------------------
-I included the Dockerfile. For the ready image please download
-https://users.suse.com/~jsegitz/2021.03_shim/opensuse_shim:15.4.tar.gz
-and import it with
-docker image load -i opensuse_shim:15.4.tar.gz
-This image contains the shim sources in usr/src/packages/SOURCES/ 
+The included Dockerfile will build the image for you. 
+DOCKER_BUILDKIT=1 podman build -t opensuse_shim:15.4 .
+This image contains the shim sources in /usr/src/packages/SOURCES/ 
 and the build environment. Running
-docker run --rm -it opensuse_shim:15.4 /bin/sh
-sh-4.4# SOURCE_DATE_EPOCH=1617883200 rpmbuild -ba /usr/src/packages/SOURCES/*spec
-
+podman run --rm -it opensuse_shim:15.4 /bin/sh
+sh-4.4# SOURCE_DATE_EPOCH=1624276800 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 gives you the build rpm which you can inspect with unrpm
 unrpm /usr/src/packages/RPMS/x86_64/shim-15.4-0.x86_64.rpm
 
+
 After unpacking you can get the hashes with
 sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-opensuse.efi
-hash: dbb4eba9d114c4db02e9f8da1d98179f842ef324052439e197b130dc3e7b1cd5
+hash: 09953fd0439a08244844c9210de513f1d5aafc44ef30103055bd46db31035a6d
 sh-4.4# sha256sum usr/share/efi/x86_64/shim-opensuse.efi
-a1514bf4b73a8be4d4f0cb4c6954e495f6c831951acfe38133e8316ec43eeda1  usr/share/efi/x86_64/shim-opensuse.efi
+84fc9fb6bb2b30eaa21ed4cb8e2987e6e32f5199fe68ad846813ef74e1a7034f  /shim/usr/share/efi/x86_64/shim-opensuse.efi
 
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
