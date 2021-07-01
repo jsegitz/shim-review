@@ -145,12 +145,12 @@ release, not a security update
 ###### What is the SHA256 hash of your final SHIM binary?
 x86_64:
 sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-sles.efi
-hash: 882daecb459babe621fb02dddab825898318fdfbf604c6c94f624757b0d566f0
+hash: 41aee31f89768e384ac31a3ce164a79fc3cd4bcc6fc3a3b2acc81028cbced805
 sh-4.4# sha256sum usr/share/efi/x86_64/shim-sles.efi
-a8a8b73bce03ba763d87079156cee64aa7ca4b7a48b60c70f70b6012a2305f4e  /shim/usr/share/efi/x86_64/shim-sles.efi
+60edff9b2d4afe19cf5429f0d35cacfac93ac12c0af743968f0c896e5dbcd033  /shim/usr/share/efi/x86_64/shim-sles.efi
 
 aarch64:
 sh-4.4# pesign --hash --padding --in=usr/share/efi/aarch64/shim-sles.efi
-hash: f60eff8a397d59b529ca8afa2d661c0e9edd7c624a460854f406082e87d6bd40
+hash: 78a762fa02a0f60ef767cfe8b8e3a6747759131a73bd4d119b750b1b2f96fdc5
 sh-4.4# sha256sum usr/share/efi/aarch64/shim-sles.efi
-ed6289b3ba1944a4dcaaedc55bcbc7c0e6afc520f2a989f9053ed39d52dcfbe0  usr/share/efi/aarch64/shim-sles.efi
+e3241c0b26c63838315094a0259104bb4b4b079bc91ac569f4a9b0986ab1ab91  usr/share/efi/aarch64/shim-sles.efi

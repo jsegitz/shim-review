@@ -11,7 +11,7 @@ RUN zypper -n in /packages/*.rpm
 COPY rpmmacros /root/.rpmmacros 
 COPY shim /usr/src/packages/SOURCES/
 # get the current epoch from the build log
-RUN SOURCE_DATE_EPOCH=1624276800 rpmbuild -ba /usr/src/packages/SOURCES/*spec
+RUN SOURCE_DATE_EPOCH=1625140800 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 RUN mkdir /shim
 RUN cd /shim/ && unrpm /usr/src/packages/RPMS/$ARCHITECTURE/shim-*.$ARCHITECTURE.rpm
 RUN pesign --hash --padding --in=/shim/usr/share/efi/$ARCHITECTURE/shim-sles.efi
