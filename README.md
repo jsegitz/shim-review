@@ -159,7 +159,7 @@ DOCKER_BUILDKIT=1 podman build --build-arg ARCHITECTURE=aarch64 -t sles_shim:15.
 This image contains the shim sources in /usr/src/packages/SOURCES/ 
 and the build environment. Running
 podman run --rm -it sles_shim:15.4 /bin/sh
-sh-4.4# SOURCE_DATE_EPOCH=1624276800 rpmbuild -ba /usr/src/packages/SOURCES/*spec
+sh-4.4# SOURCE_DATE_EPOCH=1625140800 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 gives you the build rpm which you can inspect with unrpm
 x86_64:
 unrpm /usr/src/packages/RPMS/x86_64/shim-15.4-0.x86_64.rpm
@@ -170,15 +170,15 @@ After unpacking you can get the hashes.
 
 x86_64:
 sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-sles.efi
-hash: 882daecb459babe621fb02dddab825898318fdfbf604c6c94f624757b0d566f0
+hash: 41aee31f89768e384ac31a3ce164a79fc3cd4bcc6fc3a3b2acc81028cbced805
 sh-4.4# sha256sum usr/share/efi/x86_64/shim-sles.efi
-a8a8b73bce03ba763d87079156cee64aa7ca4b7a48b60c70f70b6012a2305f4e  /shim/usr/share/efi/x86_64/shim-sles.efi
+60edff9b2d4afe19cf5429f0d35cacfac93ac12c0af743968f0c896e5dbcd033  /shim/usr/share/efi/x86_64/shim-sles.efi
 
 aarch64:
 sh-4.4# pesign --hash --padding --in=usr/share/efi/aarch64/shim-sles.efi
-hash: f60eff8a397d59b529ca8afa2d661c0e9edd7c624a460854f406082e87d6bd40
+hash: 78a762fa02a0f60ef767cfe8b8e3a6747759131a73bd4d119b750b1b2f96fdc5
 sh-4.4# sha256sum usr/share/efi/aarch64/shim-sles.efi
-ed6289b3ba1944a4dcaaedc55bcbc7c0e6afc520f2a989f9053ed39d52dcfbe0  usr/share/efi/aarch64/shim-sles.efi
+e3241c0b26c63838315094a0259104bb4b4b079bc91ac569f4a9b0986ab1ab91  usr/share/efi/aarch64/shim-sles.efi
 
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
