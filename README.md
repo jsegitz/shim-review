@@ -155,16 +155,16 @@ DOCKER_BUILDKIT=1 podman build -t opensuse_shim:15.4 .
 This image contains the shim sources in /usr/src/packages/SOURCES/ 
 and the build environment. Running
 podman run --rm -it opensuse_shim:15.4 /bin/sh
-sh-4.4# SOURCE_DATE_EPOCH=1624276800 rpmbuild -ba /usr/src/packages/SOURCES/*spec
+sh-4.4# SOURCE_DATE_EPOCH=1625140800 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 gives you the build rpm which you can inspect with unrpm
 unrpm /usr/src/packages/RPMS/x86_64/shim-15.4-0.x86_64.rpm
 
 
 After unpacking you can get the hashes with
 sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-opensuse.efi
-hash: 09953fd0439a08244844c9210de513f1d5aafc44ef30103055bd46db31035a6d
+hash: 8f2dec2046713748a977819950390a46565e635fb1d959b166775037c69d2060
 sh-4.4# sha256sum usr/share/efi/x86_64/shim-opensuse.efi
-84fc9fb6bb2b30eaa21ed4cb8e2987e6e32f5199fe68ad846813ef74e1a7034f  /shim/usr/share/efi/x86_64/shim-opensuse.efi
+c3a3fe3a9092dbbebbd36a34dff0fb3bcdaf3e3b4d080709dabaef1e8b282fb9  /shim/usr/share/efi/x86_64/shim-opensuse.efi
 
 -------------------------------------------------------------------------------
 Which files in this repo are the logs for your build?   This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.

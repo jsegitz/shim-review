@@ -144,6 +144,6 @@ release, not a security update
 
 ###### What is the SHA256 hash of your final SHIM binary?
 pesign --hash --padding --in=usr/share/efi/x86_64/shim-opensuse.efi
-hash: 09953fd0439a08244844c9210de513f1d5aafc44ef30103055bd46db31035a6d
+hash: 8f2dec2046713748a977819950390a46565e635fb1d959b166775037c69d2060
 sha256sum usr/share/efi/x86_64/shim-opensuse.efi
-84fc9fb6bb2b30eaa21ed4cb8e2987e6e32f5199fe68ad846813ef74e1a7034f  /shim/usr/share/efi/x86_64/shim-opensuse.efi
+c3a3fe3a9092dbbebbd36a34dff0fb3bcdaf3e3b4d080709dabaef1e8b282fb9  /shim/usr/share/efi/x86_64/shim-opensuse.efi
