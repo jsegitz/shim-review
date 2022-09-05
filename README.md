@@ -81,7 +81,7 @@ described below and added here
 -------------------------------------------------------------------------------
 ### What patches are being applied and why:
 -------------------------------------------------------------------------------
-On top of 15.4 these patches are applied:
+On top of 15.6 these patches are applied:
 - shim-arch-independent-names.patch: use the Arch-independent names.
 - remove_build_id.patch: don't add the build id from the resulting binaries
 - shim-bsc1177315-verify-eku-codesign.patch: Check CodeSign in the signer's EKU
@@ -153,13 +153,13 @@ new CA certificate
 -------------------------------------------------------------------------------
 The included Dockerfile will build the image for you. 
 x86_64:
-podman build --build-arg ARCHITECTURE=x86_64 -t sles_shim:15.4
+podman build --build-arg ARCHITECTURE=x86_64 -t sles_shim:15.6 .
 aarch64:
-podman build --build-arg ARCHITECTURE=aarch64 -t sles_shim:15.4
+podman build --build-arg ARCHITECTURE=aarch64 -t sles_shim:15.6 .
 
 The Dockerfile builds shim and hashes the resulting file. If you want to do it manually:
 The shim sources are in usr/src/packages/SOURCES/. Running
-docker run --rm -it sles_shim:15.4 /bin/sh
+docker run --rm -it sles_shim:15.6 /bin/sh
 sh-4.4# SOURCE_DATE_EPOCH=1617883200 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 gives you the build rpm which you can inspect with unrpm, After unpacking you
 can get the hashes.
