@@ -1,0 +1,47 @@
+diff -uNr linux-4.18.0-80.el8.x86_64/Documentation/serial/moxa-smartio b/linux-4.18.0-80.el8.x86_64/Documentation/serial/moxa-smartio
+--- linux-4.18.0-80.el8.x86_64/Documentation/serial/moxa-smartio	2019-03-13 11:04:53.000000000 +0000
++++ b/linux-4.18.0-80.el8.x86_64/Documentation/serial/moxa-smartio	2019-05-21 11:03:49.956159163 +0000
+@@ -305,7 +305,7 @@
+           # cd /usr/src/linux/drivers/char
+           # mv mxser.c mxser.c.old
+ 
+-          For Red Hat 7.x user, you need to create link:
++          For 2.4 kernel user, you need to create link:
+           # cd /usr/src
+           # ln -s linux-2.4 linux
+ 
+diff -uNr linux-4.18.0-80.el8.x86_64/arch/x86/kernel/setup.c b/linux-4.18.0-80.el8.x86_64/arch/x86/kernel/setup.c
+--- linux-4.18.0-80.el8.x86_64/arch/x86/kernel/setup.c	2019-03-13 11:04:53.000000000 +0000
++++ b/arch/x86/kernel/setup.c	2019-05-21 11:00:24.635202066 +0000
+@@ -900,7 +900,7 @@
+ 	if (((boot_cpu_data.x86_max_cores * smp_num_siblings) == 1) &&
+ 	    !guest && is_kdump_kernel()) {
+ 		pr_crit("Detected single cpu native boot.\n");
+-		pr_crit("Important:  In Red Hat Enterprise Linux 8, single threaded, single CPU 64-bit physical systems are unsupported by Red Hat. Please contact your Red Hat support representative for a list of certified and supported systems.");
++		pr_crit("Important:  In SLES ES 8, single threaded, single CPU 64-bit physical systems are unsupported by SUSE LLC. Please contact your SUSE LLC support representative for a list of certified and supported systems.");
+ 	}
+ 
+ 	/*
+diff -uNr linux-4.18.0-240.el8.x86_64/init/main.c b/init/main.c
+--- linux-4.18.0-240.el8.x86_64/init/main.c	2020-09-23 08:29:32.000000000 +0000
++++ b/init/main.c	2020-10-14 07:01:09.128569093 +0000
+@@ -564,7 +564,6 @@
+ 	page_alloc_init();
+ 
+ 	pr_notice("Kernel command line: %s\n", boot_command_line);
+-	pr_notice("Specific versions of hardware are certified with Red Hat Enterprise Linux 8. Please see the list of hardware certified with Red Hat Enterprise Linux 8 at https://catalog.redhat.com.\n");
+ 	parse_early_param();
+ 	after_dashes = parse_args("Booting kernel",
+ 				  static_command_line, __start___param,
+diff -uNr linux-4.18.0-348.el8/arch/x86/kvm/vmx/nested.c kernel/arch/x86/kvm/vmx/nested.c
+--- linux-4.18.0-348.el8/arch/x86/kvm/vmx/nested.c	2021-10-04 18:21:15.000000000 +0300
++++ kernel/arch/x86/kvm/vmx/nested.c	2021-11-12 18:21:27.174738032 +0300
+@@ -6640,7 +6640,7 @@
+ 			return 0;
+ 	}
+ 	if (!enable_ept || !enable_shadow_vmcs)
+-                pr_crit("Processors without extended page tables or support for shadow VMCS are not recommended by Red Hat for nested virtualization.\n");
++                pr_crit("Processors without extended page tables or support for shadow VMCS are not recommended for nested virtualization.\n");
+ 
+ 	if (enable_shadow_vmcs) {
+ 		for (i = 0; i < VMX_BITMAP_NR; i++) {

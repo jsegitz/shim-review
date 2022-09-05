@@ -1,0 +1,90 @@
+diff -Naur linux-4.18.0-372.19.1.el8_6.orig/Kconfig.redhat linux-4.18.0-372.19.1.el8_6/Kconfig.redhat
+--- linux-4.18.0-372.19.1.el8_6.orig/Kconfig.redhat	2022-07-18 17:05:41.000000000 +0300
++++ linux-4.18.0-372.19.1.el8_6/Kconfig.redhat	2022-08-09 09:15:07.000000000 +0300
+@@ -1,14 +1,14 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+-# Red Hat specific options
++# Vendor specific options
+ #
+ 
+-menu "Red Hat options"
++menu "Vendor options"
+ 
+ config RHEL_DIFFERENCES
+ 	bool "Remove support for deprecated features"
+ 	help
+-	  Red Hat may choose to deprecate certain features in its kernels.
++	  Vendor may choose to deprecate certain features in its kernels.
+ 	  Enable this option to remove support for hardware that is no
+ 	  longer supported.
+ 
+diff -Naur linux-4.18.0-372.19.1.el8_6.orig/kernel/rh_flags.c linux-4.18.0-372.19.1.el8_6/kernel/rh_flags.c
+--- linux-4.18.0-372.19.1.el8_6.orig/kernel/rh_flags.c	2022-07-18 17:05:41.000000000 +0300
++++ linux-4.18.0-372.19.1.el8_6/kernel/rh_flags.c	2022-08-09 09:15:07.000000000 +0300
+@@ -24,7 +24,7 @@
+ 
+ 	BUG_ON(in_interrupt());
+ 	feat = kzalloc(sizeof(*feat), GFP_ATOMIC);
+-	if (WARN(!feat, "Adding Red Hat flag %s.\n", flag_name))
++	if (WARN(!feat, "Adding Vendor flag %s.\n", flag_name))
+ 		return false;
+ 	strlcpy(feat->name, flag_name, RH_FLAG_NAME_LEN);
+ 
+@@ -41,7 +41,7 @@
+ 	spin_unlock(&rh_flag_lock);
+ 
+ 	if (feat)
+-		pr_info("Adding Red Hat flag %s.\n", flag_name);
++		pr_info("Adding Vendor flag %s.\n", flag_name);
+ 	return true;
+ }
+ EXPORT_SYMBOL(__rh_add_flag);
+@@ -59,7 +59,7 @@
+ 	 */
+ 	if (list_empty(&rh_flag_list))
+ 		return;
+-	printk(KERN_DEFAULT "Red Hat flags:");
++	printk(KERN_DEFAULT "Vendor flags:");
+ 	list_for_each_entry_lockless(feat, &rh_flag_list, list) {
+ 		pr_cont(" %s", feat->name);
+ 	}
+diff -Naur linux-4.18.0-372.19.1.el8_6.orig/kernel/rh_messages.c linux-4.18.0-372.19.1.el8_6/kernel/rh_messages.c
+--- linux-4.18.0-372.19.1.el8_6.orig/kernel/rh_messages.c	2022-07-18 17:05:41.000000000 +0300
++++ linux-4.18.0-372.19.1.el8_6/kernel/rh_messages.c	2022-08-09 09:15:07.000000000 +0300
+@@ -3,7 +3,7 @@
+ 
+ #define DEV_DESC_LEN 256
+ /*
+- * The following functions are used by Red Hat to indicate to users that
++ * The following functions are used by Vendor to indicate to users that
+  * hardware and drivers are unsupported, or have limited support in RHEL major
+  * and minor releases.  These functions output loud warning messages to the end
+  * user and should be USED WITH CAUTION.
+@@ -27,7 +27,7 @@
+  *
+  * Called to notify users that the device will no longer be tested on a routine
+  * basis and driver code associated with this device is no longer being updated.
+- * Red Hat may fix security-related and critical issues.  Support for this device
++ * Vendor may fix security-related and critical issues.  Support for this device
+  * will be disabled in a future major release and users deploying this device
+  * should plan to replace the device in production systems.
+  *
+@@ -53,7 +53,7 @@
+  * @driver_name: driver name
+  *
+  * Called to notify users that a driver will no longer be tested on a routine
+- * basis and the driver code is no longer being updated.  Red Hat may fix
++ * basis and the driver code is no longer being updated.  Vendor may fix
+  * security-related and critical issues.  Support for this driver will be
+  * disabled in a future major release, and users should replace any affected
+  * devices in production systems.
+@@ -153,7 +153,7 @@
+  * kernel.  Calling this function indicates that the driver or subsystem has
+  * had limited testing and is not marked for full support within this RHEL
+  * minor release.  The next RHEL minor release may contain full support for
+- * this driver.  Red Hat does not guarantee that bugs reported against this
++ * this driver.  Vendor does not guarantee that bugs reported against this
+  * driver or subsystem will be resolved.
+  */
+ void mark_tech_preview(const char *msg, struct module *mod)
