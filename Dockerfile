@@ -1,7 +1,5 @@
 # syntax = docker/dockerfile:1.0-experimental
-# FIXME this is a specific tumbleweed version. If we decide to build against
-# Leap this needs to be changed
-FROM opensuse/tumbleweed@sha256:5bcb3a09e0d77cd35b31989585d94793604564f69f820bb0b3172d7c32578834
+FROM opensuse/leap@sha256:909c3fe1ca6601f1c3637bc575fd54f4d591caaf9f8b41c85c9c6d8f47bbb0c7
 
 ARG ARCHITECTURE
 ENV ARCHITECTURE=${ARCHITECTURE}

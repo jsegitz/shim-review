@@ -1,7 +1,7 @@
 #
 # spec file for package shim
 #
-# Copyright (c) 2021 SUSE LLC
+# Copyright (c) 2022 SUSE LLC
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -33,13 +33,6 @@
 # provide compatibility sym-link for residual kiwi, etc.
 %define shim_lib64_share_compat 1
 %endif
-%endif
-
-%if %{defined sbat_distro}
-# SBAT metadata
-%define sbat_generation 1
-%else
-%{error please define sbat_distro, sbat_distro_summary and sbat_distro_url}
 %endif
 
 Name:           shim
@@ -85,7 +78,7 @@ Patch5:         remove_build_id.patch
 # PATCH-FIX-SUSE shim-disable-export-vendor-dbx.patch bsc#1185261 glin@suse.com -- Disable exporting vendor-dbx to MokListXRT
 Patch6:         shim-disable-export-vendor-dbx.patch
 # PATCH-FIX-OPENSUSE shim-bsc1198101-opensuse-cert-prompt.patch glin@suse.com -- Show the prompt to ask whether the user trusts openSUSE certificate or not
-Patch100:	shim-bsc1198101-opensuse-cert-prompt.patch
+Patch100:       shim-bsc1198101-opensuse-cert-prompt.patch
 BuildRequires:  dos2unix
 BuildRequires:  mozilla-nss-tools
 BuildRequires:  openssl >= 0.9.8
@@ -134,10 +127,17 @@ The source code of UEFI shim loader
 %patch100 -p1
 
 %build
-%if 0%{?sbat_generation}
 # generate the vendor SBAT metadata
-echo "shim.%{sbat_distro},%{sbat_generation},%{sbat_distro_summary},%{name},%{version},%{sbat_distro_url}" > data/sbat.vendor.csv
+%if 0%{?is_opensuse} == 1 || 0%{?sle_version} == 0
+distro_id="opensuse"
+distro_name="The openSUSE project"
+%else
+distro_id="sle"
+distro_name="SUSE Linux Enterprise"
 %endif
+distro_sbat=1
+sbat="shim.${distro_id},${distro_sbat},${distro_name},%{name},%{version},mail:security@suse.de"
+echo "${sbat}" > data/sbat.vendor.csv
 
 # first, build MokManager and fallback as they don't depend on a
 # specific certificate
@@ -308,7 +308,8 @@ is_efi () {
 # run mokutil for setting sbat policy to latest mode
 SBAT_POLICY=/sys/firmware/efi/efivars/SbatPolicy-605dab50-e046-4300-abb6-3dd810dd8b23
 if is_efi; then
-        if [ ! -f "$SBAT_POLICY" ]; then
+        if [ ! -f "$SBAT_POLICY" ] && mokutil -h | grep -q "set-sbat-policy"; then
+        # Only apply CA check on the kernel package certs (bsc#1173115)
                 mokutil --set-sbat-policy latest
         fi
 fi

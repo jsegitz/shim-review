@@ -80,7 +80,7 @@ https://build.opensuse.org/package/show/devel:openSUSE:Factory/shim
 -------------------------------------------------------------------------------
 ### What patches are being applied and why:
 -------------------------------------------------------------------------------
-On top of 15.4 these patches are applied:
+On top of 15.6 these patches are applied:
 - shim-arch-independent-names.patch: use the Arch-independent names.
 - remove_build_id.patch: don't add the build id from the resulting binaries
 - shim-bsc1177315-verify-eku-codesign.patch: Check CodeSign in the signer's EKU
@@ -153,13 +153,11 @@ new CA certificate
 -------------------------------------------------------------------------------
 The included Dockerfile will build the image for you. 
 x86_64:
-podman build --build-arg ARCHITECTURE=x86_64 --progress=plain . -t opensuse_shim:15.4
-aarch64:
-podman build --build-arg ARCHITECTURE=aarch64  --progress=plain . -t opensuse_shim:15.4
+podman build --build-arg ARCHITECTURE=x86_64 --progress=plain . -t opensuse_shim:15.6
 
 The Dockerfile builds shim and hashes the resulting file. If you want to do it manually:
 The shim sources are in usr/src/packages/SOURCES/. Running
-docker run --rm -it opensuse_shim:15.4 /bin/sh
+podman run --rm -it opensuse_shim:15.6 /bin/sh
 sh-4.4# SOURCE_DATE_EPOCH=1617883200 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 gives you the build rpm which you can inspect with unrpm, After unpacking you
 can get the hashes.
@@ -169,7 +167,7 @@ can get the hashes.
 This should include logs for creating the buildroots, applying patches, doing the build, creating the archives, etc.
 
 -------------------------------------------------------------------------------
-FIXME: use 'osc bl'
+build.log
 
 -------------------------------------------------------------------------------
 ### What changes were made since your SHIM was last signed?
@@ -180,16 +178,10 @@ Last was shim 15.4. We want the new upstream release to fix security issues
 ### What is the SHA256 hash of your final SHIM binary?
 -------------------------------------------------------------------------------
 x86_64:
-sh-4.4# pesign --hash --padding --in=usr/share/efi/x86_64/shim-opensuse.efi
-FIXME
-sh-4.4# sha256sum usr/share/efi/x86_64/shim-sles.efi
-FIXME
-
-aarch64:
-sh-4.4# pesign --hash --padding --in=usr/share/efi/aarch64/shim-opensuse.efi
-FIXME
-sh-4.4# sha256sum usr/share/efi/aarch64/shim-sles.efi
-FIXME
+sh-4.4# pesign --hash --padding --in=shim-opensuse.efi
+5cd67f823cc346694695f2e46eb934372694895f2db0ffc3f4a9f0c0f78cf907
+sh-4.4# sha256sum shim-opensuse.efi
+dee001e7b70db7c0ba53632ab93e3269e1c6cd35e97df5e7d60caf30a6782fd4
 
 -------------------------------------------------------------------------------
 ### How do you manage and protect the keys used in your SHIM?
@@ -206,7 +198,27 @@ no
 ### Please provide exact SBAT entries for all SBAT binaries you are booting or planning to boot directly through shim.
 ### Where your code is only slightly modified from an upstream vendor's, please also preserve their SBAT entries to simplify revocation.
 -------------------------------------------------------------------------------
-FIXME
+yes
+
+fwupdate:
+sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
+fwupdate,1,Firmware Update Utility,fwupdate,12,https://github.com/rhboot/fwupdate
+fwupdate.sle,1,SUSE Linux Enterprise,fwupdate,12,mail:security-team@suse.de
+
+grub2:
+sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
+grub,2,Free Software Foundation,grub,2.04,https://www.gnu.org/software/grub/
+grub.sle,1,SUSE Linux Enterprise,grub2,2.04,mailto:security@suse.de
+
+fwupd:
+sbat,1,UEFI shim,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
+fwupd,1,Firmware update daemon,fwupd,1.5.8,https://github.com/fwupd/fwupd
+fwupd-sle,1,SUSE Linux Enterprise,fwupd,1.5.8,https://build.opensuse.org
+
+shim:
+sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
+shim,2,UEFI shim,shim,1,https://github.com/rhboot/shim
+shim.sle,1,SUSE Linux Enterprise,shim,15.6,mail:security-team@suse.de
 
 -------------------------------------------------------------------------------
 ### Which modules are built into your signed grub image?
