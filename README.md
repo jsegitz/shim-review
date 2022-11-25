@@ -178,9 +178,9 @@ Last was shim 15.4. We want the new upstream release to fix security issues
 ### What is the SHA256 hash of your final SHIM binary?
 -------------------------------------------------------------------------------
 x86_64:
-sh-4.4# pesign --hash --padding --in=shim-opensuse.efi
+sh-4.4# pesign --hash --padding --in=shim-opensuse_x86_64.efi
 5cd67f823cc346694695f2e46eb934372694895f2db0ffc3f4a9f0c0f78cf907
-sh-4.4# sha256sum shim-opensuse.efi
+sh-4.4# sha256sum shim-opensuse_x86_64.efi
 dee001e7b70db7c0ba53632ab93e3269e1c6cd35e97df5e7d60caf30a6782fd4
 
 -------------------------------------------------------------------------------
