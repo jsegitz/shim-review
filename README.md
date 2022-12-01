@@ -245,18 +245,18 @@ fwupdate.sle,1,SUSE Linux Enterprise,fwupdate,12,mail:security-team@suse.de
 
 grub2:
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,3,Free Software Foundation,grub,2.04,https://www.gnu.org/software/grub/
-grub.sle,1,SUSE Linux Enterprise,grub2,2.04,mailto:security@suse.de
+grub,3,Free Software Foundation,grub,2.06,https://www.gnu.org/software/grub/
+grub.sle,1,SUSE Linux Enterprise,grub2,2.06,mailto:security@suse.de
 
 fwupd:
 sbat,1,UEFI shim,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-fwupd,1,Firmware update daemon,fwupd,1.5.8,https://github.com/fwupd/fwupd
-fwupd-sle,1,SUSE Linux Enterprise,fwupd,1.5.8,https://build.opensuse.org
+fwupd,1,Firmware update daemon,fwupd,1.7.3,https://github.com/fwupd/fwupd
+fwupd-sle,1,SUSE Linux Enterprise,fwupd,1.7.3,https://build.opensuse.org
 
 shim:
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 shim,3,UEFI shim,shim,1,https://github.com/rhboot/shim
-shim.sle,1,SUSE Linux Enterprise,shim,15.6,mail:security-team@suse.de
+shim.sle,1,SUSE Linux Enterprise,shim,15.7,mail:security-team@suse.de
 
 *******************************************************************************
 ### Which modules are built into your signed grub image?
