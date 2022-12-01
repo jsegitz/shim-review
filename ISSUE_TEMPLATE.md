@@ -12,14 +12,18 @@ Confirm the following are included in your repo, checking each box:
 *******************************************************************************
 ### What is the link to your tag in a repo cloned from rhboot/shim-review?
 *******************************************************************************
-`https://github.com/user/shim-review/tree/myorg-shim-arch-YYYYMMDD`
+`https://github.com/jsegitz/shim-review/tree/SUSE-openSUSE-shim-x86-20221201`
 
 *******************************************************************************
 ### What is the SHA256 hash of your final SHIM binary?
 *******************************************************************************
-[your text here]
+pesign --hash --padding --in=./shim-opensuse_x86_64.efi
+hash: be2af39cb08e9372ebc65bf90da9857ee04d14e59c846013a86d3015cfb84206
+
+sha256sum ./shim-opensuse_x86_64.efi
+7cf2c59fa006f6dea86206ef5e94f90207dddcb2eb1eed18e7ba8ad17e8d61e8  ./shim-opensuse_x86_64.efi
 
 *******************************************************************************
 ### What is the link to your previous shim review request (if any, otherwise N/A)?
 *******************************************************************************
-[your text here]
+https://github.com/rhboot/shim-review/issues/283
