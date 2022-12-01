@@ -196,6 +196,11 @@ This should include logs for creating the buildroots, applying patches, doing th
 build_log.aarch64
 build_log.x86_64
 
+These are the build logs from our internal build system. The pesign hash matches,
+the sha256sum is different since it tries to attach a signature, which doesn't
+match the current shim anymore. The sha256sum specied in this request is the one
+that results when build locally (e.g. in the container image)
+
 *******************************************************************************
 ### What changes were made since your SHIM was last signed?
 *******************************************************************************
