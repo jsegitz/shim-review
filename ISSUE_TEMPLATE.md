@@ -12,7 +12,7 @@ Confirm the following are included in your repo, checking each box:
 *******************************************************************************
 ### What is the link to your tag in a repo cloned from rhboot/shim-review?
 *******************************************************************************
-`https://github.com/jsegitz/shim-review/tree/SUSE-openSUSE-shim-x86-20221201`
+`https://github.com/jsegitz/shim-review/tree/SUSE-openSUSE15.4-shim-15.7-20221201`
 
 *******************************************************************************
 ### What is the SHA256 hash of your final SHIM binary?
