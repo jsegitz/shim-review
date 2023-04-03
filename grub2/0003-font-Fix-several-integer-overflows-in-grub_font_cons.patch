@@ -1,4 +1,4 @@
-From dbd99bd9f394f3d9a20b6129812053df0b3dc77a Mon Sep 17 00:00:00 2001
+From a63cbda5bbfa4696c97dc8231e7b81aedaef2fc7 Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Fri, 5 Aug 2022 01:58:27 +0800
 Subject: [PATCH 03/12] font: Fix several integer overflows in

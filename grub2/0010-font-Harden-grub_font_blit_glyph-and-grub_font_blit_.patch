@@ -1,4 +1,4 @@
-From 0b428b01d5a4e59d773c405b49675135ebca8ab6 Mon Sep 17 00:00:00 2001
+From f3b30e0d782f36634a9a7ab9d18851b0b7a1bce5 Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Mon, 24 Oct 2022 07:15:41 +0800
 Subject: [PATCH 10/12] font: Harden grub_font_blit_glyph() and

@@ -1,4 +1,4 @@
-From a5fc393e0917d8198cedf9a9fb7349f19207ad90 Mon Sep 17 00:00:00 2001
+From 9c99a0d55bf69f25ad41668867f719bbb1828457 Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Fri, 5 Aug 2022 02:13:29 +0800
 Subject: [PATCH 04/12] font: Remove grub_font_dup_glyph()

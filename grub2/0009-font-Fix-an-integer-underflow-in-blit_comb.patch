@@ -1,4 +1,4 @@
-From f8cbbf79fc6b74ad93268be1a5e4eeb27d128ade Mon Sep 17 00:00:00 2001
+From 79924f56f5062c1bae972fd6cd8f38e56980f34d Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Mon, 24 Oct 2022 08:05:35 +0800
 Subject: [PATCH 09/12] font: Fix an integer underflow in blit_comb()

@@ -1,4 +1,4 @@
-From d0a92e0b8ea81c504735b1059b6d35d1d45ed872 Mon Sep 17 00:00:00 2001
+From 17e9006484e3da9a38a79f5f0f28f18a15fc4cf8 Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Tue, 6 Sep 2022 03:03:21 +0800
 Subject: [PATCH 08/12] fbutil: Fix integer overflow

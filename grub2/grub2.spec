@@ -1,7 +1,7 @@
 #
 # spec file for package grub2
 #
-# Copyright (c) 2022 SUSE LLC
+# Copyright (c) 2023 SUSE LLC
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -18,6 +18,14 @@
 
 
 %define _binaries_in_noarch_package_terminate_build 0
+
+%if %{defined sbat_distro}
+# SBAT metadata
+%define sbat_generation 1
+%define sbat_generation_grub 3
+%else
+%{error please define sbat_distro, sbat_distro_summary and sbat_distro_url}
+%endif
 
 Name:           grub2
 %ifarch x86_64 ppc64
@@ -185,11 +193,8 @@ Patch15:        not-display-menu-when-boot-once.patch
 Patch17:        grub2-pass-corret-root-for-nfsroot.patch
 Patch19:        grub2-efi-HP-workaround.patch
 Patch21:        grub2-secureboot-add-linuxefi.patch
-Patch22:        grub2-secureboot-use-linuxefi-on-uefi.patch
 Patch23:        grub2-secureboot-no-insmod-on-sb.patch
-Patch24:        grub2-secureboot-provide-linuxefi-config.patch
 Patch25:        grub2-secureboot-chainloader.patch
-Patch26:        grub2-secureboot-use-linuxefi-on-uefi-in-os-prober.patch
 Patch27:        grub2-linuxefi-fix-boot-params.patch
 Patch35:        grub2-linguas.sh-no-rsync.patch
 Patch37:        grub2-use-Unifont-for-starfield-theme-terminal.patch
@@ -277,6 +282,7 @@ Patch421:       0002-AUDIT-0-http-boot-tracker-bug.patch
 Patch430:       grub2-mkconfig-default-entry-correction.patch
 Patch431:       grub2-s390x-10-keep-network-at-kexec.patch
 Patch432:       grub2-s390x-11-secureboot.patch
+Patch433:       grub2-s390x-12-zipl-setup-usrmerge.patch
 # Support for UEFI Secure Boot on AArch64 (FATE#326541)
 Patch450:       grub2-secureboot-install-signed-grub.patch
 Patch501:       grub2-btrfs-help-on-snapper-rollback.patch
@@ -305,7 +311,6 @@ Patch786:       0046-squash-verifiers-Move-verifiers-API-to-kernel-image.patch
 Patch788:       0001-ieee1275-Avoiding-many-unecessary-open-close.patch
 Patch789:       0001-Workaround-volatile-efi-boot-variable.patch
 Patch790:       0001-30_uefi-firmware-fix-printf-format-with-null-byte.patch
-Patch791:       0001-i386-pc-build-btrfs-zstd-support-into-separate-modul.patch
 Patch792:       0001-templates-Follow-the-path-of-usr-merged-kernel-confi.patch
 Patch793:       0001-tpm-Pass-unknown-error-as-non-fatal-but-debug-print-.patch
 Patch794:       0001-Filter-out-POSIX-locale-for-translation.patch
@@ -359,41 +364,46 @@ Patch841:       0005-export-environment-at-start-up.patch
 Patch842:       0001-grub-install-bailout-root-device-probing.patch
 Patch843:       0001-RISC-V-Adjust-march-flags-for-binutils-2.38.patch
 Patch844:       0001-install-fix-software-raid1-on-esp.patch
-Patch845:       0001-powerpc-do-CAS-in-a-more-compatible-way.patch 
-Patch846:       0001-ofdisk-improve-boot-time-by-lookup-boot-disk-first.patch
-Patch847:       0001-video-Remove-trailing-whitespaces.patch
-Patch848:       0002-loader-efi-chainloader-Simplify-the-loader-state.patch
-Patch849:       0003-commands-boot-Add-API-to-pass-context-to-loader.patch
-Patch850:       0004-loader-efi-chainloader-Use-grub_loader_set_ex.patch
-Patch851:       0005-kern-efi-sb-Reject-non-kernel-files-in-the-shim_lock.patch
-Patch852:       0006-kern-file-Do-not-leak-device_name-on-error-in-grub_f.patch
-Patch853:       0007-video-readers-png-Abort-sooner-if-a-read-operation-f.patch
-Patch854:       0008-video-readers-png-Refuse-to-handle-multiple-image-he.patch
-Patch855:       0009-video-readers-png-Drop-greyscale-support-to-fix-heap.patch
-Patch856:       0010-video-readers-png-Avoid-heap-OOB-R-W-inserting-huff-.patch
-Patch857:       0011-video-readers-png-Sanity-check-some-huffman-codes.patch
-Patch858:       0012-video-readers-jpeg-Abort-sooner-if-a-read-operation-.patch
-Patch859:       0013-video-readers-jpeg-Do-not-reallocate-a-given-huff-ta.patch
-Patch860:       0014-video-readers-jpeg-Refuse-to-handle-multiple-start-o.patch
-Patch861:       0015-video-readers-jpeg-Block-int-underflow-wild-pointer-.patch
-Patch862:       0016-normal-charset-Fix-array-out-of-bounds-formatting-un.patch
-Patch863:       0017-net-ip-Do-IP-fragment-maths-safely.patch
-Patch864:       0018-net-netbuff-Block-overly-large-netbuff-allocs.patch
-Patch865:       0019-net-dns-Fix-double-free-addresses-on-corrupt-DNS-res.patch
-Patch866:       0020-net-dns-Don-t-read-past-the-end-of-the-string-we-re-.patch
-Patch867:       0021-net-tftp-Prevent-a-UAF-and-double-free-from-a-failed.patch
-Patch868:       0022-net-tftp-Avoid-a-trivial-UAF.patch
-Patch869:       0023-net-http-Do-not-tear-down-socket-if-it-s-already-bee.patch
-Patch870:       0024-net-http-Fix-OOB-write-for-split-http-headers.patch
-Patch871:       0025-net-http-Error-out-on-headers-with-LF-without-CR.patch
-Patch872:       0026-fs-f2fs-Do-not-read-past-the-end-of-nat-journal-entr.patch
-Patch873:       0027-fs-f2fs-Do-not-read-past-the-end-of-nat-bitmap.patch
-Patch874:       0028-fs-f2fs-Do-not-copy-file-names-that-are-too-long.patch
-Patch875:       0029-fs-btrfs-Fix-several-fuzz-issues-with-invalid-dir-it.patch
-Patch876:       0030-fs-btrfs-Fix-more-ASAN-and-SEGV-issues-found-with-fu.patch
-Patch877:       0031-fs-btrfs-Fix-more-fuzz-issues-related-to-chunks.patch
-Patch878:       0032-Use-grub_loader_set_ex-for-secureboot-chainloader.patch
-Patch879:       0001-grub-install-set-point-of-no-return-for-powerpc-ieee1275.patch
+Patch845:       0001-mkimage-Fix-dangling-pointer-may-be-used-error.patch
+Patch846:       0002-Fix-Werror-array-bounds-array-subscript-0-is-outside.patch
+Patch847:       0003-reed_solomon-Fix-array-subscript-0-is-outside-array-.patch
+Patch848:       0001-grub-probe-Deduplicate-probed-partmap-output.patch
+Patch849:       0001-powerpc-do-CAS-in-a-more-compatible-way.patch
+Patch850:       0001-Fix-infinite-boot-loop-on-headless-system-in-qemu.patch
+Patch851:       0001-libc-config-merge-from-glibc.patch
+Patch852:       0001-ofdisk-improve-boot-time-by-lookup-boot-disk-first.patch
+Patch853:       0001-video-Remove-trailing-whitespaces.patch
+Patch854:       0002-loader-efi-chainloader-Simplify-the-loader-state.patch
+Patch855:       0003-commands-boot-Add-API-to-pass-context-to-loader.patch
+Patch856:       0004-loader-efi-chainloader-Use-grub_loader_set_ex.patch
+Patch857:       0005-kern-efi-sb-Reject-non-kernel-files-in-the-shim_lock.patch
+Patch858:       0006-kern-file-Do-not-leak-device_name-on-error-in-grub_f.patch
+Patch859:       0007-video-readers-png-Abort-sooner-if-a-read-operation-f.patch
+Patch860:       0008-video-readers-png-Refuse-to-handle-multiple-image-he.patch
+Patch861:       0009-video-readers-png-Drop-greyscale-support-to-fix-heap.patch
+Patch862:       0010-video-readers-png-Avoid-heap-OOB-R-W-inserting-huff-.patch
+Patch863:       0011-video-readers-png-Sanity-check-some-huffman-codes.patch
+Patch864:       0012-video-readers-jpeg-Abort-sooner-if-a-read-operation-.patch
+Patch865:       0013-video-readers-jpeg-Do-not-reallocate-a-given-huff-ta.patch
+Patch866:       0014-video-readers-jpeg-Refuse-to-handle-multiple-start-o.patch
+Patch867:       0015-video-readers-jpeg-Block-int-underflow-wild-pointer-.patch
+Patch868:       0016-normal-charset-Fix-array-out-of-bounds-formatting-un.patch
+Patch869:       0017-net-ip-Do-IP-fragment-maths-safely.patch
+Patch870:       0018-net-netbuff-Block-overly-large-netbuff-allocs.patch
+Patch871:       0019-net-dns-Fix-double-free-addresses-on-corrupt-DNS-res.patch
+Patch872:       0020-net-dns-Don-t-read-past-the-end-of-the-string-we-re-.patch
+Patch873:       0021-net-tftp-Prevent-a-UAF-and-double-free-from-a-failed.patch
+Patch874:       0022-net-tftp-Avoid-a-trivial-UAF.patch
+Patch875:       0023-net-http-Do-not-tear-down-socket-if-it-s-already-bee.patch
+Patch876:       0024-net-http-Fix-OOB-write-for-split-http-headers.patch
+Patch877:       0025-net-http-Error-out-on-headers-with-LF-without-CR.patch
+Patch878:       0026-fs-f2fs-Do-not-read-past-the-end-of-nat-journal-entr.patch
+Patch879:       0027-fs-f2fs-Do-not-read-past-the-end-of-nat-bitmap.patch
+Patch880:       0028-fs-f2fs-Do-not-copy-file-names-that-are-too-long.patch
+Patch881:       0029-fs-btrfs-Fix-several-fuzz-issues-with-invalid-dir-it.patch
+Patch882:       0030-fs-btrfs-Fix-more-ASAN-and-SEGV-issues-found-with-fu.patch
+Patch883:       0031-fs-btrfs-Fix-more-fuzz-issues-related-to-chunks.patch
+Patch884:       0032-Use-grub_loader_set_ex-for-secureboot-chainloader.patch
 Patch885:       0001-luks2-Add-debug-message-to-align-with-luks-and-geli-.patch
 Patch886:       0002-cryptodisk-Refactor-to-discard-have_it-global.patch
 Patch887:       0003-cryptodisk-Return-failure-in-cryptomount-when-no-cry.patch
@@ -410,18 +420,91 @@ Patch897:       0013-cryptodisk-Support-key-protectors.patch
 Patch898:       0014-util-grub-protect-Add-new-tool.patch
 Patch899:       fix-tpm2-build.patch
 Patch900:       0001-crytodisk-fix-cryptodisk-module-looking-up.patch
-Patch901:       0001-font-Reject-glyphs-exceeds-font-max_glyph_width-or-f.patch
-Patch902:       0002-font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
-Patch903:       0003-font-Fix-several-integer-overflows-in-grub_font_cons.patch
-Patch904:       0004-font-Remove-grub_font_dup_glyph.patch
-Patch905:       0005-font-Fix-integer-overflow-in-ensure_comb_space.patch
-Patch906:       0006-font-Fix-integer-overflow-in-BMP-index.patch
-Patch907:       0007-font-Fix-integer-underflow-in-binary-search-of-char-.patch
-Patch908:       0008-fbutil-Fix-integer-overflow.patch
-Patch909:       0009-font-Fix-an-integer-underflow-in-blit_comb.patch
-Patch910:       0010-font-Harden-grub_font_blit_glyph-and-grub_font_blit_.patch
-Patch911:       0011-font-Assign-null_font-to-glyphs-in-ascii_font_glyph.patch
-Patch912:       0012-normal-charset-Fix-an-integer-overflow-in-grub_unico.patch
+# fde
+Patch901:       0001-devmapper-getroot-Have-devmapper-recognize-LUKS2.patch
+Patch902:       0002-devmapper-getroot-Set-up-cheated-LUKS2-cryptodisk-mo.patch
+Patch903:       0003-disk-cryptodisk-When-cheatmounting-use-the-sector-in.patch
+Patch904:       0004-normal-menu-Don-t-show-Booting-s-msg-when-auto-booti.patch
+Patch905:       0005-EFI-suppress-the-Welcome-to-GRUB-message-in-EFI-buil.patch
+Patch906:       0006-EFI-console-Do-not-set-colorstate-until-the-first-te.patch
+Patch907:       0007-EFI-console-Do-not-set-cursor-until-the-first-text-o.patch
+Patch908:       0008-linuxefi-Use-common-grub_initrd_load.patch
+Patch909:       0009-Add-crypttab_entry-to-obviate-the-need-to-input-pass.patch
+Patch910:       0010-templates-import-etc-crypttab-to-grub.cfg.patch
+Patch911:       grub-read-pcr.patch
+Patch912:       efi-set-variable-with-attrs.patch
+Patch913:       tpm-record-pcrs.patch
+Patch914:       tpm-protector-dont-measure-sealed-key.patch
+Patch915:       tpm-protector-export-secret-key.patch
+Patch916:       grub-install-record-pcrs.patch
+Patch917:       grub-unseal-debug.patch
+# efi mm
+Patch919:       0001-mm-Allow-dynamically-requesting-additional-memory-re.patch
+Patch920:       0002-kern-efi-mm-Always-request-a-fixed-number-of-pages-o.patch
+Patch921:       0003-kern-efi-mm-Extract-function-to-add-memory-regions.patch
+Patch922:       0004-kern-efi-mm-Pass-up-errors-from-add_memory_regions.patch
+Patch923:       0005-kern-efi-mm-Implement-runtime-addition-of-pages.patch
+Patch924:       0001-kern-efi-mm-Enlarge-the-default-heap-size.patch
+Patch925:       0002-mm-Defer-the-disk-cache-invalidation.patch
+# powerpc-ieee1275
+Patch926:       0001-grub-install-set-point-of-no-return-for-powerpc-ieee1275.patch
+Patch927:       safe_tpm_pcr_snapshot.patch
+# (PED-996) NVMeoFC support on Grub (grub2)
+Patch929:       0001-ieee1275-add-support-for-NVMeoFC.patch
+Patch930:       0002-ieee1275-ofpath-enable-NVMeoF-logical-device-transla.patch
+Patch931:       0003-ieee1275-change-the-logic-of-ieee1275_get_devargs.patch
+Patch932:       0004-ofpath-controller-name-update.patch
+# (PED-1265) TDX: Enhance grub2 measurement to TD RTMR
+Patch933:       0001-commands-efi-tpm-Refine-the-status-of-log-event.patch
+Patch934:       0002-commands-efi-tpm-Use-grub_strcpy-instead-of-grub_mem.patch
+Patch935:       0003-efi-tpm-Add-EFI_CC_MEASUREMENT_PROTOCOL-support.patch
+# (PED-1990) GRUB2: Measure the kernel on POWER10 and extend TPM PCRs
+Patch936:       0001-ibmvtpm-Add-support-for-trusted-boot-using-a-vTPM-2..patch
+Patch937:       0002-ieee1275-implement-vec5-for-cas-negotiation.patch
+Patch938:       0001-font-Reject-glyphs-exceeds-font-max_glyph_width-or-f.patch
+Patch939:       0002-font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
+Patch940:       0003-font-Fix-several-integer-overflows-in-grub_font_cons.patch
+Patch941:       0004-font-Remove-grub_font_dup_glyph.patch
+Patch942:       0005-font-Fix-integer-overflow-in-ensure_comb_space.patch
+Patch943:       0006-font-Fix-integer-overflow-in-BMP-index.patch
+Patch944:       0007-font-Fix-integer-underflow-in-binary-search-of-char-.patch
+Patch945:       0008-fbutil-Fix-integer-overflow.patch
+Patch946:       0009-font-Fix-an-integer-underflow-in-blit_comb.patch
+Patch947:       0010-font-Harden-grub_font_blit_glyph-and-grub_font_blit_.patch
+Patch948:       0011-font-Assign-null_font-to-glyphs-in-ascii_font_glyph.patch
+Patch949:       0012-normal-charset-Fix-an-integer-overflow-in-grub_unico.patch
+Patch950:       0001-fs-btrfs-Use-full-btrfs-bootloader-area.patch
+Patch951:       0002-Mark-environmet-blocks-as-used-for-image-embedding.patch
+Patch952:       0001-ieee1275-Increase-initially-allocated-heap-from-1-4-.patch
+Patch953:       grub2-increase-crypttab-path-buffer.patch
+Patch954:       0001-grub2-Set-multiple-device-path-for-a-nvmf-boot-devic.patch
+Patch955:       0001-grub-core-modify-sector-by-sysfs-as-disk-sector.patch
+Patch956:       0001-grub2-Can-t-setup-a-default-boot-device-correctly-on.patch
+Patch957:       0001-tpm2-adjust-the-input-parameters-of-TPM2_EvictContro.patch
+Patch958:       0002-tpm2-declare-the-input-arguments-of-TPM2-functions-a.patch
+Patch959:       0003-tpm2-resend-the-command-on-TPM_RC_RETRY.patch
+Patch960:       0004-tpm2-add-new-TPM2-types-structures-and-command-const.patch
+Patch961:       0005-tpm2-add-more-marshal-unmarshal-functions.patch
+Patch962:       0006-tpm2-check-the-command-parameters-of-TPM2-commands.patch
+Patch963:       0007-tpm2-pack-the-missing-authorization-command-for-TPM2.patch
+Patch964:       0008-tpm2-allow-some-command-parameters-to-be-NULL.patch
+Patch965:       0009-tpm2-remove-the-unnecessary-variables.patch
+Patch966:       0010-tpm2-add-TPM2-commands-to-support-authorized-policy.patch
+Patch967:       0011-tpm2-make-the-file-reading-unmarshal-functions-gener.patch
+Patch968:       0012-tpm2-initialize-the-PCR-selection-list-early.patch
+Patch969:       0013-tpm2-support-unsealing-key-with-authorized-policy.patch
+# Set efi variables LoaderDevicePartUUID & LoaderInfo (needed for UKI)
+Patch970:       grub2-add-module-for-boot-loader-interface.patch
+# Fix out of memory error on lpar installation from virtual cdrom (bsc#1208024)
+Patch971:       0001-ieee1275-Further-increase-initially-allocated-heap-f.patch
+Patch972:       0002-tpm-Disable-tpm-verifier-if-tpm-is-not-present.patch
+Patch973:       0001-RISC-V-Handle-R_RISCV_CALL_PLT-reloc.patch
+Patch974:       0001-clean-up-crypttab-and-linux-modules-dependency.patch
+Patch975:       0002-discard-cached-key-before-entering-grub-shell-and-ed.patch
+# Make grub more robust against storage race condition causing system boot failures (bsc#1189036)
+Patch976:       0001-ieee1275-ofdisk-retry-on-open-and-read-failure.patch
+Patch977:       0001-loader-linux-Ensure-the-newc-pathname-is-NULL-termin.patch
+Patch978:       0002-Restrict-cryptsetup-key-file-permission-for-better-s.patch
 
 Requires:       gettext-runtime
 %if 0%{?suse_version} >= 1140
@@ -446,6 +529,10 @@ Requires:       s390-tools
 %endif
 %ifarch ppc64 ppc64le
 Requires:       powerpc-utils
+%endif
+%ifarch %{ix86}
+# meanwhile, memtest is available as EFI executable
+Recommends:     memtest86+
 %endif
 
 %if 0%{?only_x86_64:1}
@@ -494,6 +581,18 @@ bootloader with modular architecture.  It supports rich variety of kernel format
 file systems, computer architectures and hardware devices.  This subpackage
 provides support for %{platform} systems.
 
+%package %{grubarch}-extras
+Summary:        Unsupported modules for %{grubarch}
+Group:          System/Boot
+BuildArch:      noarch
+Requires:       %{name}-%{grubarch} = %{version}
+Provides:       %{name}-%{grubarch}:%{_datadir}/%{name}/%{grubarch}/zfs.mod
+Provides:       %{name}-%{grubarch}:%{_datadir}/%{name}/%{grubarch}/zfscrypt.mod
+Provides:       %{name}-%{grubarch}:%{_datadir}/%{name}/%{grubarch}/zfsinfo.mod
+
+%description %{grubarch}-extras
+Unsupported modules for %{name}-%{grubarch}
+
 %package %{grubarch}-debug
 Summary:        Debug symbols for %{grubarch}
 Group:          System/Boot
@@ -538,6 +637,19 @@ bootloader with modular architecture.  It supports rich variety of kernel format
 file systems, computer architectures and hardware devices.  This subpackage
 provides support for EFI systems.
 
+%package %{grubefiarch}-extras
+
+Summary:        Unsupported modules for %{grubefiarch}
+Group:          System/Boot
+BuildArch:      noarch
+Requires:       %{name}-%{grubefiarch} = %{version}
+Provides:       %{name}-%{grubefiarch}:%{_datadir}/%{name}/%{grubefiarch}/zfs.mod
+Provides:       %{name}-%{grubefiarch}:%{_datadir}/%{name}/%{grubefiarch}/zfscrypt.mod
+Provides:       %{name}-%{grubefiarch}:%{_datadir}/%{name}/%{grubefiarch}/zfsinfo.mod
+
+%description %{grubefiarch}-extras
+Unsupported modules for %{name}-%{grubefiarch}
+
 %package %{grubefiarch}-debug
 Summary:        Debug symbols for %{grubefiarch}
 Group:          System/Boot
@@ -569,6 +681,18 @@ The GRand Unified Bootloader (GRUB) is a highly configurable and customizable
 bootloader with modular architecture.  It supports rich variety of kernel formats,
 file systems, computer architectures and hardware devices.  This subpackage
 provides support for XEN systems.
+
+%package %{grubxenarch}-extras
+Summary:        Unsupported modules for %{grubxenarch}
+Group:          System/Boot
+BuildArch:      noarch
+Requires:       %{name}-%{grubxenarch} = %{version}
+Provides:       %{name}-%{grubxenarch}:%{_datadir}/%{name}/%{grubxenarch}/zfs.mod
+Provides:       %{name}-%{grubxenarch}:%{_datadir}/%{name}/%{grubxenarch}/zfscrypt.mod
+Provides:       %{name}-%{grubxenarch}:%{_datadir}/%{name}/%{grubxenarch}/zfsinfo.mod
+
+%description %{grubxenarch}-extras
+Unsupported modules for %{name}-%{grubxenarch}
 
 %endif
 
@@ -690,9 +814,9 @@ CD_MODULES="all_video boot cat configfile echo true \
 		password password_pbkdf2 png reboot search search_fs_uuid \
 		search_fs_file search_label sleep test video fat loadenv loopback"
 PXE_MODULES="tftp http"
-CRYPTO_MODULES="luks luks2 gcry_rijndael gcry_sha1 gcry_sha256 gcry_sha512"
+CRYPTO_MODULES="luks luks2 gcry_rijndael gcry_sha1 gcry_sha256 gcry_sha512 crypttab"
 %ifarch %{efi}
-CD_MODULES="${CD_MODULES} chain efifwsetup efinet"
+CD_MODULES="${CD_MODULES} chain efifwsetup efinet read tpm tpm2"
 PXE_MODULES="${PXE_MODULES} efinet"
 %else
 CD_MODULES="${CD_MODULES} net"
@@ -707,7 +831,7 @@ CD_MODULES="${CD_MODULES} linux"
 
 GRUB_MODULES="${CD_MODULES} ${FS_MODULES} ${PXE_MODULES} ${CRYPTO_MODULES} mdraid09 mdraid1x lvm serial"
 %ifarch ppc ppc64 ppc64le
-GRUB_MODULES="${GRUB_MODULES} appendedsig memdisk tar regexp prep_loadenv"
+GRUB_MODULES="${GRUB_MODULES} appendedsig memdisk tar regexp prep_loadenv tpm"
 %endif
 
 %ifarch %{efi}
@@ -722,26 +846,14 @@ cd build-efi
         --program-transform-name=s,grub,%{name},
 make %{?_smp_mflags}
 
-# SBAT metadata
-%if 0%{?is_opensuse} == 1
-distro_id="opensuse"
-distro_name="The openSUSE Project"
-%else
-distro_id="sle"
-distro_name="SUSE Linux Enterprise"
-%endif
-upstream_sbat=3
-distro_sbat=1
+%if 0%{?sbat_generation}
 echo "sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md" > sbat.csv
-echo "grub,${upstream_sbat},Free Software Foundation,grub,%{version},https://www.gnu.org/software/grub/" >> sbat.csv
-echo "grub.${distro_id},${distro_sbat},${distro_name},%{name},%{version},mailto:security@suse.de" >> sbat.csv
-
-./grub-mkimage -O %{grubefiarch} -o grub.efi --prefix= --sbat sbat.csv \
-		-d grub-core ${GRUB_MODULES}
-%ifarch x86_64
-./grub-mkimage -O %{grubefiarch} -o grub-tpm.efi --prefix= --sbat sbat.csv \
-		-d grub-core ${GRUB_MODULES} tpm tpm2
+echo "grub,%{sbat_generation_grub},Free Software Foundation,grub,%{version},https://www.gnu.org/software/grub/" >> sbat.csv
+echo "grub.%{sbat_distro},%{sbat_generation},%{sbat_distro_summary},%{name},%{version},%{sbat_distro_url}" >> sbat.csv
 %endif
+
+./grub-mkimage -O %{grubefiarch} -o grub.efi --prefix= %{?sbat_generation:--sbat sbat.csv} \
+		-d grub-core ${GRUB_MODULES}
 
 %ifarch x86_64 aarch64
 if test -e %{_sourcedir}/_projectcert.crt ; then
@@ -921,7 +1033,7 @@ cd build-efi
 %make_install
 install -m 644 grub.efi %{buildroot}/%{_datadir}/%{name}/%{grubefiarch}/.
 %ifarch x86_64
-install -m 644 grub-tpm.efi %{buildroot}/%{_datadir}/%{name}/%{grubefiarch}/.
+ln -srf %{buildroot}/%{_datadir}/%{name}/%{grubefiarch}/grub.efi %{buildroot}/%{_datadir}/%{name}/%{grubefiarch}/grub-tpm.efi
 %endif
 
 # Create grub.efi link to system efi directory
@@ -943,9 +1055,6 @@ EoM
 
 %ifarch x86_64 aarch64
 export BRP_PESIGN_FILES="%{_datadir}/%{name}/%{grubefiarch}/grub.efi"
-%ifarch x86_64
-BRP_PESIGN_FILES="${BRP_PESIGN_FILES} %{_datadir}/%{name}/%{grubefiarch}/grub-tpm.efi"
-%endif
 install -m 444 grub.der %{buildroot}/%{sysefidir}/
 %endif
 
@@ -1060,6 +1169,25 @@ perl -ni -e '
 '  %{buildroot}/%{_sysconfdir}/default/grub
 %else
 %endif
+
+# bsc#1205554 move the zfs modules into extras packages
+# EXTRA_PATTERN='pattern1|pattern2|pattern3|...'
+EXTRA_PATTERN="zfs"
+%ifarch %{ix86} x86_64
+find %{buildroot}/%{_datadir}/%{name}/%{grubxenarch}/ -type f | sed 's,%{buildroot},,' > %{grubxenarch}-all.lst
+grep -v -E ${EXTRA_PATTERN} %{grubxenarch}-all.lst > %{grubxenarch}.lst
+grep -E ${EXTRA_PATTERN} %{grubxenarch}-all.lst > %{grubxenarch}-extras.lst
+%endif
+
+%ifarch %{efi}
+find %{buildroot}/%{_datadir}/%{name}/%{grubefiarch}/ -name '*.mod' | sed 's,%{buildroot},,' > %{grubefiarch}-mod-all.lst
+grep -v -E ${EXTRA_PATTERN} %{grubefiarch}-mod-all.lst > %{grubefiarch}-mod.lst
+grep -E ${EXTRA_PATTERN} %{grubefiarch}-mod-all.lst > %{grubefiarch}-mod-extras.lst
+%endif
+
+find %{buildroot}/%{_datadir}/%{name}/%{grubarch}/ -name '*.mod' | sed 's,%{buildroot},,' > %{grubarch}-mod-all.lst
+grep -v -E ${EXTRA_PATTERN} %{grubarch}-mod-all.lst > %{grubarch}-mod.lst
+grep -E ${EXTRA_PATTERN} %{grubarch}-mod-all.lst > %{grubarch}-mod-extras.lst
 
 %find_lang %{name}
 %fdupes %buildroot%{_bindir}
@@ -1228,6 +1356,7 @@ fi
 %dir %{_sysconfdir}/grub.d
 %{_sysconfdir}/grub.d/README
 %config(noreplace) %{_sysconfdir}/grub.d/00_header
+%config(noreplace) %{_sysconfdir}/grub.d/05_crypttab
 %config(noreplace) %{_sysconfdir}/grub.d/10_linux
 %config(noreplace) %{_sysconfdir}/grub.d/20_linux_xen
 %config(noreplace) %{_sysconfdir}/grub.d/30_uefi-firmware
@@ -1331,7 +1460,7 @@ fi
 
 %if ! 0%{?only_efi:1}
 
-%files %{grubarch}
+%files %{grubarch} -f %{grubarch}-mod.lst
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/%{grubarch}
 %ifarch ppc ppc64 ppc64le
@@ -1346,7 +1475,6 @@ fi
 %endif
 %{_datadir}/%{name}/%{grubarch}/*.img
 %{_datadir}/%{name}/%{grubarch}/*.lst
-%{_datadir}/%{name}/%{grubarch}/*.mod
 %ifarch x86_64
 %{_datadir}/%{name}/%{grubarch}/efiemu*.o
 %endif
@@ -1355,6 +1483,10 @@ fi
 %ifarch %{ix86} x86_64
 %{_libexecdir}/%{name}-instdev-fixup.pl
 %endif
+
+%files %{grubarch}-extras -f %{grubarch}-mod-extras.lst
+%defattr(-,root,root,-)
+%dir %{_datadir}/%{name}/%{grubarch}
 
 %files %{grubarch}-debug
 %defattr(-,root,root,-)
@@ -1366,7 +1498,7 @@ fi
 
 %ifarch %{efi}
 
-%files %{grubefiarch}
+%files %{grubefiarch} -f %{grubefiarch}-mod.lst
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/%{grubefiarch}
 %{_datadir}/%{name}/%{grubefiarch}/grub.efi
@@ -1375,7 +1507,6 @@ fi
 %endif
 %{_datadir}/%{name}/%{grubefiarch}/*.img
 %{_datadir}/%{name}/%{grubefiarch}/*.lst
-%{_datadir}/%{name}/%{grubefiarch}/*.mod
 %{_datadir}/%{name}/%{grubefiarch}/kernel.exec
 %{_datadir}/%{name}/%{grubefiarch}/modinfo.sh
 %dir %{sysefibasedir}
@@ -1394,6 +1525,10 @@ fi
 %{sysefidir}/grub.der
 %endif
 
+%files %{grubefiarch}-extras -f %{grubefiarch}-mod-extras.lst
+%defattr(-,root,root,-)
+%dir %{_datadir}/%{name}/%{grubefiarch}
+
 %files %{grubefiarch}-debug
 %defattr(-,root,root,-)
 %{_datadir}/%{name}/%{grubefiarch}/gdb_grub
@@ -1410,13 +1545,16 @@ fi
 %{_libdir}/snapper/plugins/grub
 
 %ifarch %{ix86} x86_64
-%files %{grubxenarch}
+%files %{grubxenarch} -f %{grubxenarch}.lst
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/%{grubxenarch}
-%{_datadir}/%{name}/%{grubxenarch}/*
 # provide compatibility sym-link for VM definitions pointing to old location
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/%{grubxenarch}
+
+%files %{grubxenarch}-extras -f %{grubxenarch}-extras.lst
+%defattr(-,root,root,-)
+%dir %{_datadir}/%{name}/%{grubxenarch}
 %endif
 
 %if 0%{?has_systemd:1}

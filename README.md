@@ -25,7 +25,7 @@ SUSE, https://www.suse.com/
 *******************************************************************************
 ### What product or service is this for?
 *******************************************************************************
-openSUSE Leap 15.4
+openSUSE Tumbleweed
 
 *******************************************************************************
 ### What's the justification that this really does need to be signed for the whole world to be able to boot it?
@@ -89,10 +89,6 @@ Unchanged from last reviewed shim:
 - shim-bsc1177315-verify-eku-codesign.patch: Check CodeSign in the signer's EKU
 - shim-change-debug-file-path.patch: change path of debug file
 - shim-disable-export-vendor-dbx.patch: Prevent issues with ill behaving firmware
-- shim-bsc1198101-opensuse-cert-prompt.patch: Pop up a window to ask if the user is willing to trust the built-in
-openSUSE certificate. FIXME
-
-New:
 - shim-Enable-the-NX-compatibility-flag-by-default.patch: Enable NX-compatibility DLL Characteristic flag in this shim
 
 *******************************************************************************
@@ -155,11 +151,10 @@ yes
 *******************************************************************************
 ### Do you build your signed kernel with additional local patches? What do they do?
 *******************************************************************************
-We reuse the SUSE Linux enterprise kernel here, so we have a similar issue with this question:
-As a major Linux distributor we have many thousands of patches due to the fact that we maintain
-kernels for our customers over years. I think this question is next to impossible to answer
-for us. Can this please be made more specific? Answering this would results in a wall of text
-here.
+We have a large team of kernel engineers and quite a number of patches we carry (~1900 
+at the moment). I think this question is next to impossible to answer for us.
+Can this please be made more specific? Answering this would results in a wall
+of text here.
 
 *******************************************************************************
 ### If you use vendor_db functionality of providing multiple certificates and/or hashes please briefly describe your certificate setup.
@@ -206,11 +201,11 @@ Last was shim 15.4. We want the new upstream release to fix security issues
 *******************************************************************************
 ### What is the SHA256 hash of your final SHIM binary?
 *******************************************************************************
-pesign --hash --padding --in=./shim-opensuse_x86_64.efi
-hash: be2af39cb08e9372ebc65bf90da9857ee04d14e59c846013a86d3015cfb84206
+pesign --hash --padding --in=./usr/share/efi/x86_64/shim-opensuse.efi
+hash: 793aff84df52f86aceccc1be0111de4976d9e32fc62b20ac2ef6223f3c0516c1
 
-sha256sum ./shim-opensuse_x86_64.efi
-7cf2c59fa006f6dea86206ef5e94f90207dddcb2eb1eed18e7ba8ad17e8d61e8  ./shim-opensuse_x86_64.efi
+sha256sum ./usr/share/efi/x86_64/shim-opensuse.efi
+6af9b677a91b9f7fc4c06c18cc8ffaec91dd9255468d40e68ceb317af06b5d62  ./usr/share/efi/x86_64/shim-opensuse.efi
 
 
 *******************************************************************************
@@ -272,12 +267,12 @@ grub-2.06 from https://www.gnu.org/software/grub/
 *******************************************************************************
 ### If your SHIM launches any other components, please provide further details on what is launched.
 *******************************************************************************
-n/a
+fwupd is launched
 
 *******************************************************************************
 ### If your GRUB2 launches any other binaries that are not the Linux kernel in SecureBoot mode, please provide further details on what is launched and how it enforces Secureboot lockdown.
 *******************************************************************************
-n/a
+only the kernel
 
 *******************************************************************************
 ### How do the launched components prevent execution of unauthenticated code?
@@ -287,12 +282,13 @@ n/a
 *******************************************************************************
 ### Does your SHIM load any loaders that support loading unsigned kernels (e.g. GRUB)?
 *******************************************************************************
-It launches grub, nothing else
+It launches grub and fwupd, nothing else
 
 *******************************************************************************
 ### What kernel are you using? Which patches does it includes to enforce Secure Boot?
 *******************************************************************************
-5.14.21-150400.24.33 +
+openSUSE tumbleweed is a rolling relaese distro. At the moment we use
+6.2.9-1.1 +
 # Module signing / secure boot
 patches.suse/KEYS-Make-use-of-platform-keyring-for-module-signatu.patch
 # Lock down functions for UEFI secure boot
@@ -317,9 +313,5 @@ patches.suse/0011-PM-hibernate-require-hibernate-snapshot-image-to-be-.patch
 *******************************************************************************
 ### Add any additional information you think we may need to validate this shim.
 *******************************************************************************
-This is very compareable to our SLES submission since Leap bases heavily on SLES.
-https://github.com/rhboot/shim-review/issues/301
-
-
-There were concerns about the use of an additional parameter for the podman call
-(--build-arg ARCHITECTURE=). This was dropped
+There were concerns about our shim-bsc1198101-opensuse-cert-prompt.patch, so we
+removed it

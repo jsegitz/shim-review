@@ -1,4 +1,4 @@
-From 8a541b098f2acd2a0e2232ee4ae61259b3102792 Mon Sep 17 00:00:00 2001
+From bcda6538ffeb516987a1921fbe533aaf8b8c981b Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Fri, 28 Oct 2022 17:29:16 +0800
 Subject: [PATCH 11/12] font: Assign null_font to glyphs in ascii_font_glyph[]

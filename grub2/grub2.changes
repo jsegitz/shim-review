@@ -1,5 +1,178 @@
 -------------------------------------------------------------------
-Fri Nov  4 07:14:06 UTC 2022 - Michael Chang <mchang@suse.com>
+Thu Mar 23 05:25:50 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix aarch64 kiwi image's file not found due to '/@' prepended to path in
+  btrfs filesystem. (bsc#1209165)
+  * grub2-btrfs-05-grub2-mkconfig.patch
+
+-------------------------------------------------------------------
+Mon Mar 20 05:02:01 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Restrict cryptsetup key file permission for better security (bsc#1207499)
+  * 0001-loader-linux-Ensure-the-newc-pathname-is-NULL-termin.patch
+  * 0002-Restrict-cryptsetup-key-file-permission-for-better-s.patch
+
+-------------------------------------------------------------------
+Wed Mar 15 21:46:00 UTC 2023 - Hans-Peter Jansen <hpj@urpla.net>
+
+- Meanwhile, memtest86+ gained EFI support, but using the grub
+  command line to run it manually is quite tedious...
+  Adapt 20_memtest86+ to provide a proper menu entry. Executing
+  memtest requires to turn security off in BIOS: (Boot Mode: Other OS).
+
+-------------------------------------------------------------------
+Mon Mar 13 15:43:01 UTC 2023 - rw@suse.com
+
+- Tolerate kernel moved out of /boot. (bsc#1184804)
+  * grub2-s390x-12-zipl-setup-usrmerge.patch
+
+-------------------------------------------------------------------
+Mon Mar  6 06:31:09 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Discard cached key from grub shell and editor mode
+  * 0001-clean-up-crypttab-and-linux-modules-dependency.patch
+  * 0002-discard-cached-key-before-entering-grub-shell-and-ed.patch
+
+-------------------------------------------------------------------
+Fri Mar  3 07:48:56 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Make grub more robust against storage race condition causing system boot
+  failures (bsc#1189036)
+  * 0001-ieee1275-ofdisk-retry-on-open-and-read-failure.patch
+
+-------------------------------------------------------------------
+Wed Mar  1 02:58:07 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix riscv64 error for relocation 0x13 is not implemented yet
+  * 0001-RISC-V-Handle-R_RISCV_CALL_PLT-reloc.patch
+
+-------------------------------------------------------------------
+Wed Feb 22 07:08:44 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix out of memory error on lpar installation from virtual cdrom (bsc#1208024)
+  * 0001-ieee1275-Further-increase-initially-allocated-heap-f.patch
+  * 0002-tpm-Disable-tpm-verifier-if-tpm-is-not-present.patch
+- Fix lpar got hung at grub after inactive migration (bsc#1207684)
+  * 0002-ieee1275-implement-vec5-for-cas-negotiation.patch
+- Rediff
+  * safe_tpm_pcr_snapshot.patch
+- Patch supersceded
+  * 0001-tpm-Disable-tpm-verifier-if-tpm-is-not-present.patch
+
+-------------------------------------------------------------------
+Wed Feb 15 07:09:39 UTC 2023 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Refresh 0003-tpm2-resend-the-command-on-TPM_RC_RETRY.patch to
+  handle the TPM2 responseCode correctly.
+
+-------------------------------------------------------------------
+Fri Feb 10 14:54:35 UTC 2023 - Valentin Lefebvre <valentin.lefebvre@suse.com>
+
+- Add module for boot loader interface. Needed for load Unified Kernel
+  Image (UKI)
+  * grub2-add-module-for-boot-loader-interface.patch 
+
+-------------------------------------------------------------------
+Thu Feb  9 08:42:26 UTC 2023 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Amend the TPM2 stack and add authorized policy mode to
+  tpm2_key_protector
+  * 0001-tpm2-adjust-the-input-parameters-of-TPM2_EvictContro.patch
+  * 0002-tpm2-declare-the-input-arguments-of-TPM2-functions-a.patch
+  * 0003-tpm2-resend-the-command-on-TPM_RC_RETRY.patch
+  * 0004-tpm2-add-new-TPM2-types-structures-and-command-const.patch
+  * 0005-tpm2-add-more-marshal-unmarshal-functions.patch
+  * 0006-tpm2-check-the-command-parameters-of-TPM2-commands.patch
+  * 0007-tpm2-pack-the-missing-authorization-command-for-TPM2.patch
+  * 0008-tpm2-allow-some-command-parameters-to-be-NULL.patch
+  * 0009-tpm2-remove-the-unnecessary-variables.patch
+  * 0010-tpm2-add-TPM2-commands-to-support-authorized-policy.patch
+  * 0011-tpm2-make-the-file-reading-unmarshal-functions-gener.patch
+  * 0012-tpm2-initialize-the-PCR-selection-list-early.patch
+  * 0013-tpm2-support-unsealing-key-with-authorized-policy.patch
+
+-------------------------------------------------------------------
+Wed Feb  8 02:24:16 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix nvmf boot device setup (bsc#1207811)
+  * 0001-grub2-Can-t-setup-a-default-boot-device-correctly-on.patch
+
+-------------------------------------------------------------------
+Tue Feb  7 02:11:47 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix unknown filesystem error on disks with 4096 sector size (bsc#1207064)
+  * 0001-grub-core-modify-sector-by-sysfs-as-disk-sector.patch
+
+-------------------------------------------------------------------
+Sat Feb  4 05:57:02 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix GCC 13 build failure (bsc#1201089)
+  * 0002-AUDIT-0-http-boot-tracker-bug.patch
+
+-------------------------------------------------------------------
+Tue Jan  3 02:48:05 UTC 2023 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Move unsupported zfs modules into 'extras' packages
+  (bsc#1205554) (PED-2947)
+
+-------------------------------------------------------------------
+Fri Dec 30 07:58:54 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix inappropriately including commented lines in crypttab (bsc#1206279)
+  * 0010-templates-import-etc-crypttab-to-grub.cfg.patch
+
+-------------------------------------------------------------------
+Fri Dec 23 09:50:42 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Make grub.cfg invariant to efi and legacy platforms (bsc#1205200)
+- Removed patch linuxefi
+  * grub2-secureboot-provide-linuxefi-config.patch
+  * grub2-secureboot-use-linuxefi-on-uefi-in-os-prober.patch
+  * grub2-secureboot-use-linuxefi-on-uefi.patch
+- Rediff
+  * grub2-btrfs-05-grub2-mkconfig.patch
+  * grub2-efi-xen-cmdline.patch
+  * grub2-s390x-05-grub2-mkconfig.patch
+  * grub2-suse-remove-linux-root-param.patch
+
+-------------------------------------------------------------------
+Mon Dec 19 08:39:05 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Setup multiple device paths for a nvmf boot device (bsc#1205666)
+  * 0001-grub2-Set-multiple-device-path-for-a-nvmf-boot-devic.patch
+
+-------------------------------------------------------------------
+Fri Dec 16 01:51:45 UTC 2022 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Increase the path buffer in the crypttab command for the long
+  volume name (bsc#1206333)
+  * grub2-increase-crypttab-path-buffer.patch
+
+-------------------------------------------------------------------
+Mon Dec  5 08:47:06 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Add tpm to signed grub.elf image (PED-1990) (bsc#1205912) 
+- Increase initial heap size from 1/4 to 1/3
+  * 0001-ieee1275-Increase-initially-allocated-heap-from-1-4-.patch
+
+-------------------------------------------------------------------
+Tue Nov 22 08:11:17 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Make full utilization of btrfs bootloader area (bsc#1161823)
+  * 0001-fs-btrfs-Use-full-btrfs-bootloader-area.patch
+  * 0002-Mark-environmet-blocks-as-used-for-image-embedding.patch
+- Patch removed
+  * 0001-i386-pc-build-btrfs-zstd-support-into-separate-modul.patch
+
+-------------------------------------------------------------------
+Mon Nov 21 02:10:28 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix regression of reverting back to asking password twice when a keyfile is
+  already used (bsc#1205309)
+  * 0010-templates-import-etc-crypttab-to-grub.cfg.patch
+
+-------------------------------------------------------------------
+Wed Nov 16 02:36:23 UTC 2022 - Michael Chang <mchang@suse.com>
 
 - Security fixes and hardenings
   * 0001-font-Reject-glyphs-exceeds-font-max_glyph_width-or-f.patch
@@ -19,14 +192,132 @@ Fri Nov  4 07:14:06 UTC 2022 - Michael Chang <mchang@suse.com>
 - Bump upstream SBAT generation to 3
 
 -------------------------------------------------------------------
+Mon Nov 14 09:54:16 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Removed 0001-linux-fix-efi_relocate_kernel-failure.patch as reported
+  regression in some hardware being stuck in initrd loading (bsc#1205380)
+
+-------------------------------------------------------------------
+Mon Nov 14 03:03:35 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix password asked twice if third field in crypttab not present (bsc#1205312)
+  * 0009-Add-crypttab_entry-to-obviate-the-need-to-input-pass.patch
+
+-------------------------------------------------------------------
+Fri Oct 28 04:58:28 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- NVMeoFC support on grub (jsc#PED-996)
+  * 0001-ieee1275-add-support-for-NVMeoFC.patch
+  * 0002-ieee1275-ofpath-enable-NVMeoF-logical-device-transla.patch
+  * 0003-ieee1275-change-the-logic-of-ieee1275_get_devargs.patch
+  * 0004-ofpath-controller-name-update.patch
+- TDX: Enhance grub2 measurement to TD RTMR (jsc#PED-1265)
+  * 0001-commands-efi-tpm-Refine-the-status-of-log-event.patch
+  * 0002-commands-efi-tpm-Use-grub_strcpy-instead-of-grub_mem.patch
+  * 0003-efi-tpm-Add-EFI_CC_MEASUREMENT_PROTOCOL-support.patch
+- Measure the kernel on POWER10 and extend TPM PCRs (PED-1990) 
+  * 0001-ibmvtpm-Add-support-for-trusted-boot-using-a-vTPM-2..patch
+  * 0002-ieee1275-implement-vec5-for-cas-negotiation.patch
+- Fix efi pcr snapshot related funtion is defined but not used on powerpc
+  platform.
+  * safe_tpm_pcr_snapshot.patch
+
+-------------------------------------------------------------------
 Mon Oct 24 01:58:08 UTC 2022 - Michael Chang <mchang@suse.com>
 
 - Include loopback into signed grub2 image (jsc#PED-2150)
 
 -------------------------------------------------------------------
-Tue Oct  4 07:27:13 UTC 2022 - Michael Chang <mchang@suse.com>
+Thu Oct  6 07:13:23 UTC 2022 - Michael Chang <mchang@suse.com>
 
-- Add patches for automatic TPM disk unlock (jsc#SLE-24018) (bsc#1196668) (jsc#PED-1276)
+- Fix firmware oops after disk decrypting failure (bsc#1204037) 
+  * 0009-Add-crypttab_entry-to-obviate-the-need-to-input-pass.patch
+
+-------------------------------------------------------------------
+Fri Sep 23 10:13:54 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Add patch to fix kernel relocation error in low memory
+  * 0001-linux-fix-efi_relocate_kernel-failure.patch
+
+-------------------------------------------------------------------
+Mon Sep 19 04:07:36 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Add safety measure to pcr snapshot by checking platform and tpm status
+  * safe_tpm_pcr_snapshot.patch
+
+-------------------------------------------------------------------
+Fri Sep 16 03:56:14 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix installation failure due to unavailable nvram device on
+  ppc64le (bsc#1201361)
+  * 0001-grub-install-set-point-of-no-return-for-powerpc-ieee1275.patch
+
+-------------------------------------------------------------------
+Fri Sep 16 03:12:36 UTC 2022 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Add patches to dynamically allocate additional memory regions for
+  EFI systems (bsc#1202438)
+  * 0001-mm-Allow-dynamically-requesting-additional-memory-re.patch
+  * 0002-kern-efi-mm-Always-request-a-fixed-number-of-pages-o.patch
+  * 0003-kern-efi-mm-Extract-function-to-add-memory-regions.patch
+  * 0004-kern-efi-mm-Pass-up-errors-from-add_memory_regions.patch
+  * 0005-kern-efi-mm-Implement-runtime-addition-of-pages.patch
+- Enlarge the default heap size and defer the disk cache
+  invalidation (bsc#1202438)
+  * 0001-kern-efi-mm-Enlarge-the-default-heap-size.patch
+  * 0002-mm-Defer-the-disk-cache-invalidation.patch
+
+-------------------------------------------------------------------
+Thu Sep 15 09:51:07 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Add patches for ALP FDE support
+  * 0001-devmapper-getroot-Have-devmapper-recognize-LUKS2.patch
+  * 0002-devmapper-getroot-Set-up-cheated-LUKS2-cryptodisk-mo.patch
+  * 0003-disk-cryptodisk-When-cheatmounting-use-the-sector-in.patch
+  * 0004-normal-menu-Don-t-show-Booting-s-msg-when-auto-booti.patch
+  * 0005-EFI-suppress-the-Welcome-to-GRUB-message-in-EFI-buil.patch
+  * 0006-EFI-console-Do-not-set-colorstate-until-the-first-te.patch
+  * 0007-EFI-console-Do-not-set-cursor-until-the-first-text-o.patch
+  * 0008-linuxefi-Use-common-grub_initrd_load.patch
+  * 0009-Add-crypttab_entry-to-obviate-the-need-to-input-pass.patch
+  * 0010-templates-import-etc-crypttab-to-grub.cfg.patch
+  * grub-read-pcr.patch
+  * efi-set-variable-with-attrs.patch
+  * tpm-record-pcrs.patch
+  * tpm-protector-dont-measure-sealed-key.patch
+  * tpm-protector-export-secret-key.patch
+  * grub-install-record-pcrs.patch
+  * grub-unseal-debug.patch
+
+-------------------------------------------------------------------
+Mon Aug 29 03:48:55 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix out of memory error cannot be prevented via disabling tpm (bsc#1202438)
+  * 0001-tpm-Disable-tpm-verifier-if-tpm-is-not-present.patch
+
+-------------------------------------------------------------------
+Thu Aug 18 02:47:28 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix tpm error stop tumbleweed from booting (bsc#1202374)
+  * 0001-tpm-Pass-unknown-error-as-non-fatal-but-debug-print-.patch
+- Patch Removed
+  * 0001-tpm-Log-EFI_VOLUME_FULL-and-continue.patch
+
+-------------------------------------------------------------------
+Wed Jun  8 03:25:26 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Add tpm, tpm2, luks2 and gcry_sha512 to default grub.efi (bsc#1197625)
+- Make grub-tpm.efi a symlink to grub.efi
+  * grub2.spec
+- Log error when tpm event log is full and continue
+  * 0001-tpm-Log-EFI_VOLUME_FULL-and-continue.patch
+- Patch superseded
+  * 0001-tpm-Pass-unknown-error-as-non-fatal-but-debug-print-.patch
+
+-------------------------------------------------------------------
+Wed Jun  8 03:17:29 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Add patches for automatic TPM disk unlock (jsc#SLE-24018) (bsc#1196668)
   * 0001-luks2-Add-debug-message-to-align-with-luks-and-geli-.patch
   * 0002-cryptodisk-Refactor-to-discard-have_it-global.patch
   * 0003-cryptodisk-Return-failure-in-cryptomount-when-no-cry.patch
@@ -45,13 +336,6 @@ Tue Oct  4 07:27:13 UTC 2022 - Michael Chang <mchang@suse.com>
   * 0001-crytodisk-fix-cryptodisk-module-looking-up.patch
 - Fix build error
   * fix-tpm2-build.patch
-
--------------------------------------------------------------------
-Fri Sep 16 03:56:14 UTC 2022 - Michael Chang <mchang@suse.com>
-
-- Fix installation failure due to unavailable nvram device on
-  ppc64le (bsc#1201361)
-  * 0001-grub-install-set-point-of-no-return-for-powerpc-ieee1275.patch
 
 -------------------------------------------------------------------
 Tue May 31 04:44:18 UTC 2022 - Michael Chang <mchang@suse.com>
@@ -97,7 +381,6 @@ Tue May 31 04:44:18 UTC 2022 - Michael Chang <mchang@suse.com>
   * 0030-fs-btrfs-Fix-more-ASAN-and-SEGV-issues-found-with-fu.patch
   * 0031-fs-btrfs-Fix-more-fuzz-issues-related-to-chunks.patch
   * 0032-Use-grub_loader_set_ex-for-secureboot-chainloader.patch
-- Update SBAT security contact (boo#1193282)
 - Bump grub's SBAT generation to 2
 
 -------------------------------------------------------------------
@@ -109,11 +392,54 @@ Tue May 31 04:41:44 UTC 2022 - Michael Chang <mchang@suse.com>
   * 0001-ofdisk-improve-boot-time-by-lookup-boot-disk-first.patch
 
 -------------------------------------------------------------------
+Thu May 26 10:10:56 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix error message in displaying help on bootable snapshot (bsc#1199609)
+
+-------------------------------------------------------------------
+Tue May 17 10:46:38 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix installation over serial console ends up in infinite boot loop
+  (bsc#1187810)
+  * 0001-Fix-infinite-boot-loop-on-headless-system-in-qemu.patch
+- Fix ppc64le build error for new IEEE long double ABI
+  * 0001-libc-config-merge-from-glibc.patch
+
+-------------------------------------------------------------------
 Thu Apr 21 09:35:15 UTC 2022 - Michael Chang <mchang@suse.com>
 
 - Fix Power10 LPAR error "The partition fails to activate as partition went
   into invalid state" (bsc#1198714)
   * 0001-powerpc-do-CAS-in-a-more-compatible-way.patch 
+
+-------------------------------------------------------------------
+Mon Apr 11 11:50:04 UTC 2022 - Ludwig Nussel <lnussel@suse.de>
+
+- use common SBAT values (boo#1193282)
+
+-------------------------------------------------------------------
+Fri Mar 25 03:46:55 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix wrong order in kernel sorting of listing rc before final release
+  (bsc#1197376)
+  * grub2-use-rpmsort-for-version-sorting.patch
+
+-------------------------------------------------------------------
+Fri Mar 18 09:10:07 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix duplicated insmod part_gpt lines in grub.cfg (bsc#1197186)
+  * 0001-grub-probe-Deduplicate-probed-partmap-output.patch
+
+-------------------------------------------------------------------
+Wed Mar 16 14:57:02 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Fix GCC 12 build failure (bsc#1196546)
+  * 0001-mkimage-Fix-dangling-pointer-may-be-used-error.patch
+  * 0002-Fix-Werror-array-bounds-array-subscript-0-is-outside.patch
+  * 0003-reed_solomon-Fix-array-subscript-0-is-outside-array-.patch
+- Revised
+  * grub2-btrfs-01-add-ability-to-boot-from-subvolumes.patch
+  * 0002-ieee1275-powerpc-enables-device-mapper-discovery.patch
 
 -------------------------------------------------------------------
 Fri Mar 11 09:30:05 UTC 2022 - Michael Chang <mchang@suse.com>
