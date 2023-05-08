@@ -201,12 +201,11 @@ Last was shim 15.4. We want the new upstream release to fix security issues
 *******************************************************************************
 ### What is the SHA256 hash of your final SHIM binary?
 *******************************************************************************
-pesign --hash --padding --in=./usr/share/efi/x86_64/shim-opensuse.efi
-hash: 793aff84df52f86aceccc1be0111de4976d9e32fc62b20ac2ef6223f3c0516c1
+pesign --hash --padding --in=/shim/usr/share/efi/x86_64/shim-opensuse.efi
+hash: cfd34a1af181d397f308991b89e09de894487f565fa22efe2dc538cee439ee25
 
-sha256sum ./usr/share/efi/x86_64/shim-opensuse.efi
-6af9b677a91b9f7fc4c06c18cc8ffaec91dd9255468d40e68ceb317af06b5d62  ./usr/share/efi/x86_64/shim-opensuse.efi
-
+sha256sum /shim/usr/share/efi/x86_64/shim-opensuse.efi
+189e8154c8d0122bb19cfeb341ea1ddf449a904ece0064a3f396e43bb7cd05a3
 
 *******************************************************************************
 ### How do you manage and protect the keys used in your SHIM?
@@ -248,16 +247,40 @@ shim.opensuse,1,The openSUSE project,shim,15.7,mail:security-team@suse.de
 *******************************************************************************
 ### Which modules are built into your signed grub image?
 *******************************************************************************
-btrfs ext2 xfs jfs reiserfs all_video boot cat configfile echo true 
-font gfxmenu gfxterm gzio halt iso9660 jpeg minicmd normal part_apple part_msdos part_gpt 
-password password_pbkdf2 png reboot search search_fs_uuid search_fs_file search_label
-sleep test video fat loadenv loopback tftp http luks luks2 gcry_rijndael gcry_sha1 
-gcry_sha256 gcry_sha512 chain efifwsetup efinet efinet mdraid09 mdraid1x lvm serial
-
-On x86_64
-+ linuxefi
-On other architectures
-+ linux
+acpi adler32 affs afs afsplitter ahci all_video aout appendedsig
+appended_signature_test appleldr archelp asn1 ata at_keyboard backtrace bfs
+biosdisk bitmap bitmap_scale blocklist boot_loader_interface boot bsd
+bswap_test btrfs bufio cat cbfs cbls cbmemc cbtable cbtime chain
+cmdline_cat_test cmdline cmosdump cmostest cmp cmp_test configfile cpio_be cpio
+cpuid crc64 cryptodisk crypto crypttab cs5536 ctz_test datehook date datetime
+diskfilter disk div div_test dm_nv drivemap echo efiemu efifwsetup efi_gop
+efinet efi_uga ehci elf eval exfat exfctest ext2 extcmd f2fs fat file fixvideo
+font freedos fshelp functional_test gcry_arcfour gcry_blowfish gcry_camellia
+gcry_cast5 gcry_crc gcry_des gcry_dsa gcry_idea gcry_md4 gcry_md5 gcry_rfc2268
+gcry_rijndael gcry_rmd160 gcry_rsa gcry_seed gcry_serpent gcry_sha1 gcry_sha256
+gcry_sha512 gcry_tiger gcry_twofish gcry_whirlpool gdb geli gettext gfxmenu
+gfxterm_background gfxterm_menu gfxterm gmodule gptsync gzio halt hashsum
+hdparm hello help hexdump hfs hfspluscomp hfsplus http iorw iso9660 jfs jpeg
+json keylayouts keystatus ldm legacycfg legacy_password_test linux16 linuxefi
+linux loadbios loadenv loopback lsacpi lsapm lsefimmap lsefi lsefisystab lsmmap
+ls lspci lssal lsxen luks2 luks lvm lzopio macbless macho mda_text mdraid09_be
+mdraid09 mdraid1x memdisk memrw minicmd minix2_be minix2 minix3_be minix3
+minix_be minix mmap morse mpi msdospart mul_test multiboot2 multiboot
+nativedisk net newc nilfs2 normal ntfscomp ntfs ntldr odc offsetio ohci
+part_acorn part_amiga part_apple part_bsd part_dfly part_dvh part_gpt
+part_msdos part_plan part_sun part_sunpc parttool password password_pbkdf2 pata
+pbkdf2 pbkdf2_test pcidump pci pgp pkcs1_v15 plan9 play png prep_loadenv
+priority_queue probe procfs progress pxechain pxe raid5rec raid6rec random
+rdmsr read reboot regexp reiserfs relocator romfs scsi search_fs_file
+search_fs_uuid search_label search sendkey serial setjmp setjmp_test setpci sfs
+shift_test signature_test sleep sleep_test smbios spkmodem squash4
+strtoull_test syslinuxcfg tar terminal terminfo test_asn1 test_blockarg
+testload test testspeed tftp tga time tpm2 tpm trig tr truecrypt true udf
+ufs1_be ufs1 ufs2 uhci usb_keyboard usb usbms usbserial_common usbserial_ftdi
+usbserial_pl2303 usbserial_usbdebug usbtest vbe verifiers vga vga_text
+video_bochs video_cirrus video_colors video_fb videoinfo video
+videotest_checksum videotest wrmsr xfs xnu xnu_uuid xnu_uuid_test xzio zfscrypt
+zfsinfo zfs zstd
 
 *******************************************************************************
 ### What is the origin and full version number of your bootloader (GRUB or other)?
@@ -315,3 +338,14 @@ patches.suse/0011-PM-hibernate-require-hibernate-snapshot-image-to-be-.patch
 *******************************************************************************
 There were concerns about our shim-bsc1198101-opensuse-cert-prompt.patch, so we
 removed it
+
+We added a previous review request for shim 15.7. The reviewer pointed the missing 
+NX support:
+https://github.com/rhboot/shim-review/issues/329
+In this submission NX support is enabled in shim. In our testing we found the
+NX support for the kernel and grub2 still buggy, so it's not enabled there. We'll
+switch it on once it's ready
+
+As for the fwupd sbat entry: We have the binaries shipped with this entry, so it's
+tricky to change now. Unless there's a compelling reason we would like to keep it as
+is.

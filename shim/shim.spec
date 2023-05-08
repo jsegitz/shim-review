@@ -1,7 +1,7 @@
 #
 # spec file for package shim
 #
-# Copyright (c) 2021 SUSE LLC
+# Copyright (c) 2023 SUSE LLC
 #
 # All modifications and additions to the file contributed by third parties
 # remain the property of their copyright owners, unless otherwise agreed
@@ -204,7 +204,6 @@ for suffix in "${suffixes[@]}"; do
          VENDOR_CERT_FILE=shim-$suffix.der ENABLE_HTTPBOOT=1 \
          DEFAULT_LOADER="\\\\\\\\grub.efi" \
          VENDOR_DBX_FILE=$vendor_dbx \
-         POST_PROCESS_PE_FLAGS=-N \
          shim.efi.debug shim.efi
     #
     # assert correct certificate embedded

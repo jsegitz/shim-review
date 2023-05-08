@@ -17,13 +17,14 @@ Confirm the following are included in your repo, checking each box:
 *******************************************************************************
 ### What is the SHA256 hash of your final SHIM binary?
 *******************************************************************************
-pesign --hash --padding --in=./usr/share/efi/x86_64/shim-opensuse.efi
-hash: 793aff84df52f86aceccc1be0111de4976d9e32fc62b20ac2ef6223f3c0516c1
+pesign --hash --padding --in=/shim/usr/share/efi/x86_64/shim-opensuse.efi
+hash: cfd34a1af181d397f308991b89e09de894487f565fa22efe2dc538cee439ee25
 
-sha256sum ./usr/share/efi/x86_64/shim-opensuse.efi
-6af9b677a91b9f7fc4c06c18cc8ffaec91dd9255468d40e68ceb317af06b5d62  ./usr/share/efi/x86_64/shim-opensuse.efi
+sha256sum /shim/usr/share/efi/x86_64/shim-opensuse.efi
+189e8154c8d0122bb19cfeb341ea1ddf449a904ece0064a3f396e43bb7cd05a3
 
 *******************************************************************************
 ### What is the link to your previous shim review request (if any, otherwise N/A)?
 *******************************************************************************
 https://github.com/rhboot/shim-review/issues/283
+(and https://github.com/rhboot/shim-review/issues/329, see notes in the README)
