@@ -1,5 +1,6 @@
 # syntax = docker/dockerfile:1.0-experimental
-FROM opensuse/leap@sha256:f62e58ff202b95250b8c8f6664d8d4ceebf5d22bbfa244dee7fb129bc667b784
+#FROM opensuse/leap@sha256:f62e58ff202b95250b8c8f6664d8d4ceebf5d22bbfa244dee7fb129bc667b784
+FROM opensuse/leap
 
 ADD SUSE_Trust_Root.crt.pem /usr/share/pki/trust/anchors/SUSE_Trust_Root.crt.pem
 RUN update-ca-certificates
