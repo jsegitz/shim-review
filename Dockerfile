@@ -17,6 +17,6 @@ COPY shim /usr/src/packages/SOURCES/
 # get the current epoch from the build log
 RUN SOURCE_DATE_EPOCH=1617192000 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 RUN mkdir /shim
-RUN cd /shim/ && unrpm /usr/src/packages/RPMS/x86_64/shim-*.x86_64.rpm
-RUN pesign --hash --padding --in=/shim/usr/share/efi/x86_64/shim-opensuse.efi
-RUN sha256sum /shim/usr/share/efi/x86_64/shim-opensuse.efi
+RUN cd /shim/ && unrpm $(find /usr/src/packages/RPMS/ -name 'shim-1*.rpm')
+RUN pesign --hash --padding --in=$(find /shim -name shim-opensuse.efi)
+RUN sha256sum $(find /shim -name shim-opensuse.efi)
