@@ -246,6 +246,11 @@ sbat,1,UEFI shim,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 fwupd,1,Firmware update daemon,fwupd,1.7.3,https://github.com/fwupd/fwupd
 fwupd-sle,1,SUSE Linux Enterprise,fwupd,1.7.3,https://build.opensuse.org
 
+systemd-boot:
+sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
+systemd,1,The systemd Developers,systemd,254,https://systemd.io/
+systemd.opensuse,1,The openSUSE Project,systemd,254.3-2.1,mailto:security@suse.de
+
 shim:
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 shim,3,UEFI shim,shim,1,https://github.com/rhboot/shim
@@ -297,7 +302,7 @@ grub-2.06 from https://www.gnu.org/software/grub/
 *******************************************************************************
 ### If your SHIM launches any other components, please provide further details on what is launched.
 *******************************************************************************
-fwupd is launched
+fwupd and systemd-boot can be launched
 
 *******************************************************************************
 ### If your GRUB2 launches any other binaries that are not the Linux kernel in SecureBoot mode, please provide further details on what is launched and how it enforces Secureboot lockdown.
