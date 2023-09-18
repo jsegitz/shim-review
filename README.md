@@ -317,7 +317,7 @@ n/a
 *******************************************************************************
 ### Does your SHIM load any loaders that support loading unsigned kernels (e.g. GRUB)?
 *******************************************************************************
-It launches grub and fwupd, nothing else
+It launches grub, fwupd and systemd-boot
 
 *******************************************************************************
 ### What kernel are you using? Which patches does it includes to enforce Secure Boot?
