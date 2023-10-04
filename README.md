@@ -203,22 +203,22 @@ Output from sha256sum:
 
 $ sha256sum shimia32.efi
 
-ac0e46972f3194951ae9a85cb651fa7cffbac9c43915c7cfc726e6530c69c2f3  shimia32.efi
+7bb9d54e966dcd7247e53df55417ec67bb9467aa64a4590facad662b32fac3fe  shimia32.efi
 
 $ sha256sum shimx64.efi
 
-55ff5b62ca47c351ce074289c1518a3a15fe664f7ce75d10db74c70e192f5a80  shimx64.efi
+dde161f906dfac80a67af99dd743a39b7646e49ed2474b1459a59bd2b3dcf6c4  shimx64.efi
 
 
 Output from pesign:
 
 $ pesign --hash --padding --in=shimia32.efi
 
-hash: af15f0049cbba5af927c6a9c7d071dab05eab1921d5fc96022f08876c1be534d
+hash: 2ae62b91c620677ad010416e37959210a3b43f74510250d0af735aa6ea6fef27
 
 $ pesign --hash --padding --in=shimx64.efi
 
-hash: 0e4bdcbb61dc02eeb6cf2eac9bd123d16afd87419851803a8f7ab0cb7a970875
+hash: 99fa67d0a6592061deedf1100224679113e30d31609ef91f637e8effe228f867
 
 *******************************************************************************
 ### How do you manage and protect the keys used in your SHIM?
