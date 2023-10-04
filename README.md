@@ -204,15 +204,15 @@ Last was shim 15.4. We want the new upstream release to fix security issues
 *******************************************************************************
 x86_64:
 - pesign:
-  hash: cfd34a1af181d397f308991b89e09de894487f565fa22efe2dc538cee439ee25
+  hash: 3016c9a9dc256cdfa6b46e475303771621fd65bd07e5987b2a5b2b084a34e323
 - sha256sum:
-  189e8154c8d0122bb19cfeb341ea1ddf449a904ece0064a3f396e43bb7cd05a3
+  68f89f47ac03a1fb4428692fd95a86d46eaeee087e392725797e64605b804509
 
 aarch64:
 - pesign:
-  hash: 79b6117983364b9f3e57af42417f48f8f4302f357b7ad1623c76a341c3334c78
+  hash: 615aa39cfd278313c8317ae8cadd908aae25ace3edb04d8700639ad7898a952e
 - sha256sum:
-  8e65cf07bcb53131dcc48aaff1acca330f30504cda3fe021af0737dfbb29fcc8
+  d47c2e2c3c28b27bbc9674a13d89818ba7455d127f0267e83cc6b0b5c3831ca2
 
 *******************************************************************************
 ### How do you manage and protect the keys used in your SHIM?
