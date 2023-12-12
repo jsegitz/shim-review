@@ -21,22 +21,22 @@ Output from sha256sum:
 
 $ sha256sum shimia32.efi
 
-7bb9d54e966dcd7247e53df55417ec67bb9467aa64a4590facad662b32fac3fe  shimia32.efi
+dd4f02dcb37b40a3e5dad9d57a514ecde61fd399fec89af2a609e39947fc91e2  /shimia32.efi
 
 $ sha256sum shimx64.efi
 
-dde161f906dfac80a67af99dd743a39b7646e49ed2474b1459a59bd2b3dcf6c4  shimx64.efi
+467d9572833d92359b2ce71f3e786af25909ca2647a4676bbaac4290ed7ea76a  /shimx64.efi
 
 
 Output from pesign:
 
 $ pesign --hash --padding --in=shimia32.efi
 
-hash: 2ae62b91c620677ad010416e37959210a3b43f74510250d0af735aa6ea6fef27
+hash: e07d9f6f590637d89823d0c11651ac40692cd773896e3b4455818f79e40d4298
 
 $ pesign --hash --padding --in=shimx64.efi
 
-hash: 99fa67d0a6592061deedf1100224679113e30d31609ef91f637e8effe228f867
+hash: 52f7dfb78b0f09d288e1532937a714618513f8d779d2ecafe82a9e17c2d398b9
 
 *******************************************************************************
 ### What is the link to your previous shim review request (if any, otherwise N/A)?
