@@ -183,7 +183,7 @@ here.
 ### Do you use an ephemeral key for signing kernel modules?
 ### If not, please describe how you ensure that one kernel build does not load modules built for another kernel.
 *******************************************************************************
-We don't use ephemeral keys.
+We don't use ephemeral keys. There's no mechanism to ensure that kernel modules are not loaded by another kernel.
 
 *******************************************************************************
 ### If you use vendor_db functionality of providing multiple certificates and/or hashes please briefly describe your certificate setup.
