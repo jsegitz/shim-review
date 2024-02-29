@@ -28,4 +28,4 @@ sha256sum: 5f3c747130027da84c47256a6d089b6cb1c923a3517d31c8703e360c9f2832c6  shi
 *******************************************************************************
 ### What is the link to your previous shim review request (if any, otherwise N/A)?
 *******************************************************************************
-https://github.com/rhboot/shim-review/issues/263
+https://github.com/rhboot/shim-review/issues/301
