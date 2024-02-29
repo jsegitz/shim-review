@@ -1,4 +1,4 @@
-From 9cd8a51ecedfccec2da9770f2c195f2dc911bff5 Mon Sep 17 00:00:00 2001
+From 5e53d73775f6dc9b9b08536cbac2f8a5e2559903 Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Fri, 28 Oct 2022 21:31:39 +0800
 Subject: [PATCH 12/12] normal/charset: Fix an integer overflow in

@@ -11,9 +11,12 @@ This repo is for review of requests for signing shim.  To create a request for r
 - file an issue at https://github.com/rhboot/shim-review/issues with a link to your tag
 - approval is ready when the "accepted" label is added to your issue
 
-Note that we really only have experience with using GRUB2 on Linux, so asking
-us to endorse anything else for signing is going to require some convincing on
+Note that we really only have experience with using GRUB2 or systemd-boot on Linux, so
+asking us to endorse anything else for signing is going to require some convincing on
 your part.
+
+Check the docs directory in this repo for guidance on submission and
+getting your shim signed.
 
 Here's the template:
 
@@ -67,10 +70,10 @@ like keyserver.ubuntu.com, and preferably have signatures that are reasonably
 well known in the Linux community.)
 
 *******************************************************************************
-### Were these binaries created from the 15.7 shim release tar?
-Please create your shim binaries starting with the 15.7 shim release tar file: https://github.com/rhboot/shim/releases/download/15.7/shim-15.7.tar.bz2
+### Were these binaries created from the 15.8 shim release tar?
+Please create your shim binaries starting with the 15.8 shim release tar file: https://github.com/rhboot/shim/releases/download/15.8/shim-15.8.tar.bz2
 
-This matches https://github.com/rhboot/shim/releases/tag/15.7 and contains the appropriate gnu-efi source.
+This matches https://github.com/rhboot/shim/releases/tag/15.8 and contains the appropriate gnu-efi source.
 
 *******************************************************************************
 yes
@@ -78,7 +81,7 @@ yes
 *******************************************************************************
 ### URL for a repo that contains the exact code which was built to get this binary:
 *******************************************************************************
-Our build service isn't publicly available. The code is shim 15.7 + the patches
+Our build service isn't publicly available. The code is shim 15.8 + the patches
 described below and added here
 
 *******************************************************************************
@@ -91,9 +94,12 @@ Unchanged from last reviewed shim:
 - shim-change-debug-file-path.patch: change path of debug file
 - shim-disable-export-vendor-dbx.patch: Prevent issues with ill behaving firmware
 
-New:
-- shim-Enable-the-NX-compatibility-flag-by-default.patch: Enable NX-compatibility DLL Characteristic flag in this shim
+*******************************************************************************
+### Do you have the NX bit set in your shim? If so, is your entire boot stack NX-compatible and what testing have you done to ensure such compatibility?
 
+See https://techcommunity.microsoft.com/t5/hardware-dev-center/nx-exception-for-shim-community/ba-p/3976522 for more details on the signing of shim without NX bit.
+*******************************************************************************
+NX isn't set for this shim
 
 *******************************************************************************
 ### If shim is loading GRUB2 bootloader what exact implementation of Secureboot in GRUB2 do you have? (Either Upstream GRUB2 shim_lock verifier or Downstream RHEL/Fedora/Debian/Canonical-like implementation)
@@ -101,39 +107,52 @@ New:
 Downstream RHEL/Fedora/Debian/Canonical like implementation
 
 *******************************************************************************
-### If shim is loading GRUB2 bootloader and your previously released shim booted a version of grub affected by any of the CVEs in the July 2020 grub2 CVE list, the March 2021 grub2 CVE list, the June 7th 2022 grub2 CVE list, or the November 15th 2022 list, have fixes for all these CVEs been applied?
+### If shim is loading GRUB2 bootloader and your previously released shim booted a version of GRUB2 affected by any of the CVEs in the July 2020, the March 2021, the June 7th 2022, the November 15th 2022, or 3rd of October 2023 GRUB2 CVE list, have fixes for all these CVEs been applied?
 
-* CVE-2020-14372
-* CVE-2020-25632
-* CVE-2020-25647
-* CVE-2020-27749
-* CVE-2020-27779
-* CVE-2021-20225
-* CVE-2021-20233
-* CVE-2020-10713
-* CVE-2020-14308
-* CVE-2020-14309
-* CVE-2020-14310
-* CVE-2020-14311
-* CVE-2020-15705
-* CVE-2021-3418 (if you are shipping the shim_lock module)
-
-* CVE-2021-3695
-* CVE-2021-3696
-* CVE-2021-3697
-* CVE-2022-28733
-* CVE-2022-28734
-* CVE-2022-28735
-* CVE-2022-28736
-* CVE-2022-28737
-
-* CVE-2022-2601
-* CVE-2022-3775
+* 2020 July - BootHole
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2020-07/msg00034.html
+  * CVE-2020-10713
+  * CVE-2020-14308
+  * CVE-2020-14309
+  * CVE-2020-14310
+  * CVE-2020-14311
+  * CVE-2020-15705
+  * CVE-2020-15706
+  * CVE-2020-15707
+* March 2021
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2021-03/msg00007.html
+  * CVE-2020-14372
+  * CVE-2020-25632
+  * CVE-2020-25647
+  * CVE-2020-27749
+  * CVE-2020-27779
+  * CVE-2021-3418 (if you are shipping the shim_lock module)
+  * CVE-2021-20225
+  * CVE-2021-20233
+* June 2022
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2022-06/msg00035.html, SBAT increase to 2
+  * CVE-2021-3695
+  * CVE-2021-3696
+  * CVE-2021-3697
+  * CVE-2022-28733
+  * CVE-2022-28734
+  * CVE-2022-28735
+  * CVE-2022-28736
+  * CVE-2022-28737
+* November 2022
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2022-11/msg00059.html, SBAT increase to 3
+  * CVE-2022-2601
+  * CVE-2022-3775
+* October 2023 - NTFS vulnerabilities
+  * Details: https://lists.gnu.org/archive/html/grub-devel/2023-10/msg00028.html, SBAT increase to 4
+  * CVE-2023-4693
+  * CVE-2023-4692
 *******************************************************************************
 yes
 
 *******************************************************************************
-### If these fixes have been applied, have you set the global SBAT generation on your GRUB binary to 3?
+### If shim is loading GRUB2 bootloader, and if these fixes have been applied, is the upstream global SBAT generation in your GRUB2 binary set to 4?
+The entry should look similar to: `grub,4,Free Software Foundation,grub,GRUB_UPSTREAM_VERSION,https://www.gnu.org/software/grub/`
 *******************************************************************************
 yes
 
@@ -161,6 +180,12 @@ for us. Can this please be made more specific? Answering this would results in a
 here.
 
 *******************************************************************************
+### Do you use an ephemeral key for signing kernel modules?
+### If not, please describe how you ensure that one kernel build does not load modules built for another kernel.
+*******************************************************************************
+FIXME
+
+*******************************************************************************
 ### If you use vendor_db functionality of providing multiple certificates and/or hashes please briefly describe your certificate setup.
 ### If there are allow-listed hashes please provide exact binaries for which hashes are created via file sharing service, available in public with anonymous access for verification.
 *******************************************************************************
@@ -178,13 +203,13 @@ new CA certificate
 *******************************************************************************
 The included Dockerfile will build the image for you. 
 x86_64:
-podman build --build-arg ARCHITECTURE=x86_64 -t sles_shim:15.7 .
+podman build --build-arg ARCHITECTURE=x86_64 -t sles_shim:15.8 .
 aarch64:
-podman build --build-arg ARCHITECTURE=aarch64 -t sles_shim:15.7 .
+podman build --build-arg ARCHITECTURE=aarch64 -t sles_shim:15.8 .
 
 The Dockerfile builds shim and hashes the resulting file. If you want to do it manually:
 The shim sources are in usr/src/packages/SOURCES/. Running
-docker run --rm -it sles_shim:15.7 /bin/sh
+docker run --rm -it sles_shim:15.8 /bin/sh
 sh-4.4# SOURCE_DATE_EPOCH=1617883200 rpmbuild -ba /usr/src/packages/SOURCES/*spec
 gives you the build rpm which you can inspect with unrpm, After unpacking you
 can get the hashes.
@@ -202,29 +227,29 @@ match the current shim anymore. The sha256sum specied in this request is the one
 that results when build locally (e.g. in the container image)
 
 *******************************************************************************
-### What changes were made since your SHIM was last signed?
+### What changes were made in the distor's secure boot chain since your SHIM was last signed?
+For example, signing new kernel's variants, UKI, systemd-boot, new certs, new CA, etc..
 *******************************************************************************
 Last was shim 15.6. We want the new upstream release to fix security issues
+FIXME
 
 *******************************************************************************
 ### What is the SHA256 hash of your final SHIM binary?
 *******************************************************************************
 x86_64:
-$ pesign --hash --padding --in=shim-sles_x86_64.efi
-hash: 2b0d7d00e2d5ef27605375da81690afaab91d19ea4cc129ced8dfb34d9c5c2d3
-$ sha256sum shim-sles_x86_64.efi
-bb405777bde97cfed333939cd6409c7b1cf72e5e07ae72226fa5214e95c9e113  shim-sles_x86_64.efi
+pesign: f327bfe0e31193974df9fa68b621a2c87d154ef2986059ce16fc6d0bd7537a96 shim-sles.efi
+sha256sum: bf24a19e3bd5ca535b0815be9e49b36b835a9f36310ed5b3e5f87959a52b87e2  shim-sles.efi
 
 aarch64:
-$ pesign --hash --padding --in=shim-sles_aarch64.efi
-hash: 04478d49dfa6c5f8442ec919568e1eda59de99cc1b5192f18028084409bbebe5
-$ sha256sum shim-sles_aarch64.efi
-d16ed6993b51ba96a4664e1648d7b244d0dd7c1c1e1eb9d5404b2973c0b2c4fc  shim-sles_aarch64.efi
+pesign: 8bfe4fc6a7506d82a4efdd39ecac04ef0ab6f65d9ac3514d803462a7b4ae7fcf shim-sles.efi
+sha256sum: 5f3c747130027da84c47256a6d089b6cb1c923a3517d31c8703e360c9f2832c6  shim-sles.efi
 
 *******************************************************************************
 ### How do you manage and protect the keys used in your SHIM?
 *******************************************************************************
-The keys are in a specially hardened machine that is in our build environment.
+The keys are in a custom build HSM that is in a secure environment. In this
+secure environment it's locked away and is accessed rarely and then by multiple
+people to ensure seperation of duties.
 
 *******************************************************************************
 ### Do you use EV certificates as embedded certificates in the SHIM?
@@ -232,12 +257,17 @@ The keys are in a specially hardened machine that is in our build environment.
 no
 
 *******************************************************************************
-### Do you add a vendor-specific SBAT entry to the SBAT section in each binary that supports SBAT metadata ( grub2, fwupd, fwupdate, shim + all child shim binaries )?
-### Please provide exact SBAT entries for all SBAT binaries you are booting or planning to boot directly through shim.
+### Do you add a vendor-specific SBAT entry to the SBAT section in each binary that supports SBAT metadata ( GRUB2, fwupd, fwupdate, systemd-boot, systemd-stub, shim + all child shim binaries )?
+### Please provide exact SBAT entries for all shim binaries as well as all SBAT binaries that shim will directly boot.
 ### Where your code is only slightly modified from an upstream vendor's, please also preserve their SBAT entries to simplify revocation.
+If you are using a downstream implementation of GRUB2 or systemd-boot (e.g.
+from Fedora or Debian), please preserve the SBAT entry from those distributions
+and only append your own. More information on how SBAT works can be found
+[here](https://github.com/rhboot/shim/blob/main/SBAT.md).
 *******************************************************************************
 yes
 
+FIXME 
 fwupdate:
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 fwupdate,1,Firmware Update Utility,fwupdate,12,https://github.com/rhboot/fwupdate
@@ -256,7 +286,7 @@ fwupd-sle,1,SUSE Linux Enterprise,fwupd,1.7.3,https://build.opensuse.org
 shim:
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 shim,3,UEFI shim,shim,1,https://github.com/rhboot/shim
-shim.sle,1,SUSE Linux Enterprise,shim,15.7,mail:security-team@suse.de
+shim.sle,1,SUSE Linux Enterprise,shim,15.8,mail:security-team@suse.de
 
 *******************************************************************************
 ### Which modules are built into your signed grub image?
@@ -273,6 +303,11 @@ On other architectures
 + linux
 
 *******************************************************************************
+### If you are using systemd-boot on arm64 or riscv, is the fix for [unverified Devicetree Blob loading](https://github.com/systemd/systemd/security/advisories/GHSA-6m6p-rjcq-334c) included?
+*******************************************************************************
+On SLES we don't use systemd-boot
+
+*******************************************************************************
 ### What is the origin and full version number of your bootloader (GRUB or other)?
 *******************************************************************************
 grub-2.06 from https://www.gnu.org/software/grub/
@@ -280,10 +315,10 @@ grub-2.06 from https://www.gnu.org/software/grub/
 *******************************************************************************
 ### If your SHIM launches any other components, please provide further details on what is launched.
 *******************************************************************************
-n/a
+fwupd can be launched
 
 *******************************************************************************
-### If your GRUB2 launches any other binaries that are not the Linux kernel in SecureBoot mode, please provide further details on what is launched and how it enforces Secureboot lockdown.
+### If your GRUB2 or systemd-boot launches any other binaries that are not the Linux kernel in SecureBoot mode, please provide further details on what is launched and how it enforces Secureboot lockdown.
 *******************************************************************************
 n/a
 
@@ -295,12 +330,12 @@ n/a
 *******************************************************************************
 ### Does your SHIM load any loaders that support loading unsigned kernels (e.g. GRUB)?
 *******************************************************************************
-It launches grub, nothing else
+It launches grub and fwupd, nothing else
 
 *******************************************************************************
 ### What kernel are you using? Which patches does it includes to enforce Secure Boot?
 *******************************************************************************
-5.14.21-150400.24.33 +
+5.14.21 +
 # Module signing / secure boot
 patches.suse/KEYS-Make-use-of-platform-keyring-for-module-signatu.patch
 # Lock down functions for UEFI secure boot
@@ -327,6 +362,6 @@ patches.suse/0011-PM-hibernate-require-hibernate-snapshot-image-to-be-.patch
 *******************************************************************************
 This is very compareable to our previous submission.
 
-There were concerns about the use of an additional parameter for the docker call
+There were concerns about the use of an additional parameter for the podman call
 (--build-arg ARCHITECTURE=). This is needed since x86 and aarch64 need slightly
 different commands to build shim

@@ -1,4 +1,178 @@
 -------------------------------------------------------------------
+Sat Feb 17 06:59:55 UTC 2024 - Michael Chang <mchang@suse.com>
+
+- Fix PowerPC grub loads 5 to 10 minutes slower on SLE-15-SP5 compared to
+  SLE-15-SP2 (bsc#1217102)
+  * add 0001-ofdisk-enhance-boot-time-by-focusing-on-boot-disk-re.patch
+  * add 0002-ofdisk-add-early_log-support.patch
+
+-------------------------------------------------------------------
+Tue Oct 31 08:32:54 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix failure to identify recent ext4 filesystem (bsc#1216010)
+  * 0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch
+  * 0001-fs-ext2-Ignore-the-large_dir-incompat-feature.patch
+- Add patch to fix reading files from btrfs with "implicit" holes
+  * 0001-fs-btrfs-Zero-file-data-not-backed-by-extents.patch
+
+-------------------------------------------------------------------
+Mon Oct 30 07:15:17 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix fadump not working with 1GB/2GB/4GB LMB[P10] (bsc#1216253) 
+  * 0001-kern-ieee1275-init-ppc64-Restrict-high-memory-in-pre.patch
+
+-------------------------------------------------------------------
+Mon Oct 16 08:05:03 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix detection of encrypted disk's uuid in powerpc to cope with logical disks
+  when signed image installation is specified (bsc#1216075) 
+  * 0003-grub-install-support-prep-environment-block.patch
+- grub2.spec: Add support to unlocking multiple encrypted disks in signed
+  grub.elf image for logical disks
+
+-------------------------------------------------------------------
+Fri Oct  6 05:06:59 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix CVE-2023-4692 (bsc#1215935)
+- Fix CVE-2023-4693 (bsc#1215936)
+  * 0001-fs-ntfs-Fix-an-OOB-write-when-parsing-the-ATTRIBUTE_.patch
+  * 0002-fs-ntfs-Fix-an-OOB-read-when-reading-data-from-the-r.patch
+  * 0003-fs-ntfs-Fix-an-OOB-read-when-parsing-directory-entri.patch
+  * 0004-fs-ntfs-Fix-an-OOB-read-when-parsing-bitmaps-for-ind.patch
+  * 0005-fs-ntfs-Fix-an-OOB-read-when-parsing-a-volume-label.patch
+  * 0006-fs-ntfs-Make-code-more-readable.patch
+- Bump upstream SBAT generation to 4
+
+-------------------------------------------------------------------
+Wed Sep 20 07:54:05 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix a boot delay regression in PowerPC PXE boot (bsc#1201300)
+  * 0001-ieee1275-ofdisk-retry-on-open-and-read-failure.patch
+
+-------------------------------------------------------------------
+Thu May  4 06:58:12 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- grub2-once: Fix 'sh: terminal_output: command not found' error (bsc#1204563) 
+
+-------------------------------------------------------------------
+Fri Apr 21 04:53:54 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix PowerVS deployment fails to boot with 90 cores (bsc#1208581)
+  * 0001-kern-ieee1275-init-Convert-plain-numbers-to-constant.patch
+  * 0002-kern-ieee1275-init-Extended-support-in-Vec5.patch
+
+-------------------------------------------------------------------
+Tue Apr 18 02:42:23 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix no prep partition error on non-PReP architectures by making the
+  prep_loadenv module exclusive to powerpc_ieee1275 platform (bsc#1210489)
+  * 0004-Introduce-prep_load_env-command.patch
+- Fix the issue of freeing an uninitialized pointer
+  * 0002-prep_loadenv-Fix-regex-for-Open-Firmware-device-spec.patch
+- Rediff
+  * 0005-export-environment-at-start-up.patch
+
+-------------------------------------------------------------------
+Tue Apr 11 11:13:26 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Resolve some issues with OS boot failure on PPC NVMe-oF disks and made
+  enhancements to PPC secure boot's root device discovery config (bsc#1207230)
+- Ensure get_devargs and get_devname functions are consistent
+  * 0001-openfw-Ensure-get_devargs-and-get_devname-functions-.patch
+- Fix regex for Open Firmware device specifier with encoded commas
+  * 0002-prep_loadenv-Fix-regex-for-Open-Firmware-device-spec.patch
+- Fix regular expression in PPC secure boot config to prevent escaped commas
+  from being treated as delimiters when retrieving partition substrings.
+- Use prep_load_env in PPC secure boot config to handle unset host-specific
+  environment variables and ensure successful command execution.
+  * 0004-Introduce-prep_load_env-command.patch
+- Refreshed
+  * 0005-export-environment-at-start-up.patch
+ 
+-------------------------------------------------------------------
+Thu Apr  6 06:20:49 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix installation over serial console ends up in infinite boot loop
+  (bsc#1187810) (bsc#1209667) (bsc#1209372)
+  * 0001-Fix-infinite-boot-loop-on-headless-system-in-qemu.patch
+
+-------------------------------------------------------------------
+Thu Mar 23 05:25:50 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix aarch64 kiwi image's file not found due to '/@' prepended to path in
+  btrfs filesystem. (bsc#1209165)
+  * grub2-btrfs-05-grub2-mkconfig.patch
+
+-------------------------------------------------------------------
+Fri Mar  3 07:48:56 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Make grub more robust against storage race condition causing system boot
+  failures (bsc#1189036)
+  * 0001-ieee1275-ofdisk-retry-on-open-and-read-failure.patch
+
+-------------------------------------------------------------------
+Thu Feb 23 02:20:37 UTC 2023 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Move unsupported zfs modules into 'extras' packages
+  (bsc#1205554) (PED-2947)
+
+-------------------------------------------------------------------
+Wed Feb 22 07:08:44 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix out of memory error on lpar installation from virtual cdrom (bsc#1208024)
+  * 0001-ieee1275-Further-increase-initially-allocated-heap-f.patch
+  * 0002-tpm-Disable-tpm-verifier-if-tpm-is-not-present.patch
+- Fix lpar got hung at grub after inactive migration (bsc#1207684)
+  * 0002-ieee1275-implement-vec5-for-cas-negotiation.patch
+
+-------------------------------------------------------------------
+Wed Feb  8 02:24:16 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix nvmf boot device setup (bsc#1207811)
+  * 0001-grub2-Can-t-setup-a-default-boot-device-correctly-on.patch
+
+-------------------------------------------------------------------
+Tue Feb  7 02:11:47 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Fix unknown filesystem error on disks with 4096 sector size (bsc#1207064)
+  * 0001-grub-core-modify-sector-by-sysfs-as-disk-sector.patch
+
+-------------------------------------------------------------------
+Fri Dec 23 09:50:42 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Make grub.cfg invariant to efi and legacy platforms (bsc#1205200)
+- Removed patch linuxefi
+  * grub2-secureboot-provide-linuxefi-config.patch
+  * grub2-secureboot-use-linuxefi-on-uefi-in-os-prober.patch
+  * grub2-secureboot-use-linuxefi-on-uefi.patch
+- Rediff
+  * grub2-btrfs-05-grub2-mkconfig.patch
+  * grub2-efi-xen-cmdline.patch
+  * grub2-s390x-05-grub2-mkconfig.patch
+  * grub2-suse-remove-linux-root-param.patch
+
+-------------------------------------------------------------------
+Mon Dec 19 08:39:05 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Setup multiple device paths for a nvmf boot device (bsc#1205666)
+  * 0001-grub2-Set-multiple-device-path-for-a-nvmf-boot-devic.patch
+
+-------------------------------------------------------------------
+Mon Dec  5 08:47:06 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Add tpm to signed grub.elf image (PED-1990) (bsc#1205912) 
+- Increase initial heap size from 1/4 to 1/3
+  * 0001-ieee1275-Increase-initially-allocated-heap-from-1-4-.patch
+
+-------------------------------------------------------------------
+Tue Nov 22 09:55:16 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- Support grub2-install on LUKS2 encrypted device
+  * 0001-devmapper-getroot-Have-devmapper-recognize-LUKS2.patch
+  * 0002-devmapper-getroot-Set-up-cheated-LUKS2-cryptodisk-mo.patch
+  * 0003-disk-cryptodisk-When-cheatmounting-use-the-sector-in.patch
+
+-------------------------------------------------------------------
 Fri Nov  4 07:14:06 UTC 2022 - Michael Chang <mchang@suse.com>
 
 - Security fixes and hardenings
@@ -17,6 +191,22 @@ Fri Nov  4 07:14:06 UTC 2022 - Michael Chang <mchang@suse.com>
   * 0011-font-Assign-null_font-to-glyphs-in-ascii_font_glyph.patch
   * 0012-normal-charset-Fix-an-integer-overflow-in-grub_unico.patch
 - Bump upstream SBAT generation to 3
+
+-------------------------------------------------------------------
+Fri Oct 28 04:58:28 UTC 2022 - Michael Chang <mchang@suse.com>
+
+- NVMeoFC support on grub (jsc#PED-996)
+  * 0001-ieee1275-add-support-for-NVMeoFC.patch
+  * 0002-ieee1275-ofpath-enable-NVMeoF-logical-device-transla.patch
+  * 0003-ieee1275-change-the-logic-of-ieee1275_get_devargs.patch
+  * 0004-ofpath-controller-name-update.patch
+- TDX: Enhance grub2 measurement to TD RTMR (jsc#PED-1265)
+  * 0001-commands-efi-tpm-Refine-the-status-of-log-event.patch
+  * 0002-commands-efi-tpm-Use-grub_strcpy-instead-of-grub_mem.patch
+  * 0003-efi-tpm-Add-EFI_CC_MEASUREMENT_PROTOCOL-support.patch
+- Measure the kernel on POWER10 and extend TPM PCRs (PED-1990) 
+  * 0001-ibmvtpm-Add-support-for-trusted-boot-using-a-vTPM-2..patch
+  * 0002-ieee1275-implement-vec5-for-cas-negotiation.patch
 
 -------------------------------------------------------------------
 Mon Oct 24 01:58:08 UTC 2022 - Michael Chang <mchang@suse.com>

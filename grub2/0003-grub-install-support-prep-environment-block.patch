@@ -9,12 +9,17 @@ variables to facilitate root device discovery. So far these variables
 are defined for this purpose:
 
 ENV_FS_UUID - The filesystem uuid for the grub root device
-ENV_CRYPTO_UUID - The crytodisk uuid for the grub root device
+ENV_CRYPTO_UUID - The crytodisk uuid for the grub root device separated
+by space
 ENV_GRUB_DIR - The path to grub prefix directory
 ENV_HINT - The recommended hint string for searching root device
 
 The size of environment block is defined in GRUB_ENVBLK_PREP_SIZE which
 is 4096 bytes and can be extended in the future.
+
+v2: Improve detection of ENV_CRYPTO_UUID by traversing all members of
+the logical disk and utilize a space as a separator when multiple UUIDs
+are found (bsc#1216075). 
 
 Signed-off-by: Michael Chang <mchang@suse.com>
 ---
@@ -22,8 +27,6 @@ Signed-off-by: Michael Chang <mchang@suse.com>
  util/grub-install.c       | 38 ++++++++++++++++++++++++++++++++++++++
  2 files changed, 41 insertions(+)
 
-diff --git a/include/grub/lib/envblk.h b/include/grub/lib/envblk.h
-index 83f3fcf841..d01927bcf7 100644
 --- a/include/grub/lib/envblk.h
 +++ b/include/grub/lib/envblk.h
 @@ -24,6 +24,9 @@
@@ -36,8 +39,6 @@ index 83f3fcf841..d01927bcf7 100644
  struct grub_envblk
  {
    char *buf;
-diff --git a/util/grub-install.c b/util/grub-install.c
-index 8fb5ea616b..7bc5f84378 100644
 --- a/util/grub-install.c
 +++ b/util/grub-install.c
 @@ -43,6 +43,7 @@
@@ -48,7 +49,49 @@ index 8fb5ea616b..7bc5f84378 100644
  
  #include <string.h>
  
-@@ -2112,6 +2113,43 @@ main (int argc, char *argv[])
+@@ -606,6 +607,41 @@
+     }
+ }
+ 
++static char *
++cryptodisk_uuids (grub_disk_t disk, int in_recurse)
++{
++  grub_disk_memberlist_t list = NULL, tmp;
++  static char *ret;
++
++  if (!in_recurse)
++    ret = NULL;
++
++  if (disk->dev->disk_memberlist)
++    list = disk->dev->disk_memberlist (disk);
++
++  while (list)
++    {
++      ret = cryptodisk_uuids (list->disk, 1);
++      tmp = list->next;
++      free (list);
++      list = tmp;
++    }
++
++  if (disk->dev->id == GRUB_DISK_DEVICE_CRYPTODISK_ID)
++    {
++      if (!ret)
++        ret = grub_strdup (grub_util_cryptodisk_get_uuid (disk));
++      else
++	{
++	  char *s = grub_xasprintf ("%s %s", grub_util_cryptodisk_get_uuid (disk), ret);
++	  grub_free (ret);
++	  ret = s;
++	}
++    }
++
++  return ret;
++}
++
+ static int
+ is_same_disk (const char *a, const char *b)
+ {
+@@ -2112,6 +2148,43 @@
  	    {
  	      grub_util_error ("%s", _("failed to copy Grub to the PReP partition"));
  	    }
@@ -56,13 +99,13 @@ index 8fb5ea616b..7bc5f84378 100644
 +	  if ((signed_grub_mode >= SIGNED_GRUB_FORCE) || ((signed_grub_mode == SIGNED_GRUB_AUTO) && (ppc_sb_state > 0)))
 +	    {
 +	      char *uuid = NULL;
-+	      const char *cryptouuid = NULL;
 +	      grub_envblk_t envblk = NULL;
 +	      char *buf;
++	      char *cryptouuid = NULL;
 +
-+	      /* TODO: Add LVM/RAID on encrypted partitions */
-+	      if (grub_dev->disk && grub_dev->disk->dev->id == GRUB_DISK_DEVICE_CRYPTODISK_ID)
-+		cryptouuid = grub_util_cryptodisk_get_uuid (grub_dev->disk);
++	      if (grub_dev->disk)
++		cryptouuid = cryptodisk_uuids (grub_dev->disk, 0);
++
 +	      if (grub_fs->fs_uuid && grub_fs->fs_uuid (grub_dev, &uuid))
 +		{
 +		  grub_print_error ();
@@ -92,6 +135,3 @@ index 8fb5ea616b..7bc5f84378 100644
  	  grub_device_close (ins_dev);
  	  if (update_nvram)
  	    grub_install_register_ieee1275 (1, grub_util_get_os_disk (install_device),
--- 
-2.34.1
-

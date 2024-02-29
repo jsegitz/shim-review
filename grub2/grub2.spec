@@ -185,11 +185,8 @@ Patch15:        not-display-menu-when-boot-once.patch
 Patch17:        grub2-pass-corret-root-for-nfsroot.patch
 Patch19:        grub2-efi-HP-workaround.patch
 Patch21:        grub2-secureboot-add-linuxefi.patch
-Patch22:        grub2-secureboot-use-linuxefi-on-uefi.patch
 Patch23:        grub2-secureboot-no-insmod-on-sb.patch
-Patch24:        grub2-secureboot-provide-linuxefi-config.patch
 Patch25:        grub2-secureboot-chainloader.patch
-Patch26:        grub2-secureboot-use-linuxefi-on-uefi-in-os-prober.patch
 Patch27:        grub2-linuxefi-fix-boot-params.patch
 Patch35:        grub2-linguas.sh-no-rsync.patch
 Patch37:        grub2-use-Unifont-for-starfield-theme-terminal.patch
@@ -410,18 +407,58 @@ Patch897:       0013-cryptodisk-Support-key-protectors.patch
 Patch898:       0014-util-grub-protect-Add-new-tool.patch
 Patch899:       fix-tpm2-build.patch
 Patch900:       0001-crytodisk-fix-cryptodisk-module-looking-up.patch
-Patch901:       0001-font-Reject-glyphs-exceeds-font-max_glyph_width-or-f.patch
-Patch902:       0002-font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
-Patch903:       0003-font-Fix-several-integer-overflows-in-grub_font_cons.patch
-Patch904:       0004-font-Remove-grub_font_dup_glyph.patch
-Patch905:       0005-font-Fix-integer-overflow-in-ensure_comb_space.patch
-Patch906:       0006-font-Fix-integer-overflow-in-BMP-index.patch
-Patch907:       0007-font-Fix-integer-underflow-in-binary-search-of-char-.patch
-Patch908:       0008-fbutil-Fix-integer-overflow.patch
-Patch909:       0009-font-Fix-an-integer-underflow-in-blit_comb.patch
-Patch910:       0010-font-Harden-grub_font_blit_glyph-and-grub_font_blit_.patch
-Patch911:       0011-font-Assign-null_font-to-glyphs-in-ascii_font_glyph.patch
-Patch912:       0012-normal-charset-Fix-an-integer-overflow-in-grub_unico.patch
+# (PED-996) NVMeoFC support on Grub (grub2)
+Patch901:       0001-ieee1275-add-support-for-NVMeoFC.patch
+Patch902:       0002-ieee1275-ofpath-enable-NVMeoF-logical-device-transla.patch
+Patch903:       0003-ieee1275-change-the-logic-of-ieee1275_get_devargs.patch
+Patch904:       0004-ofpath-controller-name-update.patch
+# (PED-1265) TDX: Enhance grub2 measurement to TD RTMR
+Patch905:       0001-commands-efi-tpm-Refine-the-status-of-log-event.patch
+Patch906:       0002-commands-efi-tpm-Use-grub_strcpy-instead-of-grub_mem.patch
+Patch907:       0003-efi-tpm-Add-EFI_CC_MEASUREMENT_PROTOCOL-support.patch
+# (PED-1990) GRUB2: Measure the kernel on POWER10 and extend TPM PCRs
+Patch908:       0001-ibmvtpm-Add-support-for-trusted-boot-using-a-vTPM-2..patch
+Patch909:       0002-ieee1275-implement-vec5-for-cas-negotiation.patch
+Patch910:       0001-font-Reject-glyphs-exceeds-font-max_glyph_width-or-f.patch
+Patch911:       0002-font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch
+Patch912:       0003-font-Fix-several-integer-overflows-in-grub_font_cons.patch
+Patch913:       0004-font-Remove-grub_font_dup_glyph.patch
+Patch914:       0005-font-Fix-integer-overflow-in-ensure_comb_space.patch
+Patch915:       0006-font-Fix-integer-overflow-in-BMP-index.patch
+Patch916:       0007-font-Fix-integer-underflow-in-binary-search-of-char-.patch
+Patch917:       0008-fbutil-Fix-integer-overflow.patch
+Patch918:       0009-font-Fix-an-integer-underflow-in-blit_comb.patch
+Patch919:       0010-font-Harden-grub_font_blit_glyph-and-grub_font_blit_.patch
+Patch920:       0011-font-Assign-null_font-to-glyphs-in-ascii_font_glyph.patch
+Patch921:       0012-normal-charset-Fix-an-integer-overflow-in-grub_unico.patch
+Patch922:       0001-devmapper-getroot-Have-devmapper-recognize-LUKS2.patch
+Patch923:       0002-devmapper-getroot-Set-up-cheated-LUKS2-cryptodisk-mo.patch
+Patch924:       0003-disk-cryptodisk-When-cheatmounting-use-the-sector-in.patch
+Patch925:       0001-ieee1275-Increase-initially-allocated-heap-from-1-4-.patch
+Patch926:       0001-grub2-Set-multiple-device-path-for-a-nvmf-boot-devic.patch
+Patch927:       0001-grub-core-modify-sector-by-sysfs-as-disk-sector.patch
+Patch928:       0001-grub2-Can-t-setup-a-default-boot-device-correctly-on.patch
+Patch929:       0001-ieee1275-Further-increase-initially-allocated-heap-f.patch
+Patch930:       0002-tpm-Disable-tpm-verifier-if-tpm-is-not-present.patch
+Patch931:       0001-ieee1275-ofdisk-retry-on-open-and-read-failure.patch
+Patch932:       0001-Fix-infinite-boot-loop-on-headless-system-in-qemu.patch
+Patch933:       0001-openfw-Ensure-get_devargs-and-get_devname-functions-.patch
+Patch934:       0002-prep_loadenv-Fix-regex-for-Open-Firmware-device-spec.patch
+Patch935:       0001-kern-ieee1275-init-Convert-plain-numbers-to-constant.patch
+Patch936:       0002-kern-ieee1275-init-Extended-support-in-Vec5.patch
+Patch937:       0001-fs-ntfs-Fix-an-OOB-write-when-parsing-the-ATTRIBUTE_.patch
+Patch938:       0002-fs-ntfs-Fix-an-OOB-read-when-reading-data-from-the-r.patch
+Patch939:       0003-fs-ntfs-Fix-an-OOB-read-when-parsing-directory-entri.patch
+Patch940:       0004-fs-ntfs-Fix-an-OOB-read-when-parsing-bitmaps-for-ind.patch
+Patch941:       0005-fs-ntfs-Fix-an-OOB-read-when-parsing-a-volume-label.patch
+Patch942:       0006-fs-ntfs-Make-code-more-readable.patch
+Patch943:       0001-kern-ieee1275-init-ppc64-Restrict-high-memory-in-pre.patch
+# support newer extX filesystem defaults
+Patch944:       0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch
+Patch945:       0001-fs-ext2-Ignore-the-large_dir-incompat-feature.patch
+Patch946:       0001-fs-btrfs-Zero-file-data-not-backed-by-extents.patch
+Patch947:       0001-ofdisk-enhance-boot-time-by-focusing-on-boot-disk-re.patch
+Patch948:       0002-ofdisk-add-early_log-support.patch
 
 Requires:       gettext-runtime
 %if 0%{?suse_version} >= 1140
@@ -494,6 +531,18 @@ bootloader with modular architecture.  It supports rich variety of kernel format
 file systems, computer architectures and hardware devices.  This subpackage
 provides support for %{platform} systems.
 
+%package %{grubarch}-extras
+Summary:        Unsupported modules for %{grubarch}
+Group:          System/Boot
+BuildArch:      noarch
+Requires:       %{name}-%{grubarch} = %{version}
+Provides:       %{name}-%{grubarch}:%{_datadir}/%{name}/%{grubarch}/zfs.mod
+Provides:       %{name}-%{grubarch}:%{_datadir}/%{name}/%{grubarch}/zfscrypt.mod
+Provides:       %{name}-%{grubarch}:%{_datadir}/%{name}/%{grubarch}/zfsinfo.mod
+
+%description %{grubarch}-extras
+Unsupported modules for %{name}-%{grubarch}
+
 %package %{grubarch}-debug
 Summary:        Debug symbols for %{grubarch}
 Group:          System/Boot
@@ -538,6 +587,19 @@ bootloader with modular architecture.  It supports rich variety of kernel format
 file systems, computer architectures and hardware devices.  This subpackage
 provides support for EFI systems.
 
+%package %{grubefiarch}-extras
+
+Summary:        Unsupported modules for %{grubefiarch}
+Group:          System/Boot
+BuildArch:      noarch
+Requires:       %{name}-%{grubefiarch} = %{version}
+Provides:       %{name}-%{grubefiarch}:%{_datadir}/%{name}/%{grubefiarch}/zfs.mod
+Provides:       %{name}-%{grubefiarch}:%{_datadir}/%{name}/%{grubefiarch}/zfscrypt.mod
+Provides:       %{name}-%{grubefiarch}:%{_datadir}/%{name}/%{grubefiarch}/zfsinfo.mod
+
+%description %{grubefiarch}-extras
+Unsupported modules for %{name}-%{grubefiarch}
+
 %package %{grubefiarch}-debug
 Summary:        Debug symbols for %{grubefiarch}
 Group:          System/Boot
@@ -569,6 +631,18 @@ The GRand Unified Bootloader (GRUB) is a highly configurable and customizable
 bootloader with modular architecture.  It supports rich variety of kernel formats,
 file systems, computer architectures and hardware devices.  This subpackage
 provides support for XEN systems.
+
+%package %{grubxenarch}-extras
+Summary:        Unsupported modules for %{grubxenarch}
+Group:          System/Boot
+BuildArch:      noarch
+Requires:       %{name}-%{grubxenarch} = %{version}
+Provides:       %{name}-%{grubxenarch}:%{_datadir}/%{name}/%{grubxenarch}/zfs.mod
+Provides:       %{name}-%{grubxenarch}:%{_datadir}/%{name}/%{grubxenarch}/zfscrypt.mod
+Provides:       %{name}-%{grubxenarch}:%{_datadir}/%{name}/%{grubxenarch}/zfsinfo.mod
+
+%description %{grubxenarch}-extras
+Unsupported modules for %{name}-%{grubxenarch}
 
 %endif
 
@@ -707,7 +781,7 @@ CD_MODULES="${CD_MODULES} linux"
 
 GRUB_MODULES="${CD_MODULES} ${FS_MODULES} ${PXE_MODULES} ${CRYPTO_MODULES} mdraid09 mdraid1x lvm serial"
 %ifarch ppc ppc64 ppc64le
-GRUB_MODULES="${GRUB_MODULES} appendedsig memdisk tar regexp prep_loadenv"
+GRUB_MODULES="${GRUB_MODULES} appendedsig memdisk tar regexp prep_loadenv tpm"
 %endif
 
 %ifarch %{efi}
@@ -730,7 +804,7 @@ distro_name="The openSUSE Project"
 distro_id="sle"
 distro_name="SUSE Linux Enterprise"
 %endif
-upstream_sbat=3
+upstream_sbat=4
 distro_sbat=1
 echo "sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md" > sbat.csv
 echo "grub,${upstream_sbat},Free Software Foundation,grub,%{version},https://www.gnu.org/software/grub/" >> sbat.csv
@@ -808,11 +882,22 @@ echo "earlycfg: root=$root prefix=$prefix"
 EOF
         cat > ./grub.cfg <<'EOF'
 
-regexp --set 1:bdev --set 2:bpart --set 3:bpath '\(([^,]+)(,?.*)?\)(.*)' "$cmdpath"
+regexp --set 1:bdev --set 2:bpath '\((.*)\)(.*)' "$cmdpath"
+regexp --set 1:bdev --set 2:bpart '(.*[^\])(,.*)' "$bdev"
 
 echo "bdev=$bdev"
 echo "bpart=$bpart"
 echo "bpath=$bpath"
+
+if [ -z "$ENV_FS_UUID" ]; then
+  echo "Reading vars from ($bdev)"
+  prep_load_env "($bdev)"
+fi
+
+echo "ENV_HINT=$ENV_HINT"
+echo "ENV_GRUB_DIR=$ENV_GRUB_DIR"
+echo "ENV_FS_UUID=$ENV_FS_UUID"
+echo "ENV_CRYPTO_UUID=$ENV_CRYPTO_UUID"
 
 if [ "$btrfs_relative_path" = xy ]; then
   btrfs_relative_path=1
@@ -847,9 +932,9 @@ set prefix=""
 set root=""
 set cfg="grub.cfg"
 
-if [ "$ENV_CRYPTO_UUID" ]; then
-  cryptomount -u "$ENV_CRYPTO_UUID"
-fi
+for uuid in $ENV_CRYPTO_UUID; do
+  cryptomount -u $uuid
+done
 
 if [ "$ENV_FS_UUID" ]; then
   echo "searching for $ENV_FS_UUID with $hints"
@@ -1060,6 +1145,25 @@ perl -ni -e '
 '  %{buildroot}/%{_sysconfdir}/default/grub
 %else
 %endif
+
+# bsc#1205554 move the zfs modules into extras packages
+# EXTRA_PATTERN='pattern1|pattern2|pattern3|...'
+EXTRA_PATTERN="zfs"
+%ifarch %{ix86} x86_64
+find %{buildroot}/%{_datadir}/%{name}/%{grubxenarch}/ -type f | sed 's,%{buildroot},,' > %{grubxenarch}-all.lst
+grep -v -E ${EXTRA_PATTERN} %{grubxenarch}-all.lst > %{grubxenarch}.lst
+grep -E ${EXTRA_PATTERN} %{grubxenarch}-all.lst > %{grubxenarch}-extras.lst
+%endif
+
+%ifarch %{efi}
+find %{buildroot}/%{_datadir}/%{name}/%{grubefiarch}/ -name '*.mod' | sed 's,%{buildroot},,' > %{grubefiarch}-mod-all.lst
+grep -v -E ${EXTRA_PATTERN} %{grubefiarch}-mod-all.lst > %{grubefiarch}-mod.lst
+grep -E ${EXTRA_PATTERN} %{grubefiarch}-mod-all.lst > %{grubefiarch}-mod-extras.lst
+%endif
+
+find %{buildroot}/%{_datadir}/%{name}/%{grubarch}/ -name '*.mod' | sed 's,%{buildroot},,' > %{grubarch}-mod-all.lst
+grep -v -E ${EXTRA_PATTERN} %{grubarch}-mod-all.lst > %{grubarch}-mod.lst
+grep -E ${EXTRA_PATTERN} %{grubarch}-mod-all.lst > %{grubarch}-mod-extras.lst
 
 %find_lang %{name}
 %fdupes %buildroot%{_bindir}
@@ -1331,7 +1435,7 @@ fi
 
 %if ! 0%{?only_efi:1}
 
-%files %{grubarch}
+%files %{grubarch} -f %{grubarch}-mod.lst
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/%{grubarch}
 %ifarch ppc ppc64 ppc64le
@@ -1346,7 +1450,6 @@ fi
 %endif
 %{_datadir}/%{name}/%{grubarch}/*.img
 %{_datadir}/%{name}/%{grubarch}/*.lst
-%{_datadir}/%{name}/%{grubarch}/*.mod
 %ifarch x86_64
 %{_datadir}/%{name}/%{grubarch}/efiemu*.o
 %endif
@@ -1355,6 +1458,10 @@ fi
 %ifarch %{ix86} x86_64
 %{_libexecdir}/%{name}-instdev-fixup.pl
 %endif
+
+%files %{grubarch}-extras -f %{grubarch}-mod-extras.lst
+%defattr(-,root,root,-)
+%dir %{_datadir}/%{name}/%{grubarch}
 
 %files %{grubarch}-debug
 %defattr(-,root,root,-)
@@ -1366,7 +1473,7 @@ fi
 
 %ifarch %{efi}
 
-%files %{grubefiarch}
+%files %{grubefiarch} -f %{grubefiarch}-mod.lst
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/%{grubefiarch}
 %{_datadir}/%{name}/%{grubefiarch}/grub.efi
@@ -1375,7 +1482,6 @@ fi
 %endif
 %{_datadir}/%{name}/%{grubefiarch}/*.img
 %{_datadir}/%{name}/%{grubefiarch}/*.lst
-%{_datadir}/%{name}/%{grubefiarch}/*.mod
 %{_datadir}/%{name}/%{grubefiarch}/kernel.exec
 %{_datadir}/%{name}/%{grubefiarch}/modinfo.sh
 %dir %{sysefibasedir}
@@ -1394,6 +1500,10 @@ fi
 %{sysefidir}/grub.der
 %endif
 
+%files %{grubefiarch}-extras -f %{grubefiarch}-mod-extras.lst
+%defattr(-,root,root,-)
+%dir %{_datadir}/%{name}/%{grubefiarch}
+
 %files %{grubefiarch}-debug
 %defattr(-,root,root,-)
 %{_datadir}/%{name}/%{grubefiarch}/gdb_grub
@@ -1410,13 +1520,16 @@ fi
 %{_libdir}/snapper/plugins/grub
 
 %ifarch %{ix86} x86_64
-%files %{grubxenarch}
+%files %{grubxenarch} -f %{grubxenarch}.lst
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/%{grubxenarch}
-%{_datadir}/%{name}/%{grubxenarch}/*
 # provide compatibility sym-link for VM definitions pointing to old location
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/%{grubxenarch}
+
+%files %{grubxenarch}-extras -f %{grubxenarch}-extras.lst
+%defattr(-,root,root,-)
+%dir %{_datadir}/%{name}/%{grubxenarch}
 %endif
 
 %if 0%{?has_systemd:1}

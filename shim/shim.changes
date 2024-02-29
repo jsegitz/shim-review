@@ -1,4 +1,223 @@
 -------------------------------------------------------------------
+Thu Feb 15 09:46:09 UTC 2024 - Joey Lee <jlee@suse.com>
+
+- Sometimes SLE shim signature be Microsoft updated before openSUSE shim
+  signature. When submit request on IBS for updating SLE shim, the submitreq
+  project be generated, but it always be blocked by checking the signature
+  of openSUSE shim.
+  It doesn't make sense checking openSUSE shim signature when building
+  SLE shim on SLE platform, and vice versa. So the following change adds the
+  logic to compare suffix (sles, opensuse) with distro_id (sle, opensuse).
+  When and only when hash mismatch and distro_id match with suffix, stop
+  building.
+        # compare suffix (sles, opensuse) with distro_id (sle, opensuse)
+        # when hash mismatch and distro_id match with suffix, stop building 
+- Sync the changelog between openSUSE:Factory/shim with SLE-15-SP3/shim
+    - Add CVE-2022-28737 number to "Mon Mar 27 09:26:02 UTC 2023" record
+    - Add "Thu Apr 13 05:28:10 UTC 2023" record for updating shim-install
+      for bsc#1210382.
+    - Add "Thu Apr 13 09:13:22 UTC 2023" record for changing the logic of
+      checking shim signature. 
+
+-------------------------------------------------------------------
+Wed Feb  7 08:54:52 UTC 2024 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Update shim-install to set the TPM2 SRK algorithm (bsc#1213945)
+  92d0f4305df73 Set the SRK algorithm for the TPM2 protector
+
+-------------------------------------------------------------------
+Fri Feb  2 05:57:07 UTC 2024 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Limit the requirement of fde-tpm-helper-macros to the distro with
+  suse_version 1600 and above (bsc#1219460)
+
+-------------------------------------------------------------------
+Sun Jan 28 09:32:32 UTC 2024 - Dennis Tseng <dennis.tseng@suse.com>
+
+-- Update to version 15.8
+    - Various CVE fixes are already merged into this version
+        mok: fix LogError() invocation (bsc#1215099,CVE-2023-40546)
+        avoid incorrectly trusting HTTP headers (bsc#1215098,CVE-2023-40547)
+        Fix integer overflow on SBAT section size on 32-bit system (bsc#1215100,CVE-2023-40548)
+        Authenticode: verify that the signature header is in bounds (bsc#1215101,CVE-2023-40549)
+        pe: Fix an out-of-bound read in verify_buffer_sbat() (bsc#1215102,CVE-2023-40550)
+        pe-relocate: Fix bounds check for MZ binaries (bsc#1215103,CVE-2023-40551)
+    - remove shim-Enable-the-NX-compatibility-flag-by-default.patch
+        The codes in this patch are already existing in shim-15.8
+        The NX flag is disable which is same as the default value of shim-15.8, 
+        hence, not need to enable it by this patch now.
+    - Patches (git log --oneline --reverse 15.7..15.8)
+        657b248 Make sbat_var.S parse right with buggy gcc/binutils
+        7c76425 Enable the NX compatibility flag by default.
+        89972ae CryptoPkg/BaseCryptLib: Fix buffer overflow issue in realloc wrapper
+        c7b3051 pe: Align section size up to page size for mem attrs
+        e4f40ae pe: Add IS_PAGE_ALIGNED macro
+        f23883c Don't loop forever in load_certs() with buggy firmware
+        1f38cb3 Optionally allow to keep shim protocol installed
+        102a658 Drop invalid calls to `CRYPTO_set_mem_functions`
+        aae3df0 test-sbat: Fix exit code
+        cca3933 Block Debian grub binaries with SBAT < 4
+        cf59f34 Further improve load_certs() for non-compliant drivers/firmwares
+        0601f44 SBAT-related documents formatting and spelling
+        0640e13 Add a security contact email address in README.md
+        0bfc397 Work around malformed path delimiters in file paths from DHCP
+        a8b0b60 pe: only process RelocDir->Size of reloc section
+        f7a4338 Skip testing msleep()
+        549d346 Rename 'msecs' to 'usecs' to avoid potential confusion
+        908c388 Change type of fallback_verbose_wait from int to unsigned long
+        05eae92 Add SbatLevel_Variable.txt to document the various revocations
+        243f125 Use -Wno-unused-but-set-variable for Cryptlib and OpenSSL
+        89d25a1 Add a make rule for compile_commands.json
+        118ff87 Add gnu-stack notes
+        f132655 test: Make our fake dprintf be a statement.
+        be00279 Remove CentOS 7 test builds.
+        9964960 Split pe.c up even more.
+        569270d Test (and fix) ImageAddress()
+        61e9894 Verify signature before verifying sbat levels
+        1578b55 Add libFuzzer support for csv.c
+        a0673e3 Fix a 1-byte memory leak in .sbat parsing.
+        e246812 Add libFuzzer support to the .sbat parser.
+        fd43eda Work around ImageAddress() usage mistake
+        1e985a3 Correctly free memory allocated in handle_image()
+        dbbe3c8 mok: Avoid underflow in maximum variable size calculation
+        04111d4 Make some of the static analysis tools a little easier to run
+        7ba7440 compile_commands.json: remove stuff clang doesn't like
+        66e6579 CVE-2023-40546 mok: fix LogError() invocation
+        f271826 Add primitives for overflow-checked arithmetic operations.
+        8372147 pe-relocate: Add a fuzzer for read_header()
+        5a5147d CVE-2023-40551: pe-relocate: Fix bounds check for MZ binaries
+        e912071 pe-relocate: make read_header() use checked arithmetic operations.
+        93ce255 CVE-2023-40550 pe: Fix an out-of-bound read in verify_buffer_sbat()
+        e7f5fdf pe-relocate: Ensure nothing else implements CVE-2023-40550
+        afdc503 CVE-2023-40549 Authenticode: verify that the signature header is in bounds.
+        96dccc2 CVE-2023-40548 Fix integer overflow on SBAT section size on 32-bit system
+        dae82f6 Further mitigations against CVE-2023-40546 as a class
+        ea0f9df Allow SbatLevel data from external binary
+        b078ef2 Always clear SbatLevel when Secure Boot is disabled
+        7dfb687 BS Variables for bootmgr revocations
+        a967c0e shim should not self revoke
+        577cedd Print message when refusing to apply SbatLevel
+        e801b0d sbat revocations: check the full section name
+        0226b56 CVE-2023-40547 - avoid incorrectly trusting HTTP headers
+        6f0c8d2 Print errors when setting/clearing memory attrs
+        57c0eed Updated Revocations for January 2024 CVEs
+        49c6d95 Fix some minor ia32 build issues.
+        be8ff7c post-process-pe: Don't set the NX_COMPAT flag by default after all.
+        13abd9f pe-relocate: Avoid __builtin_add_overflow() on GCC < 5
+        c46c975 Suppress "Failed to open <..>\revocations.efi" when file does not exist
+        30a4f37 Rename "previous" revocations to "automatic"
+        6f395c2 Build time selectable automatic SBATLevel revocations
+        a23e2f0 netboot read_image() should not hardcode DEFAULT_LOADER
+        993a345 Try to load revocations.efi even if directory read fails
+        1770a03 gitmodules: use shim-15.8 for gnu-efi branch
+        5914984 (HEAD -> main, tag: latest-release, tag: 15.8, origin/main, origin/HEAD) Bump version to 15.8 
+
+-------------------------------------------------------------------
+Wed Jan 24 12:40:36 UTC 2024 - Ludwig Nussel <lnussel@suse.com>
+
+- Generate dbx during build so we don't include binary files in sources
+
+-------------------------------------------------------------------
+Thu Oct  5 13:19:48 UTC 2023 - Ludwig Nussel <lnussel@suse.com>
+
+- Don't require grub so shim can still be used with systemd-boot
+
+-------------------------------------------------------------------
+Wed Sep 20 04:33:59 UTC 2023 - Michael Chang <mchang@suse.com>
+
+- Update shim-install to fix boot failure of ext4 root file system
+  on RAID10 (bsc#1205855)
+   226c94ca5cfca  Use hint in looking for root if possible
+
+-------------------------------------------------------------------
+Tue Sep 19 08:36:17 UTC 2023 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Adopt the macros from fde-tpm-helper-macros to update the
+  signature in the sealed key after a bootloader upgrade
+
+-------------------------------------------------------------------
+Mon May 15 03:28:47 UTC 2023 - Gary Ching-Pang Lin <glin@suse.com>
+
+- Update shim-install to amend full disk encryption support
+    b540061e041b  Adopt TPM 2.0 Key File for grub2 TPM 2.0 protector
+    f2e8143ce831  Use the long name to specify the grub2 key protector
+    72830120e5ea  cryptodisk: support TPM authorized policies
+    49e7a0d307f3  Do not use tpm_record_pcrs unless the command is in command.lst
+
+-------------------------------------------------------------------
+Thu Apr 13 09:13:22 UTC 2023 - Joey Lee <jlee@suse.com>
+
+- Sometimes SLE shim signature be Microsoft updated before openSUSE shim
+  signature. When submit request on IBS for updating SLE shim, the submitreq
+  project be generated, but it always be blocked by checking the signature
+  of openSUSE shim.
+  It doesn't make sense checking openSUSE shim signature when building
+  SLE shim on SLE platform, and vice versa. So the following change adds the
+  logic to compare suffix (sles, opensuse) with distro_id (sle, opensuse).
+  When and only when hash mismatch and distro_id match with suffix, stop
+  building.
+        # compare suffix (sles, opensuse) with distro_id (sle, opensuse)
+        # when hash mismatch and distro_id match with suffix, stop building 
+
+-------------------------------------------------------------------
+Thu Apr 13 05:28:10 UTC 2023 - Joey Lee <jlee@suse.com>
+
+- Upgrade shim-install for bsc#1210382
+  After closing Leap-gap project since Leap 15.3, openSUSE Leap direct
+  uses shim from SLE. So the ca_string is 'SUSE Linux Enterprise Secure Boot
+  CA1', not 'openSUSE Secure Boot CA1'. It causes that the update_boot=no,
+  so all files in /boot/efi/EFI/boot are not updated.
+
+  The 86b73d1 patch added the logic that using ID field in os-release for
+  checking Leap distro and set ca_string to 'SUSE Linux Enterprise Secure
+  Boot CA1'. Then /boot/efi/EFI/boot/* can also be updated.
+- https://github.com/SUSE/shim-resources (git log --oneline)
+	86b73d1 Fix that bootx64.efi is not updated on Leap
+	f2e8143 Use the long name to specify the grub2 key protector
+	7283012 cryptodisk: support TPM authorized policies
+	49e7a0d Do not use tpm_record_pcrs unless the command is in command.lst
+	26c6bd5 Have grub take a snapshot of "relevant" TPM PCRs
+	5c2c3ad Handle different cases of controlling cryptomount volumes during first stage boot
+	a5c5734 Introduce --no-grub-install option
+
+-------------------------------------------------------------------
+Mon Apr 10 05:04:33 UTC 2023 - Joey Lee <jlee@suse.com>
+
+- Removed POST_PROCESS_PE_FLAGS=-N from the build command in shim.spec to
+  enable the NX compatibility flag when using post-process-pe after
+  discussed with grub2 experts in mail. It's useful for further development
+  and testing. (bsc#1205588)
+
+-------------------------------------------------------------------
+Mon Mar 27 09:26:02 UTC 2023 - Joey Lee <jlee@suse.com>
+
+- Updated shim signature after shim 15.7 of SLE be signed back:
+  signature-sles.x86_64.asc, signature-sles.aarch64.asc (bsc#1198458, CVE-2022-28737)
+
+-------------------------------------------------------------------
+Thu Jan 12 07:00:19 UTC 2023 - Joey Lee <jlee@suse.com>
+
+- Removed shim-bsc1198101-opensuse-cert-prompt.patch (bsc#1198101) 
+   - Detail discussion is in bugzilla:
+	https://bugzilla.suse.com/show_bug.cgi?id=1198101
+   - The shim community review and challenge this prompt. No other
+     distro shows prompt (Have checked Fedora 37, CentOS 9 and Ubuntu 22.10).
+     Currently, it blocked the review process of openSUSE shim.
+   - Other distros lock-down kernel when secure boot is enabled. Some of
+     them used different key for signing kernel binary with In-tree kernel
+     module. And their build service does not provide signed Out-off-tree
+     module.
+
+-------------------------------------------------------------------
+Fri Dec  9 08:38:14 UTC 2022 - Joey Lee <jlee@suse.com>
+
+- Modified shim-install, add the following Olaf Kirch's patches to support
+  full disk encryption: (jsc#PED-922)
+    a5c57340740c	Introduce --no-grub-install option
+    5c2c3addc51f	Handle different cases of controlling cryptomount volumes during first stage boot
+    26c6bd5df7ae	Have grub take a snapshot of "relevant" TPM PCRs 
+
+-------------------------------------------------------------------
 Wed Nov 23 07:28:57 UTC 2022 - Joey Lee <jlee@suse.com>
 
 - Add POST_PROCESS_PE_FLAGS=-N to the build command in shim.spec to

@@ -1,4 +1,4 @@
-From 2ed4b838a447203244960ff17b772e50fe810202 Mon Sep 17 00:00:00 2001
+From 926f1515608e14c0592fc61a8ef37392d7020ca3 Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Sun, 14 Aug 2022 18:09:38 +0800
 Subject: [PATCH 07/12] font: Fix integer underflow in binary search of char

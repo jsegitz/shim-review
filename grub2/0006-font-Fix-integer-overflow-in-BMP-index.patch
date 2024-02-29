@@ -1,4 +1,4 @@
-From 4a18359eea76964c0286306e4f3530fd67b629bf Mon Sep 17 00:00:00 2001
+From a97e0ae72604fbd4ebea854ffee127ed59b10f75 Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Mon, 15 Aug 2022 02:04:58 +0800
 Subject: [PATCH 06/12] font: Fix integer overflow in BMP index

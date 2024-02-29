@@ -1,4 +1,4 @@
-From fee74d758500f506d6427321860e06a986d46744 Mon Sep 17 00:00:00 2001
+From 2ec7e27b2cac3746f2e658042fd56fe75fee28f2 Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Fri, 5 Aug 2022 02:27:05 +0800
 Subject: [PATCH 05/12] font: Fix integer overflow in ensure_comb_space()

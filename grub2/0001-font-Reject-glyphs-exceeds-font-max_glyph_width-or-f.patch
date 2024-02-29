@@ -1,4 +1,4 @@
-From 38b984b4f7fb72f5673322f588c42f860eed6923 Mon Sep 17 00:00:00 2001
+From a2606b0cb95f261288c79cafc7295927d868cb04 Mon Sep 17 00:00:00 2001
 From: Zhang Boyang <zhangboyang.id@gmail.com>
 Date: Wed, 3 Aug 2022 19:45:33 +0800
 Subject: [PATCH 01/12] font: Reject glyphs exceeds font->max_glyph_width or

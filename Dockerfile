@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.0-experimental
-FROM registry.suse.com/suse/sle15:15.4
+FROM registry.suse.com/suse/sle15:15.3
 
 ARG ARCHITECTURE
 ENV ARCHITECTURE=${ARCHITECTURE}
@@ -15,6 +15,8 @@ ADD update-bootloader-rpm-macros-0-1.23.noarch.rpm /
 RUN zypper -n in /update-bootloader-rpm-macros-0-1.23.noarch.rpm
 ADD pesign-obs-integration-10.2+git20210804.ff18da1-150400.1.14.$ARCHITECTURE.rpm /
 RUN zypper -n in /pesign-obs-integration-10.2+git20210804.ff18da1-150400.1.14.$ARCHITECTURE.rpm
+ADD efitools-1.9.2-150300.7.3.1.$ARCHITECTURE.rpm /
+RUN zypper -n in /efitools-1.9.2-150300.7.3.1.$ARCHITECTURE.rpm
 # get from the build environment /home/abuild
 ADD rpmmacros /root/.rpmmacros 
 # remove the repos, they will not work without the secret

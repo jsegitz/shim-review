@@ -17,6 +17,7 @@ source_dir="${datadir}/efi/${arch}"
 efibootmgr="/usr/sbin/efibootmgr"
 grub_probe="/usr/sbin/grub2-probe"
 grub_mkrelpath="/usr/bin/grub2-mkrelpath"
+no_grub_install=no
 grub_install="/usr/sbin/grub2-install"
 grub_install_target=
 self="`basename $0`"
@@ -127,6 +128,7 @@ usage () {
     echo "--config-file=FILE use FILE as config file, default is $grub_cfg."
     echo "--clean remove all installed files and configs."
     echo "--suse-enable-tpm install grub.efi with TPM support."
+    echo "--no-grub-install Do not run grub2-install."
     echo
     echo "INSTALL_DEVICE must be system device filename."
 }
@@ -205,6 +207,9 @@ do
 
     --clean)
 	clean=yes ;;
+
+    --no-grub-install)
+	no_grub_install=yes ;;
 
     -*)
 	echo "Unrecognized option \`$option'"  1>&2
@@ -352,6 +357,48 @@ if test "$update_boot" = "yes"; then
 fi
 
 
+prepare_cryptodisk () {
+  uuid="$1"
+
+  if [ "x$GRUB_CRYPTODISK_PASSWORD" != x ]; then
+    echo "cryptomount -u $uuid -p \"$GRUB_CRYPTODISK_PASSWORD\""
+    return
+  fi
+
+  if [ "x$GRUB_TPM2_SEALED_KEY" = x ]; then
+    echo "cryptomount -u $uuid"
+    return
+  fi
+
+  tpm_sealed_key="${GRUB_TPM2_SEALED_KEY}"
+
+  declare -g TPM_PCR_SNAPSHOT_TAKEN
+
+  if [ -z "$TPM_PCR_SNAPSHOT_TAKEN" ]; then
+    TPM_PCR_SNAPSHOT_TAKEN=1
+
+    # Check if tpm_record_pcrs is available and set the command to
+    # grub.cfg.
+    if grep -q "tpm_record_pcrs" ${datadir}/grub2/${arch}-efi/command.lst ; then
+      echo "tpm_record_pcrs 0-9"
+    fi
+  fi
+
+  tpm_srk_alg="${GRUB_TPM2_SRK_ALG}"
+
+  if [ -z "$tpm_srk_alg" ]; then
+    tpm_srk_alg="RSA"
+  fi
+
+  cat <<EOF
+tpm2_key_protector_init -a $tpm_srk_alg -T \$prefix/$tpm_sealed_key
+if ! cryptomount -u $uuid --protector tpm2; then
+    cryptomount -u $uuid
+fi
+EOF
+}
+
+
 make_grubcfg () {
 
 grub_cfg_dirname=`dirname $grub_cfg`
@@ -374,12 +421,23 @@ fi
 
 if [ x$GRUB_ENABLE_CRYPTODISK = xy ]; then
   for uuid in `"${grub_probe}" --target=cryptodisk_uuid --device-map= "${grub_cfg_dirname}"`; do
-    echo "cryptomount -u $uuid"
+    prepare_cryptodisk "$uuid"
   done
 fi
 
+hints="`"${grub_probe}" --target=hints_string "${grub_cfg_dirname}" 2> /dev/null`"
+
+if [ "x$hints" != x ]; then
+  echo "if [ x\$feature_platform_search_hint = xy ]; then"
+  echo "  search --no-floppy --fs-uuid --set=root ${hints} ${cfg_fs_uuid}"
+  echo "else"
+  echo "  search --no-floppy --fs-uuid --set=root ${cfg_fs_uuid}"
+  echo "fi"
+else
+  echo "search --no-floppy --fs-uuid --set=root ${cfg_fs_uuid}"
+fi
+
 cat <<EOF
-search --fs-uuid --set=root ${cfg_fs_uuid}
 set prefix=(\${root})`${grub_mkrelpath} ${grub_cfg_dirname}`
 source "\${prefix}/${grub_cfg_basename}"
 EOF
@@ -390,7 +448,9 @@ EOF
 # invoke grub_install to initialize /boot/grub2 directory with files needed by grub.cfg
 # bsc#1118363 shim-install didn't specify the target for grub2-install
 # set the target explicitly for some special cases 
-${grub_install} --target=${grub_install_target} --no-nvram
+if test "$no_grub_install" != "yes"; then
+  ${grub_install} --target=${grub_install_target} --no-nvram
+fi
 
 # Making sure grub.cfg not overwritten by grub-install above 
 make_grubcfg > "${efidir}/grub.cfg"
