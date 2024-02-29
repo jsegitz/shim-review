@@ -283,7 +283,7 @@ fwupd-sle,1,SUSE Linux Enterprise,fwupd,1.7.3,https://build.opensuse.org
 
 shim:
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-shim,3,UEFI shim,shim,1,https://github.com/rhboot/shim
+shim,4,UEFI shim,shim,1,https://github.com/rhboot/shim
 shim.sle,1,SUSE Linux Enterprise,shim,15.8,mail:security-team@suse.de
 
 *******************************************************************************
