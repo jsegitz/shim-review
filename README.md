@@ -183,7 +183,7 @@ here.
 ### Do you use an ephemeral key for signing kernel modules?
 ### If not, please describe how you ensure that one kernel build does not load modules built for another kernel.
 *******************************************************************************
-FIXME
+We don't use ephemeral keys.
 
 *******************************************************************************
 ### If you use vendor_db functionality of providing multiple certificates and/or hashes please briefly describe your certificate setup.
@@ -230,8 +230,7 @@ that results when build locally (e.g. in the container image)
 ### What changes were made in the distor's secure boot chain since your SHIM was last signed?
 For example, signing new kernel's variants, UKI, systemd-boot, new certs, new CA, etc..
 *******************************************************************************
-Last was shim 15.6. We want the new upstream release to fix security issues
-FIXME
+Last was shim 15.7. We want the new upstream release to fix security issues
 
 *******************************************************************************
 ### What is the SHA256 hash of your final SHIM binary?
@@ -267,7 +266,6 @@ and only append your own. More information on how SBAT works can be found
 *******************************************************************************
 yes
 
-FIXME 
 fwupdate:
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 fwupdate,1,Firmware Update Utility,fwupdate,12,https://github.com/rhboot/fwupdate
@@ -275,7 +273,7 @@ fwupdate.sle,1,SUSE Linux Enterprise,fwupdate,12,mail:security-team@suse.de
 
 grub2:
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,3,Free Software Foundation,grub,2.06,https://www.gnu.org/software/grub/
+grub,4,Free Software Foundation,grub,2.06,https://www.gnu.org/software/grub/
 grub.sle,1,SUSE Linux Enterprise,grub2,2.06,mailto:security@suse.de
 
 fwupd:
