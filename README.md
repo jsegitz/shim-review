@@ -28,7 +28,7 @@ SUSE, https://www.suse.com/
 *******************************************************************************
 ### What product or service is this for?
 *******************************************************************************
-SUSE Linux Enterprice Server 15 SP4 and other SLES variants
+SUSE Linux Enterprice Server 15 SP5 and other SLES variants
 
 *******************************************************************************
 ### What's the justification that this really does need to be signed for the whole world to be able to boot it?
