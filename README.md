@@ -270,8 +270,9 @@ fwupdate.sle,1,SUSE Linux Enterprise,fwupdate,12,mail:security-team@suse.de
 
 grub2:
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,4,Free Software Foundation,grub,2.06,https://www.gnu.org/software/grub/
-grub.sle,1,The openSUSE Project,grub2,2.06,mailto:security@suse.de
+grub,4,Free Software Foundation,grub,2.12,https://www.gnu.org/software/grub/
+grub.opensuse,1,The openSUSE Project,grub2,2.12,mailto:security@suse.de
+
 
 fwupd:
 sbat,1,UEFI shim,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
@@ -334,7 +335,7 @@ We use systemd 254.9 on Tumbleweed (where he have systemd boot), so we have the 
 *******************************************************************************
 ### What is the origin and full version number of your bootloader (GRUB or other)?
 *******************************************************************************
-grub-2.06 from https://www.gnu.org/software/grub/
+grub-2.12 from https://www.gnu.org/software/grub/
 
 *******************************************************************************
 ### If your SHIM launches any other components, please provide further details on what is launched.
