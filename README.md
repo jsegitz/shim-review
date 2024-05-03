@@ -279,9 +279,8 @@ grub2:
 
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 grub,3,Free Software Foundation,grub,2.02,https://www.gnu.org/software/grub/
-grub.rhel8,2,Red Hat Enterprise Linux 8,grub2,2.02-150.1.el8,mail:secalert@redhat.com
-grub.openela8,2,OpenELA 8,grub2,2.02-150.1.el8,mail:security@openela.org
-grub.sles,2,SLES Expanded Support,grub2,2.02-150.1.el8,mail:security@suse.com
+grub.rhel8,2,Red Hat Enterprise Linux 8,grub2,2.02-150.el8,mail:secalert@redhat.com
+grub.sles,2,SLES Expanded Support,grub2,2.02-150.2.el8,mail:security@suse.com
 
 
 *******************************************************************************
@@ -305,7 +304,7 @@ N/A
 *******************************************************************************
 ### What is the origin and full version number of your bootloader (GRUB2 or systemd-boot or other)?
 *******************************************************************************
-grub2-2.02-150.1.el8
+grub2-2.02-150.2.el8
 
 *******************************************************************************
 ### If your SHIM launches any other components, please provide further details on what is launched.
