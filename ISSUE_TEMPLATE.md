@@ -17,14 +17,21 @@ Confirm the following are included in your repo, checking each box:
 *******************************************************************************
 ### What is the SHA256 hash of your final SHIM binary?
 *******************************************************************************
-[your text here]
+$ sha256sum shimx64.efi
+
+76a884fe2634c95180ec351207a6c4c7bf80ae0c93d6d28028a16aaff7487efe  shimx64.efi
+
+$ pesign --hash --padding --in=shimx64.efi
+
+3b2828c4b9f8bb9a564cedf98a92583689aabfa4f149bfd737cd530f39e1e1e0 shimx64.efi
+
 
 *******************************************************************************
 ### What is the link to your previous shim review request (if any, otherwise N/A)?
 *******************************************************************************
-[your text here]
+https://github.com/rhboot/shim-review/issues/419
 
 *******************************************************************************
 ### If no security contacts have changed since verification, what is the link to your request, where they've been verified (if any, otherwise N/A)?
 *******************************************************************************
-[your text here]
+https://github.com/rhboot/shim-review/issues/419
