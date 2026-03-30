@@ -284,7 +284,7 @@ Hint: Prefer using *frozen* packages for your toolchain, since an update to GCC,
 If your shim binaries can't be reproduced using the provided Dockerfile, please explain why that's the case, what the differences would be and what build environment (OS and toolchain) is being used to reproduce this build? In this case please write a detailed guide, how to setup this build environment from scratch.
 *******************************************************************************
 EDIT: The necessary files are still available at the URLs listed below, but now they require an (free) openSUSE account to get them.
-To solve this I mirrored them for now on https://www.segitz.de/sll10_review/, where you get them without login
+To solve this I mirrored them for now on https://ftp.suse.com/pub/projects/security/shim-review/, where you get them without login
 
 As SUSE Liberty Linux has no public registry, you may use the provided Dockerfile and an OS image to reproduce the build available at:
 https://src.opensuse.org/jsegitz/shim-review-sll10/media/branch/main/sll10_os_image.tar.gz
@@ -465,7 +465,7 @@ We have employees helping out with this effort (Dennis Tseng, Nikolay Borisov)
 ### Add any additional information you think we may need to validate this shim signing application.
 *******************************************************************************
 EDIT: The necessary files are still available at the URLs listed below, but now they require an (free) openSUSE account to get them.
-To solve this I mirrored them for now on https://www.segitz.de/sll10_review/, where you get them without login
+To solve this I mirrored them for now on https://ftp.suse.com/pub/projects/security/shim-review/, where you get them without login
 
 Download these files in addition before you try to rebuild: 
 
