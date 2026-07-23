@@ -304,13 +304,17 @@ Hint: Prefer using *frozen* packages for your toolchain, since an update to GCC,
 
 If your shim binaries can't be reproduced using the provided Dockerfile, please explain why that's the case, what the differences would be and what build environment (OS and toolchain) is being used to reproduce this build? In this case please write a detailed guide, how to setup this build environment from scratch.
 *******************************************************************************
-You may use the provided Dockerfile and an OS image to reproduce the build available at:
+You may use the provided Dockerfile and an OS image to reproduce the build 
 
-https://src.opensuse.org/jsegitz/shim-review/media/branch/sleses8/sleses8_os_image.tar.gz
+The OS image is available at:
 
-https://src.opensuse.org/jsegitz/shim-review/media/branch/sleses8/sleses8_os_image.tar.gz.sha256sum to reproduce the build.
+https://suse-shim-review.s3.eu-central-1.amazonaws.com/sleses8_os_image.tar.gz
 
-The kernel src rpm is also available at https://src.opensuse.org/jsegitz/shim-review/raw/branch/sleses8/kernel-4.18.0-553.136.1.el8_10.src.rpm
+https://suse-shim-review.s3.eu-central-1.amazonaws.com/sleses8_os_image.tar.gz.sha256sum
+
+to reproduce the build.
+
+The kernel src rpm is available at https://suse-shim-review.s3.eu-central-1.amazonaws.com/kernel-4.18.0-553.136.1.el8_10.src.rpm
 
 Have an OS image, shim SRPM and shim binary copied alongside Dockerfile before start, then run:
 
